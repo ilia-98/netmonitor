@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2050
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMonitorClient", "NetMonitorClient\NetMonitorClient.csproj", "{59765DEC-98DA-45D6-A188-BFA9D3E2009B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMonitor", "NetMonitor\NetMonitor.csproj", "{B537C800-B3FC-451E-8A50-7F652C94D7A5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{59765DEC-98DA-45D6-A188-BFA9D3E2009B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59765DEC-98DA-45D6-A188-BFA9D3E2009B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59765DEC-98DA-45D6-A188-BFA9D3E2009B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59765DEC-98DA-45D6-A188-BFA9D3E2009B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B537C800-B3FC-451E-8A50-7F652C94D7A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B537C800-B3FC-451E-8A50-7F652C94D7A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B537C800-B3FC-451E-8A50-7F652C94D7A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B537C800-B3FC-451E-8A50-7F652C94D7A5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {62DDDECA-94AA-430E-A1F2-3652B16D22B5}
+	EndGlobalSection
+EndGlobal
