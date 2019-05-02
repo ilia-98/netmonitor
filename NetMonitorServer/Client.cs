@@ -1,13 +1,7 @@
 ﻿//using MongoDB.Bson;
 //using MongoDB.Bson.Serialization.Attributes;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using WebSocketSharp.Server;
 
 namespace NetMonitorServer
 {
@@ -17,7 +11,7 @@ namespace NetMonitorServer
 
         public Dictionary<string, string> HardwareInfo = null;
 
-        public NetMonitorClient socket;
+        public NetMonitorClient socket = null;
         public string IP;
         public string MAC;
         public bool Available
