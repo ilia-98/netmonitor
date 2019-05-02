@@ -25,7 +25,7 @@ namespace NetMonitorClient
             registryKey.Close();
             NotifyIcon notifyIcon = new NotifyIcon();
             notifyIcon.Visible = true;
-            notifyIcon.Icon = Properties.Resources.Ok;
+            notifyIcon.Icon = Properties.Resources.Error;
             notifyIcon.ContextMenu = new ContextMenu(
                 new MenuItem[] {
                     new MenuItem("Настройки", Settings_Click),

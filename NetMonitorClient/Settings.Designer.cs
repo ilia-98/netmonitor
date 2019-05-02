@@ -47,12 +47,12 @@
             // 
             this.textBoxIP.Location = new System.Drawing.Point(15, 25);
             this.textBoxIP.Name = "textBoxIP";
-            this.textBoxIP.Size = new System.Drawing.Size(164, 20);
+            this.textBoxIP.Size = new System.Drawing.Size(238, 20);
             this.textBoxIP.TabIndex = 1;
             // 
             // buttonSubmit
             // 
-            this.buttonSubmit.Location = new System.Drawing.Point(104, 57);
+            this.buttonSubmit.Location = new System.Drawing.Point(178, 57);
             this.buttonSubmit.Name = "buttonSubmit";
             this.buttonSubmit.Size = new System.Drawing.Size(75, 23);
             this.buttonSubmit.TabIndex = 2;
@@ -63,7 +63,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(191, 92);
+            this.ClientSize = new System.Drawing.Size(269, 92);
             this.Controls.Add(this.buttonSubmit);
             this.Controls.Add(this.textBoxIP);
             this.Controls.Add(this.labelIP);
