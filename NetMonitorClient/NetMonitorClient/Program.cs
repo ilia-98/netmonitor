@@ -22,6 +22,7 @@ namespace NetMonitorClient
             {
                 registryKey.SetValue("NetMonitorClient", Application.ExecutablePath);
             }
+            registryKey.Close();
             NotifyIcon notifyIcon = new NotifyIcon();
             notifyIcon.Visible = true;
             notifyIcon.Icon = Properties.Resources.Ok;
@@ -44,6 +45,14 @@ namespace NetMonitorClient
 
         private static void Settings_Click(object sender, EventArgs e)
         {
+            RegistryKey registryUserKey = Registry.CurrentUser;
+            RegistryKey userKey = registryUserKey.CreateSubKey("NetMonitorClient");
+            if (userKey.GetValue("password") == null)
+            {
+                Password passwordForm = new Password(); 
+                userKey.SetValue("password", Application.ExecutablePath);
+            }
+            userKey.Close();
             form = new Settings();
             form.buttonSubmit.Click += ButtonSubmit_Click;
             form.Show();

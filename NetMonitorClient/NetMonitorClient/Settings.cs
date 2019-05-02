@@ -17,9 +17,5 @@ namespace NetMonitorClient
             InitializeComponent();
         }
 
-        private void Settings_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }
