@@ -1,6 +1,0 @@
-D:\Programming\C#\NetMonitorServer\NetMonitor\bin\Debug\NetMonitor.dll
-D:\Programming\C#\NetMonitorServer\NetMonitor\bin\Debug\NetMonitor.pdb
-D:\Programming\C#\NetMonitorServer\NetMonitor\obj\Debug\NetMonitor.csprojAssemblyReference.cache
-D:\Programming\C#\NetMonitorServer\NetMonitor\obj\Debug\NetMonitor.csproj.CoreCompileInputs.cache
-D:\Programming\C#\NetMonitorServer\NetMonitor\obj\Debug\NetMonitor.dll
-D:\Programming\C#\NetMonitorServer\NetMonitor\obj\Debug\NetMonitor.pdb
