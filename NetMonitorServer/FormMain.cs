@@ -1,16 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using WebSocketSharp;
 using WebSocketSharp.Server;
 
 namespace NetMonitorServer
@@ -37,7 +29,7 @@ namespace NetMonitorServer
                     labelHardwareInfo.Text = "";
 
                     if (value.HardwareInfo != null)
-                    foreach (var item in value.HardwareInfo)
+                        foreach (var item in value.HardwareInfo)
                             labelHardwareInfo.Text += item.Key + ": " + item.Value + "\n";
 
                     labelSelectedItem.Text = "Выбран: " + value.MAC;
@@ -99,8 +91,10 @@ namespace NetMonitorServer
             if (listView1.SelectedItems.Count != 1)
             {
                 SelectedClient = null;
+                tabControl1.Enabled = false;
                 return;
             }
+            tabControl1.Enabled = true;
             Client selectClient = (Client)listView1.SelectedItems[0];
             SelectedClient = selectClient;
         }

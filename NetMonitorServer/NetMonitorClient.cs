@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using WebSocketSharp;
 using WebSocketSharp.Server;
@@ -56,7 +53,7 @@ namespace NetMonitorServer
         }
 
         void CloseConnection()
-        {         
+        {
             form.listView1.BeginInvoke((MethodInvoker)(delegate
             {
                 foreach (Client item in form.listView1.Items)
@@ -113,13 +110,13 @@ namespace NetMonitorServer
         {
             ClientIP = this.Context.UserEndPoint.Address.ToString();
             NewConnection(this);
-            Console.WriteLine("New connection: " + ClientIP);
+            //Console.WriteLine("New connection: " + ClientIP);
         }
 
         protected override void OnClose(CloseEventArgs e)
         {
             CloseConnection();
-            Console.WriteLine("Connection close: " + e.Reason);
+            //Console.WriteLine("Connection close: " + e.Reason);
         }
 
         public new void Send(string msg)
