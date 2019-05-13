@@ -44,7 +44,7 @@
             // labelPassword
             // 
             this.labelPassword.AutoSize = true;
-            this.labelPassword.Location = new System.Drawing.Point(9, 9);
+            this.labelPassword.Location = new System.Drawing.Point(9, 8);
             this.labelPassword.Name = "labelPassword";
             this.labelPassword.Size = new System.Drawing.Size(91, 13);
             this.labelPassword.TabIndex = 1;
@@ -58,7 +58,6 @@
             this.buttonPassword.TabIndex = 2;
             this.buttonPassword.Text = "Вход";
             this.buttonPassword.UseVisualStyleBackColor = true;
-            this.buttonPassword.Click += new System.EventHandler(this.buttonPassword_Click);
             // 
             // Password
             // 
@@ -78,8 +77,8 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBoxPassword;
-        private System.Windows.Forms.Label labelPassword;
-        private System.Windows.Forms.Button buttonPassword;
+        public System.Windows.Forms.TextBox textBoxPassword;
+        public System.Windows.Forms.Label labelPassword;
+        public System.Windows.Forms.Button buttonPassword;
     }
 }
