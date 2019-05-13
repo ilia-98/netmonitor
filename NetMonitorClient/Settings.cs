@@ -17,9 +17,9 @@ namespace NetMonitorClient
             InitializeComponent();
         }
 
-        private void Settings_Load(object sender, EventArgs e)
+        private void checkBoxEmailSend_CheckedChanged(object sender, EventArgs e)
         {
-
+            textBoxEmail.Enabled = ((CheckBox)(sender)).Checked;
         }
     }
 }

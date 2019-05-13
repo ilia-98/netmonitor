@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using System.Net;
 using System.Drawing;
 using System.Threading;
+using System.Net.Mail;
 
 namespace NetMonitorClient
 {
@@ -19,6 +20,8 @@ namespace NetMonitorClient
     {
         static Computer computerHardware;
         static WebSocket socket;
+        static SmtpClient smtpClient;
+        Thread monitorThread;
         static int CPU_index;
         static int RAM_index;
         static int HDD_index;
@@ -31,10 +34,18 @@ namespace NetMonitorClient
         public static NotifyIcon NotifyIcon { get; set; }
         public static int Port { get; set; } = 1348;
         public static bool Enabled { get; set; } = true;
+        public static bool NoticeEnabled { get; set; } = false;
+        public static string EmailTo { get; set; }
+        public static int CriticalTemperature { get; set; } = 80;
 
         public NetMonitorClient(NotifyIcon notifyIcon)
         {
             NotifyIcon = notifyIcon;
+            smtpClient = new SmtpClient("smtp.gmail.com", 587);
+            smtpClient.UseDefaultCredentials = false;
+            smtpClient.Credentials = new NetworkCredential("netmonitor.client@gmail.com", "1w3r5y7UIO");
+            smtpClient.EnableSsl = true;
+            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
         }
 
         public void UpdateSensors()
@@ -172,6 +183,26 @@ namespace NetMonitorClient
             socket.OnMessage += Socket_OnMessage;
             socket.OnOpen += Socket_OnOpen;
             socket.Connect();
+            monitorThread = new Thread(Monitoring);
+            monitorThread.Start();
+        }
+
+        public void Monitoring()
+        {
+            MonitorInfo info;
+            while (true)
+            {
+                info = GetMonitorInfo();
+                if(info.CPU_temp > CriticalTemperature)
+                {
+                    try
+                    {
+                        smtpClient.Send(new MailMessage("netmonitor.client@gmail.com", EmailTo, "Warning", "Температура процессора превысила " + CriticalTemperature));
+                    }
+                    catch { }
+                    }
+                Thread.Sleep(10000);
+            }
         }
 
         public void Stop()
