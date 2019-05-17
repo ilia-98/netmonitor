@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Net;
@@ -14,6 +15,10 @@ namespace NetMonitorServer
         public List<Client> AllClients = new List<Client>();
 
         Client _selectedClient = null;
+
+        MongoClient mongoClient = null;
+        IMongoDatabase database = null;
+        public IMongoCollection<Client> clientDBCollection = null;
 
         public Client SelectedClient
         {
@@ -58,6 +63,11 @@ namespace NetMonitorServer
 
         public void ServerStart()
         {
+            string connectionString = "mongodb://localhost:27017";
+            mongoClient = new MongoClient(connectionString);
+            database = mongoClient.GetDatabase("netmonitordb");
+            clientDBCollection = database.GetCollection<Client>("clients");
+
             socketServer.AddWebSocketService("/NetMonitorSocketService", () => new NetMonitorClient(this));
             socketServer.Start();
             Console.WriteLine("Сервер запущен. Ожидание подключений...");
