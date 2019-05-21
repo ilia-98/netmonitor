@@ -17,7 +17,8 @@ namespace NetMonitor
     [Serializable]
     public struct MouseEvent
     {
-        public Point Point;
+        public uint X;
+        public uint Y;
         public bool LeftMouse;
     }
 

@@ -294,5 +294,24 @@ namespace NetMonitorServer
                 }
             }
         }
+
+        private void pictureBoxScreenMain_Click(object sender, EventArgs e)
+        {
+            if (SelectedClient != null)
+            {
+                if (SelectedClient.Available)
+                {
+                    var packet = new Packet() {
+                        Header = "MouseEvent/Click",
+                        Data = new MouseEvent() {
+                            LeftMouse = true,
+                            X = 300,
+                            Y = 300
+                        }
+                    };
+                    SelectedClient.SendPacket(packet);
+                }
+            }
+        }
     }
 }
