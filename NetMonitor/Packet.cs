@@ -17,7 +17,11 @@ namespace NetMonitor
     public class Packet
     {
         public string Header { get; set; }
-        public object Data { get; set; }
+
+        public string Path { get; set; } = null;
+        public object Data { get; set; } = null;
+
+        public bool IsError { get; set; } = false;
 
         public static byte[] Serialize(Packet anySerializableObject)
         {
@@ -34,6 +38,16 @@ namespace NetMonitor
             {
                 return (Packet)((new BinaryFormatter()).Deserialize(memoryStream));
             }
+        }
+
+        public static implicit operator Packet(byte[] array)
+        {
+            return Deserialize(array);
+        }
+
+        public static implicit operator byte[] (Packet packet)
+        {
+            return Serialize(packet);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using NetMonitor;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
+using NetMonitor;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -13,6 +15,7 @@ namespace NetMonitorServer
     {
         string ClientIP { get; set; }
         string ClientMAC { get { return client.MAC; } }
+
         FormMain form;
         Client client;
 
@@ -27,7 +30,9 @@ namespace NetMonitorServer
             {
                 bool addtolist = true;
 
-                string MAC_addr = new Client(netMonitorClient).MAC;
+                client = new Client(netMonitorClient);
+
+                string MAC_addr = client.MAC;
 
                 foreach (Client item in form.listView1.Items)
                 {
@@ -43,12 +48,13 @@ namespace NetMonitorServer
 
                 if (addtolist)
                 {
-                    client = new Client(netMonitorClient)
-                    {
-                        Available = true
-                    };
+                    client.Available = true;
                     form.listView1.Items.Add(client);
                 }
+
+                var filter = new BsonDocument("MAC", ClientMAC);
+                UpdateDefinition<Client> ToUpdate = client.ToBsonDocument();
+                form.clientDBCollection.UpdateOne(filter, ToUpdate, new UpdateOptions() { IsUpsert = true });
             }));
         }
 
@@ -97,6 +103,14 @@ namespace NetMonitorServer
                     case "Hardware_Info":
                         Dictionary<string, string> keyValuePairs = (Dictionary<string, string>)packet.Data;
                         client.HardwareInfo = keyValuePairs;
+
+                        form.listView1.BeginInvoke((MethodInvoker)(delegate
+                        {
+                            var filter = new BsonDocument("MAC", ClientMAC);
+                            UpdateDefinition<Client> ToUpdate = client.ToBsonDocument();
+                            form.clientDBCollection.UpdateOne(filter, ToUpdate, new UpdateOptions() { IsUpsert = true });
+                        }));
+
                         break;
                     default:
                         Console.WriteLine(ClientIP + " Error Packet: " + packet.Header);

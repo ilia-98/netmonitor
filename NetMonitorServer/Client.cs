@@ -1,5 +1,5 @@
-﻿//using MongoDB.Bson;
-//using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -7,13 +7,17 @@ namespace NetMonitorServer
 {
     public class Client : ListViewItem
     {
+        [BsonIgnore]
         private bool available = false;
 
         public Dictionary<string, string> HardwareInfo = null;
 
+        [BsonIgnore]
         public NetMonitorClient socket = null;
-        public string IP;
-        public string MAC;
+        public string IP { get; set; }
+        public string MAC { get; set; }
+
+        [BsonIgnore]
         public bool Available
         {
             get
@@ -29,6 +33,12 @@ namespace NetMonitorServer
                 else
                     base.ImageIndex = 0;
             }
+        }
+
+        public Client(string IP, string MAC)
+        {
+            this.IP = IP;
+            this.MAC = MAC;
         }
 
         public Client(NetMonitorClient socket)
