@@ -4,6 +4,7 @@ using NetMonitor;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using WebSocketSharp;
 using WebSocketSharp.Server;
@@ -26,7 +27,7 @@ namespace NetMonitorServer
 
         void NewConnection(NetMonitorClient netMonitorClient)
         {
-            form.listView1.BeginInvoke((MethodInvoker)(delegate
+            form.listViewClients.BeginInvoke((MethodInvoker)(delegate
             {
                 bool addtolist = true;
 
@@ -34,7 +35,7 @@ namespace NetMonitorServer
 
                 string MAC_addr = client.MAC;
 
-                foreach (Client item in form.listView1.Items)
+                foreach (Client item in form.listViewClients.Items)
                 {
                     if (item.MAC == MAC_addr)
                     {
@@ -49,20 +50,20 @@ namespace NetMonitorServer
                 if (addtolist)
                 {
                     client.Available = true;
-                    form.listView1.Items.Add(client);
+                    form.listViewClients.Items.Add(client);
                 }
 
                 var filter = new BsonDocument("MAC", ClientMAC);
                 UpdateDefinition<Client> ToUpdate = client.ToBsonDocument();
-                form.clientDBCollection.UpdateOne(filter, ToUpdate, new UpdateOptions() { IsUpsert = true });
+                //form.clientDBCollection.UpdateOne(filter, ToUpdate, new UpdateOptions() { IsUpsert = true });
             }));
         }
 
         void CloseConnection()
         {
-            form.listView1.BeginInvoke((MethodInvoker)(delegate
+            form.listViewClients.BeginInvoke((MethodInvoker)(delegate
             {
-                foreach (Client item in form.listView1.Items)
+                foreach (Client item in form.listViewClients.Items)
                     if (item.MAC == client.MAC)
                     {
                         item.Available = false;
@@ -70,47 +71,127 @@ namespace NetMonitorServer
             }));
         }
 
+        void Handler_Monitor_Info(Packet packet)
+        {
+            MonitorInfo info = (MonitorInfo)packet.Data;
+            form.label1.BeginInvoke((MethodInvoker)(delegate
+            {
+                form.label1.Text = "CPU:\n   Temp: " + info.CPU_temp + "\n   Load: " + info.CPU_load + "\nRAM:\n   Load: " + info.RAM_load + "\n\n" +
+                                   "HDD:\n";
+                int i = 1;
+                foreach (var item in info.HDD_temp)
+                {
+                    form.label1.Text += "   " + i + " Temp: " + item + "\n";
+                    i++;
+                }
+            }));
+        }
+
+        void Handler_Screenshot(Packet packet)
+        {
+            Bitmap bitmap = (Bitmap)packet.Data;
+            form.pictureBox1.BeginInvoke((MethodInvoker)(delegate
+            {
+                form.pictureBox1.Image = bitmap;
+            }));
+        }
+
+        void Handler_Hardware_Info(Packet packet)
+        {
+            Dictionary<string, string> keyValuePairs = (Dictionary<string, string>)packet.Data;
+            client.HardwareInfo = keyValuePairs;
+
+            form.listViewClients.BeginInvoke((MethodInvoker)(delegate
+            {
+                var filter = new BsonDocument("MAC", ClientMAC);
+                UpdateDefinition<Client> ToUpdate = client.ToBsonDocument();
+                //form.clientDBCollection.UpdateOne(filter, ToUpdate, new UpdateOptions() { IsUpsert = true });
+            }));
+        }
+
         protected override void OnMessage(MessageEventArgs e)
         {
-            while (client == null)
-            { }
+            while (client == null){ }
             if (e.IsBinary)
             {
                 Packet packet = Packet.Deserialize(e.RawData);
-                switch (packet.Header)
+                if (packet.IsError)
+                {
+                    MessageBox.Show("Ошибка " + packet.Header + ": " + (string)packet.Data);
+                }
+                else
+                    switch (packet.Header)
                 {
                     case "Monitor_Info":
-                        MonitorInfo info = (MonitorInfo)packet.Data;
-                        form.label1.BeginInvoke((MethodInvoker)(delegate
-                        {
-                            form.label1.Text = "CPU:\n   Temp: " + info.CPU_temp + "\n   Load: " + info.CPU_load + "\nRAM:\n   Load: " + info.RAM_load + "\n\n" +
-                                               "HDD:\n";
-                            int i = 1;
-                            foreach (var item in info.HDD_temp)
-                            {
-                                form.label1.Text += "   " + i + " Temp: " + item + "\n";
-                                i++;
-                            }
-                        }));
+                        Handler_Monitor_Info(packet);
                         break;
                     case "Screenshot":
-                        Bitmap bitmap = (Bitmap)packet.Data;
-                        form.pictureBox1.BeginInvoke((MethodInvoker)(delegate
-                        {
-                            form.pictureBox1.Image = bitmap;
-                        }));
+                        Handler_Screenshot(packet);
                         break;
                     case "Hardware_Info":
-                        Dictionary<string, string> keyValuePairs = (Dictionary<string, string>)packet.Data;
-                        client.HardwareInfo = keyValuePairs;
-
-                        form.listView1.BeginInvoke((MethodInvoker)(delegate
+                        Handler_Hardware_Info(packet);
+                        break;
+                    case "Files/Update":
+                    case "Files/ElementsFromPath":
                         {
-                            var filter = new BsonDocument("MAC", ClientMAC);
-                            UpdateDefinition<Client> ToUpdate = client.ToBsonDocument();
-                            form.clientDBCollection.UpdateOne(filter, ToUpdate, new UpdateOptions() { IsUpsert = true });
-                        }));
+                            Dictionary<string, bool> elements = (Dictionary<string, bool>)packet.Data;
 
+                            string path = packet.Path;
+
+                            form.textBoxPath.BeginInvoke((MethodInvoker)(delegate
+                            {
+                                form.textBoxPath.Text = path;
+                            }));
+
+                            form.listBoxElements.BeginInvoke((MethodInvoker)(delegate
+                            {
+                                form.listBoxElements.Items.Clear();
+                                if (path.Length > 3)
+                                    form.listBoxElements.Items.Add(new ExplorerTreeElement()
+                                    {
+                                        IsFolder = false,
+                                        IsRoot = true,
+                                        Name = "\\..",
+                                        Path = path
+                                    });
+                                foreach (var item in elements)
+                                    form.listBoxElements.Items.Add(new ExplorerTreeElement()
+                                    {
+                                        IsFolder = item.Value,
+                                        Name = item.Key,
+                                        Path = path
+                                    });
+                            }));
+
+                            form.panelFiles.BeginInvoke((MethodInvoker)(delegate
+                            {
+                                form.panelFiles.Enabled = true;
+                            }));
+                        }
+                        break;
+                    case "Files/RunFileOnPathResult":
+                        {
+                            MessageBox.Show("Файл успешно запущен");
+                        }
+                        break;
+                    case "Files/UploadFileResult":
+                        {
+                            MessageBox.Show("Файл успешно загружен");
+                        }
+                        break;
+                        case "Files/GetFileResult":
+                        {
+                            try
+                            {
+                                File.WriteAllBytes(packet.Path, (byte[])packet.Data);
+                                MessageBox.Show("Файл успешно сохранен по пути: " + packet.Path);
+                            }
+                            catch (Exception exp)
+                            {
+                                MessageBox.Show(exp.Message);
+                            }
+
+                        }
                         break;
                     default:
                         Console.WriteLine(ClientIP + " Error Packet: " + packet.Header);
@@ -133,9 +214,9 @@ namespace NetMonitorServer
             //Console.WriteLine("Connection close: " + e.Reason);
         }
 
-        public new void Send(string msg)
+        public void Send(Packet packet)
         {
-            base.Send(msg);
+            base.Send(packet);
         }
     }
 }

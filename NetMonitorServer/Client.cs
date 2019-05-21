@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using NetMonitor;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -50,9 +51,38 @@ namespace NetMonitorServer
             base.Text = this.MAC;
         }
 
+        public void GetElementsFromPath(string path)
+        {
+            var packet = new Packet()
+            {
+                Header = "Files/GetElementsFromPath",
+                Path = path
+            };
+
+            SendPacket(packet);
+        }
+
+        public void RunFileOnPath(string path)
+        {
+            var packet = new Packet()
+            {
+                Header = "Files/RunFileOnPath",
+                Path = path
+            };
+
+            SendPacket(packet);
+        }
+
         public void Send(string msg)
         {
-            socket.Send(msg);
+            var packet = new Packet();
+            packet.Header = msg;
+            socket.Send(packet);
+        }
+
+        public void SendPacket(Packet packet)
+        {
+            socket.Send(packet);
         }
 
         public override string ToString()

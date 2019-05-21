@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -11,6 +12,13 @@ namespace NetMonitor
         public float CPU_temp;
         public float CPU_load;
         public float RAM_load;
+    }
+
+    [Serializable]
+    public struct MouseEvent
+    {
+        public Point Point;
+        public bool LeftMouse;
     }
 
     [Serializable]
