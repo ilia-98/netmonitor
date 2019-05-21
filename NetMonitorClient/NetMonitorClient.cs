@@ -35,7 +35,8 @@ namespace NetMonitorClient
         static int CPULOADsensor_index;
         static List<int> HDDTEMPsensors_index = new List<int>();
 
-        public string Address { get; set; } = "192.168.43.9";//"127.0.0.1";
+        //public string Address { get; set; } = "192.168.1.8";
+        public string Address { get; set; } = "127.0.0.1";
         public static NotifyIcon NotifyIcon { get; set; }
         public static int Port { get; set; } = 1348;
         public static bool Enabled { get; set; } = true;

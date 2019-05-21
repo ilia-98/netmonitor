@@ -19,6 +19,12 @@ namespace NetMonitorServer
         public string MAC { get; set; }
 
         [BsonIgnore]
+        public int ScreenHeight = -1;
+
+        [BsonIgnore]
+        public int ScreenWidth = -1;
+
+        [BsonIgnore]
         public bool Available
         {
             get
