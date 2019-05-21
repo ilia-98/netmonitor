@@ -94,9 +94,9 @@ namespace NetMonitorServer
         void Handler_Screenshot(Packet packet)
         {
             Bitmap bitmap = (Bitmap)packet.Data;
-            form.pictureBox1.BeginInvoke((MethodInvoker)(delegate
+            form.pictureBoxScreenMain.BeginInvoke((MethodInvoker)(delegate
             {
-                form.pictureBox1.Image = bitmap;
+                form.pictureBoxScreenMain.Image = bitmap;
             }));
         }
 
@@ -104,6 +104,10 @@ namespace NetMonitorServer
         {
             Dictionary<string, string> keyValuePairs = (Dictionary<string, string>)packet.Data;
             client.HardwareInfo = keyValuePairs;
+
+            var resolution = keyValuePairs["Разрешение экрана"].Split('x');
+            client.ScreenWidth = int.Parse(resolution[0]);
+            client.ScreenHeight = int.Parse(resolution[1]);
 
             form.listViewClients.BeginInvoke((MethodInvoker)(delegate
             {

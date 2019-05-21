@@ -2,6 +2,8 @@
 using NetMonitor;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Collections.Specialized;
 using System.Drawing;
 using System.IO;
 using System.Net;
@@ -104,6 +106,8 @@ namespace NetMonitorServer
         private void Form1_Load(object sender, EventArgs e)
         {
             ServerStart();
+
+            //MessageBox.Show(AppSettings.Get("WebServer"));
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
@@ -299,6 +303,39 @@ namespace NetMonitorServer
 
                         SelectedClient.SendPacket(packet);
                     }
+                }
+            }
+        }
+
+        private void PictureBoxScreenMain_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (SelectedClient != null)
+            {
+                if (SelectedClient.Available)
+                {
+                    if (SelectedClient.ScreenHeight == -1 || SelectedClient.ScreenHeight == -1)
+                    {
+                        SelectedClient.Send("Hardware_Info");
+                        return;
+                    }
+
+                    var Hx = (double)SelectedClient.ScreenWidth / (double)pictureBoxScreenMain.Width;
+                    var Hy = (double)SelectedClient.ScreenHeight / (double)pictureBoxScreenMain.Height;
+
+                    double _X = Math.Ceiling(Hx * e.Location.X);
+                    double _Y = Math.Ceiling(Hy * e.Location.Y);
+
+                    var packet = new Packet()
+                    {
+                        Header = "MouseEvent/Click",
+                        Data = new MouseEvent()
+                        {
+                            LeftMouse = true,
+                            X = (uint)_X,
+                            Y = (uint)_Y
+                        }
+                    };
+                    SelectedClient.SendPacket(packet);
                 }
             }
         }

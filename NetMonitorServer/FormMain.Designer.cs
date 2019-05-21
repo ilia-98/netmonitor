@@ -36,7 +36,7 @@
             this.labelTextStatus = new System.Windows.Forms.Label();
             this.labelServerStatus = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBoxScreenMain = new System.Windows.Forms.PictureBox();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -58,7 +58,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.labelSelectedItem = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxScreenMain)).BeginInit();
             this.tabControlMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -130,15 +130,16 @@
             this.label1.Size = new System.Drawing.Size(0, 20);
             this.label1.TabIndex = 7;
             // 
-            // pictureBox1
+            // pictureBoxScreenMain
             // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(715, 396);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 10;
-            this.pictureBox1.TabStop = false;
+            this.pictureBoxScreenMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBoxScreenMain.Location = new System.Drawing.Point(3, 3);
+            this.pictureBoxScreenMain.Name = "pictureBoxScreenMain";
+            this.pictureBoxScreenMain.Size = new System.Drawing.Size(715, 396);
+            this.pictureBoxScreenMain.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxScreenMain.TabIndex = 10;
+            this.pictureBoxScreenMain.TabStop = false;
+            this.pictureBoxScreenMain.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PictureBoxScreenMain_MouseClick);
             // 
             // tabControlMain
             // 
@@ -154,7 +155,7 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.pictureBox1);
+            this.tabPage1.Controls.Add(this.pictureBoxScreenMain);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -359,7 +360,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxScreenMain)).EndInit();
             this.tabControlMain.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
@@ -382,7 +383,7 @@
         private System.Windows.Forms.Label labelServerStatus;
         private System.Windows.Forms.ToolStripMenuItem RestartToolStripMenuItem;
         public System.Windows.Forms.Label label1;
-        public System.Windows.Forms.PictureBox pictureBox1;
+        public System.Windows.Forms.PictureBox pictureBoxScreenMain;
         private System.Windows.Forms.TabControl tabControlMain;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
