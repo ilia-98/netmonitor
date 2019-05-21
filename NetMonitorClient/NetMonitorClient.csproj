@@ -59,7 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileUtils.cs" />
-    <Compile Include="MonitorUtils.cs" />
+    <Compile Include="MonitoringUtils.cs" />
     <Compile Include="NetMonitorClient.cs" />
     <Compile Include="Password.cs">
       <SubType>Form</SubType>

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Net;
+using System.Net.Mail;
 using System.Windows.Forms;
 using WebSocketSharp.Server;
 
@@ -15,7 +16,8 @@ namespace NetMonitorServer
         public WebSocketServer socketServer = new WebSocketServer(IPAddress.Any, 1348);
 
         public List<Client> AllClients = new List<Client>();
-
+        public SmtpClient smtpClient;
+        public string EmailTo;
         Client _selectedClient = null;
 
         MongoClient mongoClient = null;
@@ -70,7 +72,13 @@ namespace NetMonitorServer
             database = mongoClient.GetDatabase("netmonitordb");
             clientDBCollection = database.GetCollection<Client>("clients");
 
-            socketServer.AddWebSocketService("/NetMonitorSocketService", () => new NetMonitorClient(this));
+            smtpClient = new SmtpClient("smtp.gmail.com", 587);
+            smtpClient.UseDefaultCredentials = false;
+            smtpClient.Credentials = new NetworkCredential("netmonitor.client@gmail.com", "1w3r5y7UIO");
+            smtpClient.EnableSsl = true;
+            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+            socketServer.AddWebSocketService("/NetMonitorSocketService", () => new NetMonitorClient(this, smtpClient, EmailTo));
             socketServer.Start();
             Console.WriteLine("Сервер запущен. Ожидание подключений...");
             labelServerStatus.Text = "ONLINE";
