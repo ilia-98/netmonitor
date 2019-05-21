@@ -13,7 +13,7 @@ namespace NetMonitorClient
 {
     public static class FileUtils
     {
-        public static void ОтправитьFilesUpdate(WebSocket socket)
+        public static void SendFilesUpdate(WebSocket socket)
         {
             var path = Path.GetDirectoryName(Application.ExecutablePath);
             var packet = new Packet()
@@ -42,13 +42,13 @@ namespace NetMonitorClient
             return elements;
         }
 
-        public static void RunFileOnPath(WebSocket socket, Packet pac)
+        public static void RunFileOnPath(WebSocket socket, Packet request)
         {
-            var path = pac.Path;
+            var path = request.Path;
 
-            var args = (string)pac.Data;
+            var args = (string)request.Data;
 
-            var packet = new Packet()
+            var response = new Packet()
             {
                 Header = "Files/RunFileOnPathResult",
                 Path = path,
@@ -64,18 +64,18 @@ namespace NetMonitorClient
             }
             catch (Exception e)
             {
-                packet.IsError = true;
-                packet.Data = e.Message;
+                response.IsError = true;
+                response.Data = e.Message;
             }
 
-            socket.Send(packet);
+            socket.Send(response);
         }
 
-        public static void ОтправитьElementsFromPath(WebSocket socket,Packet pac)
+        public static void SendElementsFromPath(WebSocket socket, Packet request)
         {
-            var path = pac.Path;
+            var path = request.Path;
 
-            var packet = new Packet()
+            var response = new Packet()
             {
                 Header = "Files/ElementsFromPath",
                 Path = path,
@@ -83,83 +83,83 @@ namespace NetMonitorClient
 
             if (!Directory.Exists(path))
             {
-                packet.IsError = true;
-                packet.Data = "Путь не найден";
+                response.IsError = true;
+                response.Data = "Путь не найден";
             }
             else
             {
-                packet.Data = GetElementsFromPath(path);
+                response.Data = GetElementsFromPath(path);
             }
 
-            socket.Send(packet);
+            socket.Send(response);
         }
 
-        public static void UploadFile(WebSocket socket,Packet pac)
+        public static void UploadFile(WebSocket socket, Packet request)
         {
-            var packet = new Packet()
+            var response = new Packet()
             {
                 Header = "Files/UploadFileResult",
-                Path = pac.Path,
+                Path = request.Path,
             };
 
             try
             {
-                using (FileStream fstream = new FileStream(pac.Path, FileMode.OpenOrCreate, FileAccess.Write,FileShare.Write))
+                using (FileStream fstream = new FileStream(request.Path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write))
                 {
-                    fstream.Write((byte[])pac.Data, 0, ((byte[])pac.Data).Length);
+                    fstream.Write((byte[])request.Data, 0, ((byte[])request.Data).Length);
                 }
                 //File.WriteAllBytes(pac.Path, (byte[])pac.Data);
             }
             catch (Exception e)
             {
-                packet.IsError = true;
-                packet.Data = e.Message;
+                response.IsError = true;
+                response.Data = e.Message;
             }
 
-            socket.Send(packet);
+            socket.Send(response);
         }
 
-        public static void GetFile(WebSocket socket,Packet pac)
+        public static void GetFile(WebSocket socket, Packet request)
         {
-            var packet = new Packet()
+            var response = new Packet()
             {
                 Header = "Files/GetFileResult",
-                Path = (string)pac.Data,
+                Path = (string)request.Data,
             };
 
             try
             {
-                var bytes = File.ReadAllBytes(pac.Path);
-                packet.Data = bytes;
+                var bytes = File.ReadAllBytes(request.Path);
+                response.Data = bytes;
             }
             catch (Exception e)
             {
-                packet.IsError = true;
-                packet.Data = e.Message;
+                response.IsError = true;
+                response.Data = e.Message;
             }
 
-            socket.Send(packet);
+            socket.Send(response);
         }
 
-        public  static void DeleteFile(WebSocket socket,Packet pac)
+        public static void DeleteFile(WebSocket socket, Packet request)
         {
-            var packet = new Packet()
+            var response = new Packet()
             {
                 Header = "Files/DeleteFileResult",
-                Path = pac.Path,
+                Path = request.Path,
             };
 
             try
             {
-                File.Delete(pac.Path);
+                File.Delete(request.Path);
             }
             catch (Exception e)
             {
-                packet.IsError = true;
-                packet.Data = e.Message;
+                response.IsError = true;
+                response.Data = e.Message;
             }
 
-            socket.Send(packet);
+            socket.Send(response);
         }
     }
 }

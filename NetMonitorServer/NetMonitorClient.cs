@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Net.Mail;
 using System.Windows.Forms;
 using WebSocketSharp;
 using WebSocketSharp.Server;
@@ -16,13 +17,16 @@ namespace NetMonitorServer
     {
         string ClientIP { get; set; }
         string ClientMAC { get { return client.MAC; } }
-
+        string EmailTo { get; set; }
+        SmtpClient smtpClient;
         FormMain form;
         Client client;
 
-        public NetMonitorClient(FormMain value)
+        public NetMonitorClient(FormMain value, SmtpClient smtp, string email)
         {
             form = value;
+            smtpClient = smtp;
+            EmailTo = email;
         }
 
         void NewConnection(NetMonitorClient netMonitorClient)
@@ -197,7 +201,10 @@ namespace NetMonitorServer
 
                         }
                         break;
-                    default:
+                        case "Notify/CriticalTemp":
+                            smtpClient.Send(new MailMessage("netmonitor.client@gmail.com", EmailTo, "Warning", "Температура процессора превысила " + CriticalTemperature));
+                            break;
+                        default:
                         Console.WriteLine(ClientIP + " Error Packet: " + packet.Header);
                         break;
                 }
