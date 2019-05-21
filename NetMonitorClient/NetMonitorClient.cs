@@ -372,6 +372,11 @@ namespace NetMonitorClient
                 Packet packet = e.RawData;
                 switch (packet.Header)
                 {
+                    case "Hardware_Info":
+                        {
+                            socket.Send(Packet.Serialize(new Packet() { Header = "Hardware_Info", Data = GetHardwareInfo() }));
+                        }
+                        break;
                     case "Monitor_Info":
                         {
                             socket.Send(Packet.Serialize(new Packet() { Header = "Monitor_Info", Data = GetMonitorInfo() }));
@@ -402,6 +407,9 @@ namespace NetMonitorClient
                         break;
                     case "Files/DeleteFile":
                         FileUtils.DeleteFile(socket, packet);
+                        break;
+                    case "MouseEvent/Click":
+                        RemoteControl.pressLeftMouse(packet);
                         break;
                     default:
                         {
