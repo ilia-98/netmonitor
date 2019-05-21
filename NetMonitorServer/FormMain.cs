@@ -2,6 +2,8 @@
 using NetMonitor;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Collections.Specialized;
 using System.Drawing;
 using System.IO;
 using System.Net;
@@ -96,6 +98,8 @@ namespace NetMonitorServer
         private void Form1_Load(object sender, EventArgs e)
         {
             ServerStart();
+
+            //MessageBox.Show(AppSettings.Get("WebServer"));
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
@@ -307,10 +311,11 @@ namespace NetMonitorServer
                         return;
                     }
 
-                    var relativePoint = this.PointToClient(new Point(e.X, e.Y));
+                    var Hx = (double)SelectedClient.ScreenWidth / (double)pictureBoxScreenMain.Width;
+                    var Hy = (double)SelectedClient.ScreenHeight / (double)pictureBoxScreenMain.Height;
 
-                    int _X = (SelectedClient.ScreenWidth / pictureBoxScreenMain.Width) * relativePoint.X;
-                    int _Y = (SelectedClient.ScreenHeight / pictureBoxScreenMain.Height) * relativePoint.Y;
+                    double _X = Math.Ceiling(Hx * e.Location.X);
+                    double _Y = Math.Ceiling(Hy * e.Location.Y);
 
                     var packet = new Packet()
                     {
