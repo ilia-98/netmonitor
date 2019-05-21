@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client.cs" />
+    <Compile Include="ExplorerTreeElement.cs" />
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
