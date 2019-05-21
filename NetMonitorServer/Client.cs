@@ -14,7 +14,6 @@ namespace NetMonitorServer
 
         [BsonIgnore]
         public NetMonitorClient socket = null;
-
         public string IP { get; set; }
         public string MAC { get; set; }
 

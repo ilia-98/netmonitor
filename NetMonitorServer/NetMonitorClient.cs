@@ -49,9 +49,12 @@ namespace NetMonitorServer
                 if (addtolist)
                 {
                     client.Available = true;
-                    form.clientDBCollection.InsertOne(client);
                     form.listView1.Items.Add(client);
                 }
+
+                var filter = new BsonDocument("MAC", ClientMAC);
+                UpdateDefinition<Client> ToUpdate = client.ToBsonDocument();
+                form.clientDBCollection.UpdateOne(filter, ToUpdate, new UpdateOptions() { IsUpsert = true });
             }));
         }
 
@@ -101,12 +104,12 @@ namespace NetMonitorServer
                         Dictionary<string, string> keyValuePairs = (Dictionary<string, string>)packet.Data;
                         client.HardwareInfo = keyValuePairs;
 
-                        //form.listView1.BeginInvoke((MethodInvoker)(delegate
-                        //{
-                        //    var filter = new BsonDocument("MAC", ClientMAC);
-                        //    UpdateDefinition<Client> ToUpdate = client.ToBsonDocument();
-                        //    form.clientDBCollection.UpdateOne(filter, ToUpdate);
-                        //}));
+                        form.listView1.BeginInvoke((MethodInvoker)(delegate
+                        {
+                            var filter = new BsonDocument("MAC", ClientMAC);
+                            UpdateDefinition<Client> ToUpdate = client.ToBsonDocument();
+                            form.clientDBCollection.UpdateOne(filter, ToUpdate, new UpdateOptions() { IsUpsert = true });
+                        }));
 
                         break;
                     default:
