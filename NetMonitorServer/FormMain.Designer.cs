@@ -139,7 +139,7 @@
             this.pictureBoxScreenMain.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxScreenMain.TabIndex = 10;
             this.pictureBoxScreenMain.TabStop = false;
-            this.pictureBoxScreenMain.Click += new System.EventHandler(this.pictureBoxScreenMain_Click);
+            this.pictureBoxScreenMain.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PictureBoxScreenMain_MouseClick);
             // 
             // tabControlMain
             // 

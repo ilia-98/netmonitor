@@ -295,18 +295,31 @@ namespace NetMonitorServer
             }
         }
 
-        private void pictureBoxScreenMain_Click(object sender, EventArgs e)
+        private void PictureBoxScreenMain_MouseClick(object sender, MouseEventArgs e)
         {
             if (SelectedClient != null)
             {
                 if (SelectedClient.Available)
                 {
-                    var packet = new Packet() {
+                    if (SelectedClient.ScreenHeight == -1 || SelectedClient.ScreenHeight == -1)
+                    {
+                        SelectedClient.Send("Hardware_Info");
+                        return;
+                    }
+
+                    var relativePoint = this.PointToClient(new Point(e.X, e.Y));
+
+                    int _X = (SelectedClient.ScreenWidth / pictureBoxScreenMain.Width) * relativePoint.X;
+                    int _Y = (SelectedClient.ScreenHeight / pictureBoxScreenMain.Height) * relativePoint.Y;
+
+                    var packet = new Packet()
+                    {
                         Header = "MouseEvent/Click",
-                        Data = new MouseEvent() {
+                        Data = new MouseEvent()
+                        {
                             LeftMouse = true,
-                            X = 300,
-                            Y = 300
+                            X = (uint)_X,
+                            Y = (uint)_Y
                         }
                     };
                     SelectedClient.SendPacket(packet);
