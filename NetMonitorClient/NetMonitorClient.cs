@@ -25,11 +25,11 @@ namespace NetMonitorClient
     {
         
         static WebSocket socket;
-        
+        //tic WebSocket socketRemoteControl;
+        static RemoteControl remoteControl;
         Thread monitorThread;
         
         
-
         public string Address { get; set; } = "192.168.43.9"; //"127.0.0.1";
         public static NotifyIcon NotifyIcon { get; set; }
         public static int Port { get; set; } = 1348;
@@ -189,7 +189,7 @@ namespace NetMonitorClient
             //GetProc();
             ProcessStartInfo psi = new ProcessStartInfo("cmd", @"lodctr/r");
             Process.Start(psi);
-            socket = new WebSocket("ws://" + Address + ":" + Port + "/NetMonitorSocketService");
+            socket = new WebSocket("ws://" + Address + ":" + Port + "/NetMonitorSocketService/Main");
             MonitoringUtils.UpdateSensors();
             socket.OnClose += Socket_OnClose;
             socket.OnMessage += Socket_OnMessage;
@@ -217,7 +217,7 @@ namespace NetMonitorClient
         }
 
 
-        private static void Socket_OnMessage(object sender, MessageEventArgs e)
+        private void Socket_OnMessage(object sender, MessageEventArgs e)
         {
             try
             {
@@ -239,7 +239,7 @@ namespace NetMonitorClient
                             Bitmap printscreen = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
                             Graphics graphics = Graphics.FromImage(printscreen);
                             graphics.CopyFromScreen(0, 0, 0, 0, printscreen.Size);
-                            socket.Send(Packet.Serialize(new Packet() { Header = "Screenshot", Data = printscreen }));
+                            socket.Send(new Packet() { Header = "Screenshot", Data = printscreen });
                         }
                         break;
                     case "Files/GetUpdate":
@@ -262,6 +262,14 @@ namespace NetMonitorClient
                         break;
                     case "MouseEvent/Click":
                         RemoteControl.pressLeftMouse(packet);
+                        break;
+                    case "MouseEvent/Move":
+                        RemoteControl.moveMouse(packet);
+                        break;
+                    case "RemoteControl":
+                        {
+                            remoteControl = new RemoteControl( Address, Port);
+                        }
                         break;
                     default:
                         {
