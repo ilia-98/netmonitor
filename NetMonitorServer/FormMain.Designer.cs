@@ -57,6 +57,7 @@
             this.buttonFilesUpdate = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.labelSelectedItem = new System.Windows.Forms.Label();
+            this.buttonStartControl = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxScreenMain)).BeginInit();
             this.tabControlMain.SuspendLayout();
@@ -132,14 +133,12 @@
             // 
             // pictureBoxScreenMain
             // 
-            this.pictureBoxScreenMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBoxScreenMain.Location = new System.Drawing.Point(3, 3);
+            this.pictureBoxScreenMain.Location = new System.Drawing.Point(36, 16);
             this.pictureBoxScreenMain.Name = "pictureBoxScreenMain";
-            this.pictureBoxScreenMain.Size = new System.Drawing.Size(715, 396);
+            this.pictureBoxScreenMain.Size = new System.Drawing.Size(654, 339);
             this.pictureBoxScreenMain.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxScreenMain.TabIndex = 10;
             this.pictureBoxScreenMain.TabStop = false;
-            this.pictureBoxScreenMain.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PictureBoxScreenMain_MouseClick);
             // 
             // tabControlMain
             // 
@@ -155,6 +154,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.buttonStartControl);
             this.tabPage1.Controls.Add(this.pictureBoxScreenMain);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
@@ -341,6 +341,16 @@
             this.labelSelectedItem.TabIndex = 12;
             this.labelSelectedItem.Text = "Выбран:";
             // 
+            // buttonStartControl
+            // 
+            this.buttonStartControl.Location = new System.Drawing.Point(329, 361);
+            this.buttonStartControl.Name = "buttonStartControl";
+            this.buttonStartControl.Size = new System.Drawing.Size(97, 35);
+            this.buttonStartControl.TabIndex = 11;
+            this.buttonStartControl.Text = "Управление";
+            this.buttonStartControl.UseVisualStyleBackColor = true;
+            this.buttonStartControl.Click += new System.EventHandler(this.ButtonStartControl_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -404,6 +414,7 @@
         public System.Windows.Forms.ListBox listBoxElements;
         private System.Windows.Forms.Button buttonFilesGet;
         private System.Windows.Forms.Button buttonFilesUpdate;
+        private System.Windows.Forms.Button buttonStartControl;
     }
 }
 

@@ -80,8 +80,10 @@ namespace NetMonitorServer
             smtpClient.EnableSsl = true;
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
 
-            socketServer.AddWebSocketService("/NetMonitorSocketService", () => new NetMonitorClient(this, smtpClient, EmailTo));
+            socketServer.AddWebSocketService("/NetMonitorSocketService/Main", () => new NetMonitorClient(this, smtpClient, EmailTo));
+            socketServer.AddWebSocketService("/NetMonitorSocketService/RemoteControl", () => new RemoteControl.RemoteControlClient(this));
             socketServer.Start();
+
             Console.WriteLine("Сервер запущен. Ожидание подключений...");
             labelServerStatus.Text = "ONLINE";
             labelServerStatus.ForeColor = Color.Green;
@@ -307,34 +309,17 @@ namespace NetMonitorServer
             }
         }
 
-        private void PictureBoxScreenMain_MouseClick(object sender, MouseEventArgs e)
+        private void ButtonStartControl_Click(object sender, EventArgs e)
         {
             if (SelectedClient != null)
             {
                 if (SelectedClient.Available)
                 {
-                    if (SelectedClient.ScreenHeight == -1 || SelectedClient.ScreenHeight == -1)
-                    {
-                        SelectedClient.Send("Hardware_Info");
-                        return;
-                    }
-
-                    var Hx = (double)SelectedClient.ScreenWidth / (double)pictureBoxScreenMain.Width;
-                    var Hy = (double)SelectedClient.ScreenHeight / (double)pictureBoxScreenMain.Height;
-
-                    double _X = Math.Ceiling(Hx * e.Location.X);
-                    double _Y = Math.Ceiling(Hy * e.Location.Y);
-
                     var packet = new Packet()
                     {
-                        Header = "MouseEvent/Click",
-                        Data = new MouseEvent()
-                        {
-                            LeftMouse = true,
-                            X = (uint)_X,
-                            Y = (uint)_Y
-                        }
+                        Header = "RemoteControl"
                     };
+
                     SelectedClient.SendPacket(packet);
                 }
             }
