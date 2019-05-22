@@ -23,13 +23,13 @@ namespace NetMonitorClient
 {
     class NetMonitorClient
     {
-        
+
         static WebSocket socket;
         //tic WebSocket socketRemoteControl;
         static RemoteControl remoteControl;
         Thread monitorThread;
-        
-        
+
+
         public string Address { get; set; } = "192.168.43.9"; //"127.0.0.1";
         public static NotifyIcon NotifyIcon { get; set; }
         public static int Port { get; set; } = 1348;
@@ -40,10 +40,10 @@ namespace NetMonitorClient
 
         public NetMonitorClient(NotifyIcon notifyIcon)
         {
-            NotifyIcon = notifyIcon;           
+            NotifyIcon = notifyIcon;
         }
 
-        
+
 
 
         static HashSet<int> GetOpenPorts()
@@ -68,29 +68,38 @@ namespace NetMonitorClient
             return tc_hashset;
         }
 
-        static void GetAppInfo()
+        static List<Dictionary<string, object>> GetAppInfo()
         {
-            var disks = (from x in new ManagementObjectSearcher("SELECT * FROM Win32_Product").Get().OfType<ManagementObject>()
-                         select x);
-            string Q = "SELECT * FROM Win32_Product";
-            List<Dictionary<string, object>> result = new List<Dictionary<string, object>>();
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(Q);
-            foreach (ManagementObject obj in searcher.Get())
+            List<Dictionary<string, object>> appList = new List<Dictionary<string, object>>();
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Product");
+            foreach (ManagementObject app in searcher.Get())
             {
-                Dictionary<string, object> dict = new Dictionary<string, object>();
-                dict.Add("Name", obj.GetPropertyValue("Name"));
-                dict.Add("InstallDate", obj.GetPropertyValue("InstallDate"));
-                dict.Add("InstallLocation", obj.GetPropertyValue("InstallLocation"));
-                dict.Add("Vendor", obj.GetPropertyValue("Vendor"));
-                dict.Add("Version", obj.GetPropertyValue("Version"));
-                Console.WriteLine("\n");
-                foreach (var a in dict)
-                {
-                    Console.WriteLine(a.Key + " - " + a.Value);
-                }
-                result.Add(dict);
+                //string appName, appInstDate, appInstLoc, appVendor, appVersion;
+                //if (app.GetPropertyValue("Name") != null)
+                //    appName = app.GetPropertyValue("Name").ToString();
+                //else
+                //    appName = "";
+                //if (app.GetPropertyValue("InstallDate") != null)
+                //    appInstDate = app.GetPropertyValue("InstallDate").ToString();
+                //else
+                //    appInstDate = "";
+                //if (app.GetPropertyValue("Vendor") != null)
+                //    appVendor = app.GetPropertyValue("Vendor").ToString();
+                //else
+                //    appVendor = "";
+                //if (app.GetPropertyValue("Version") != null)
+                //    appVersion = app.GetPropertyValue("Version").ToString();
+                //else
+                //    appVersion = "";
+
+                appList.Add(new Dictionary<string, object>() {
+                    { "Name", app.GetPropertyValue("Name") },
+                    { "InstallDate", app.GetPropertyValue("InstallDate") },
+                    { "Vendor", app.GetPropertyValue("Vendor")} ,
+                    { "Version", app.GetPropertyValue("Version") }
+                });
             }
-            Console.Write(1);
+            return appList;
         }
 
         struct ProcessInfo
@@ -101,13 +110,7 @@ namespace NetMonitorClient
             TimeSpan oldCPUTime;
         }
 
-        struct Cpu
-        {
-            public double cpu;
-            public double ram;
-        }
-
-        static Cpu GetUsage(Process process)
+        static double[] GetUsage(Process process)
         {
             // Getting information about current process
             // Preparing variable for application instance name
@@ -127,7 +130,7 @@ namespace NetMonitorClient
                     }
                 }
             }
-            Cpu result = new Cpu();
+            double[] result = new double[2];
             try
             {
                 var cpu = new PerformanceCounter("Process", "% Processor Time", name, true);
@@ -141,14 +144,14 @@ namespace NetMonitorClient
                 Thread.Sleep(500);
 
                 // If system has multiple cores, that should be taken into account
-                result.cpu = Math.Round(cpu.NextValue() / Environment.ProcessorCount, 2);
+                result[0] = Math.Round(cpu.NextValue() / Environment.ProcessorCount, 2);
                 // Returns number of MB consumed by application
-                result.ram = Math.Round(ram.NextValue() / 1024 / 1024, 2);
+                result[1] = Math.Round(ram.NextValue() / 1024 / 1024, 2);
             }
             catch
             {
-                result.cpu = 0;
-                result.ram = 0;
+                result[0] = 0;
+                result[1] = 0;
             }
             return result;
 
@@ -156,25 +159,33 @@ namespace NetMonitorClient
 
         static void GetProc()
         {
-            Process[] procList;
-            Dictionary<string, object> procdict = new Dictionary<string, object>();
+            Process[] processes;
+            List<Dictionary<string, object>> procList = new List<Dictionary<string, object>>();
             while (true)
             {
-                procList = Process.GetProcesses();
-                foreach (var item in procList)
+                processes = Process.GetProcesses();
+                foreach (var process in processes)
                 {
                     try
                     {
-                        var cp = GetUsage(item).cpu;
-                        if (cp > 0)
-                        {
-                            Console.WriteLine();
-                            Console.WriteLine(cp);
-                            Console.WriteLine(item.MainModule.FileVersionInfo.FileDescription);
-                            Console.WriteLine(item.WorkingSet64 / 1024);
-                            Console.WriteLine(item.VirtualMemorySize64);
-                            Console.WriteLine(item.ProcessName);
-                        }
+                        double[] usage = GetUsage(process);
+                        procList.Add(new Dictionary<string, object>() {
+                            { "Name", process.ProcessName },
+                            { "Description", process.MainModule.FileVersionInfo.FileDescription },
+                            { "CPUSUsage", usage[0] },
+                            { "RAMUsage", usage[1] }
+                        });
+
+                        //var cp = GetUsage(process)[0];
+                        //if (cp > 0)
+                        //{
+                        //    Console.WriteLine();
+                        //    Console.WriteLine(cp);
+                        //    Console.WriteLine(process.MainModule.FileVersionInfo.FileDescription);
+                        //    // Console.WriteLine(item.WorkingSet64 / 1024);
+                        //    // Console.WriteLine(item.VirtualMemorySize64);
+                        //    Console.WriteLine(process.ProcessName);
+                        //}
                     }
                     catch { }
                 }
@@ -186,6 +197,7 @@ namespace NetMonitorClient
 
         public void Start()
         {
+            GetAppInfo();
             //GetProc();
             ProcessStartInfo psi = new ProcessStartInfo("cmd", @"lodctr/r");
             Process.Start(psi);
@@ -195,7 +207,7 @@ namespace NetMonitorClient
             socket.OnMessage += Socket_OnMessage;
             socket.OnOpen += Socket_OnOpen;
             socket.Connect();
-            monitorThread = new Thread(() => MonitoringUtils.Monitoring(socket,CriticalTemperature));
+            monitorThread = new Thread(() => MonitoringUtils.Monitoring(socket, CriticalTemperature));
             monitorThread.Start();
         }
 
@@ -211,7 +223,7 @@ namespace NetMonitorClient
             try
             {
                 NotifyIcon.Icon = Properties.Resources.Ok;
-                socket.Send(Packet.Serialize(new Packet() { Header = "Hardware_Info", Data = MonitoringUtils.GetHardwareInfo() }));
+                socket.Send(new Packet() { Header = "Hardware_Info", Data = MonitoringUtils.GetHardwareInfo() });
             }
             catch { }
         }
@@ -226,12 +238,12 @@ namespace NetMonitorClient
                 {
                     case "Hardware_Info":
                         {
-                            socket.Send(Packet.Serialize(new Packet() { Header = "Hardware_Info", Data = MonitoringUtils.GetHardwareInfo() }));
+                            socket.Send(new Packet() { Header = "Hardware_Info", Data = MonitoringUtils.GetHardwareInfo() });
                         }
                         break;
                     case "Monitor_Info":
                         {
-                            socket.Send(Packet.Serialize(new Packet() { Header = "Monitor_Info", Data = MonitoringUtils.GetMonitorInfo() }));
+                            socket.Send(new Packet() { Header = "Monitor_Info", Data = MonitoringUtils.GetMonitorInfo() });
                         }
                         break;
                     case "Screenshot":
@@ -260,15 +272,12 @@ namespace NetMonitorClient
                     case "Files/DeleteFile":
                         FileUtils.DeleteFile(socket, packet);
                         break;
-                    case "MouseEvent/Click":
-                        RemoteControl.pressLeftMouse(packet);
-                        break;
-                    case "MouseEvent/Move":
-                        RemoteControl.moveMouse(packet);
+                    case "GetAppInfo":
+                        socket.Send(new Packet() { Header = "Monitor_Info", Data = GetAppInfo() });
                         break;
                     case "RemoteControl":
                         {
-                            remoteControl = new RemoteControl( Address, Port);
+                            remoteControl = new RemoteControl(Address, Port);
                         }
                         break;
                     default:
