@@ -202,7 +202,7 @@ namespace NetMonitorServer
                         }
                         break;
                         case "Notify/CriticalTemp":
-                            smtpClient.Send(new MailMessage("netmonitor.client@gmail.com", EmailTo, "Warning", "Температура процессора превысила "));
+                            smtpClient.Send(new MailMessage("netmonitor.client@gmail.com", EmailTo, "Warning", (string)packet.Data));
                             break;
                         default:
                         Console.WriteLine(ClientIP + " Error Packet: " + packet.Header);
