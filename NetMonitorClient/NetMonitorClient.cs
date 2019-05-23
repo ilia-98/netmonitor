@@ -23,14 +23,22 @@ namespace NetMonitorClient
 {
     class NetMonitorClient
     {
+        [DllImport("gdi32.dll")]
+        static extern int GetDeviceCaps(IntPtr hdc, int nIndex);
+        public enum DeviceCap
+        {
+            VERTRES = 10,
+            DESKTOPVERTRES = 117,
+        }
+
 
         static WebSocket socket;
         //tic WebSocket socketRemoteControl;
         static RemoteControl remoteControl;
         Thread monitorThread;
-        
-        
-        public string Address { get; set; } = "192.168.1.10"; //"127.0.0.1";
+
+
+        public string Address { get; set; } = "192.168.43.9"; //"127.0.0.1";
         public static NotifyIcon NotifyIcon { get; set; }
         public static int Port { get; set; } = 1348;
         public static bool Enabled { get; set; } = true;
@@ -49,23 +57,23 @@ namespace NetMonitorClient
         static HashSet<int> GetOpenPorts()
         {
             IPEndPoint[] ports = IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners();
-            HashSet<int> p_hashset = new HashSet<int>();
+            HashSet<int> ports_hashset = new HashSet<int>();
             foreach (var item in ports)
             {
-                p_hashset.Add(item.Port);
+                ports_hashset.Add(item.Port);
             }
-            return p_hashset;
+            return ports_hashset;
         }
 
         static HashSet<string> GetTcpConnections()
         {
             TcpConnectionInformation[] tcp_connections = IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpConnections();
-            HashSet<string> tc_hashset = new HashSet<string>();
+            HashSet<string> tcp_hashset = new HashSet<string>();
             foreach (var item in tcp_connections)
             {
-                tc_hashset.Add(item.RemoteEndPoint.ToString());
+                tcp_hashset.Add(item.RemoteEndPoint.ToString());
             }
-            return tc_hashset;
+            return tcp_hashset;
         }
 
         static List<Dictionary<string, object>> GetAppInfo()
@@ -141,7 +149,7 @@ namespace NetMonitorClient
                 ram.NextValue();
 
                 // Creating delay to get correct values of CPU usage during next query
-                Thread.Sleep(500);
+                Thread.Sleep(2);
 
                 // If system has multiple cores, that should be taken into account
                 result[0] = Math.Round(cpu.NextValue() / Environment.ProcessorCount, 2);
@@ -157,39 +165,72 @@ namespace NetMonitorClient
 
         }
 
-        static void GetProc()
+        static List<Dictionary<string, object>> GetProc()
         {
+            Console.WriteLine("Старт");
             Process[] processes;
             List<Dictionary<string, object>> procList = new List<Dictionary<string, object>>();
-            while (true)
+            //while (true)
+            //{
+            processes = Process.GetProcesses();
+            foreach (var process in processes)
             {
-                processes = Process.GetProcesses();
-                foreach (var process in processes)
+                try
                 {
-                    try
-                    {
-                        double[] usage = GetUsage(process);
-                        procList.Add(new Dictionary<string, object>() {
+                    double[] usage = new double[] { 1, 2 };//GetUsage(process);
+                    procList.Add(new Dictionary<string, object>() {
                             { "Name", process.ProcessName },
                             { "Description", process.MainModule.FileVersionInfo.FileDescription },
-                            { "CPUSUsage", usage[0] },
+                            { "CPUUsage", usage[0] },
                             { "RAMUsage", usage[1] }
                         });
 
-                        //var cp = GetUsage(process)[0];
-                        //if (cp > 0)
-                        //{
-                        //    Console.WriteLine();
-                        //    Console.WriteLine(cp);
-                        //    Console.WriteLine(process.MainModule.FileVersionInfo.FileDescription);
-                        //    // Console.WriteLine(item.WorkingSet64 / 1024);
-                        //    // Console.WriteLine(item.VirtualMemorySize64);
-                        //    Console.WriteLine(process.ProcessName);
-                        //}
-                    }
-                    catch { }
+                    //var cp = GetUsage(process)[0];
+                    //if (cp > 0)
+                    //{
+                    //    Console.WriteLine();
+                    //    Console.WriteLine(cp);
+                    //    Console.WriteLine(process.MainModule.FileVersionInfo.FileDescription);
+                    //    // Console.WriteLine(item.WorkingSet64 / 1024);
+                    //    // Console.WriteLine(item.VirtualMemorySize64);
+                    //    Console.WriteLine(process.ProcessName);
+                    //}
                 }
+                catch { }
+
+
+                //   }
             }
+            Console.WriteLine("Стоп" + procList.Count);
+
+            return procList;
+        }
+
+        private float getScalingFactor()
+        {
+            Graphics g = Graphics.FromHwnd(IntPtr.Zero);
+            IntPtr desktop = g.GetHdc();
+            int LogicalScreenHeight = GetDeviceCaps(desktop, (int)DeviceCap.VERTRES);
+            int PhysicalScreenHeight = GetDeviceCaps(desktop, (int)DeviceCap.DESKTOPVERTRES);
+
+            float ScreenScalingFactor = (float)PhysicalScreenHeight / (float)LogicalScreenHeight;
+
+            return ScreenScalingFactor;
+        }
+
+        public Rectangle getScreenResolution()
+        {
+            var scale = getScalingFactor();
+            return new Rectangle(0, 0, (int)(Screen.PrimaryScreen.Bounds.Width * getScalingFactor()), (int)(Screen.PrimaryScreen.Bounds.Height * getScalingFactor()));
+        }
+
+        public Bitmap getScreenShot()
+        {
+            Graphics graph = null;
+            var bmp = new Bitmap(getScreenResolution().Width, getScreenResolution().Height);
+            graph = Graphics.FromImage(bmp);
+            graph.CopyFromScreen(0, 0, 0, 0, bmp.Size);
+            return bmp;
         }
 
 
@@ -197,8 +238,6 @@ namespace NetMonitorClient
 
         public void Start()
         {
-            GetAppInfo();
-            //GetProc();
             ProcessStartInfo psi = new ProcessStartInfo("cmd", @"lodctr/r");
             Process.Start(psi);
             socket = new WebSocket("ws://" + Address + ":" + Port + "/NetMonitorSocketService/Main");
@@ -223,7 +262,7 @@ namespace NetMonitorClient
             try
             {
                 NotifyIcon.Icon = Properties.Resources.Ok;
-                socket.Send(new Packet() { Header = "Hardware_Info", Data = MonitoringUtils.GetHardwareInfo() });
+                socket.Send(new Packet() { Header = "HardwareInfo", Data = MonitoringUtils.GetHardwareInfo() });
             }
             catch { }
         }
@@ -236,22 +275,28 @@ namespace NetMonitorClient
                 Packet packet = e.RawData;
                 switch (packet.Header)
                 {
-                    case "Hardware_Info":
+                    case "HardwareInfo":
                         {
-                            socket.Send(new Packet() { Header = "Hardware_Info", Data = MonitoringUtils.GetHardwareInfo() });
+                            socket.Send(new Packet() { Header = "HardwareInfo", Data = MonitoringUtils.GetHardwareInfo() });
                         }
                         break;
-                    case "Monitor_Info":
+                    case "MonitorInfo":
                         {
-                            socket.Send(new Packet() { Header = "Monitor_Info", Data = MonitoringUtils.GetMonitorInfo() });
+                            socket.Send(new Packet() { Header = "MonitorInfo", Data = MonitoringUtils.GetMonitorInfo() });
                         }
                         break;
                     case "Screenshot":
                         {
-                            Bitmap printscreen = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-                            Graphics graphics = Graphics.FromImage(printscreen);
-                            graphics.CopyFromScreen(0, 0, 0, 0, printscreen.Size);
-                            socket.Send(new Packet() { Header = "Screenshot", Data = printscreen });
+                            //Bitmap printscreen = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+                            //Graphics graphics = Graphics.FromImage(printscreen);
+                            //graphics.CopyFromScreen(0, 0, 0, 0, printscreen.Size);
+
+                            socket.Send(new Packet() { Header = "Screenshot", Data = RemoteControl.getScreenshot() });
+                        }
+                        break;
+                    case "ProcessInfo":
+                        {
+                            socket.Send(new Packet() { Header = "ProcessInfo", Data = GetProc() });
                         }
                         break;
                     case "Files/GetUpdate":
