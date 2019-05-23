@@ -39,9 +39,13 @@ namespace NetMonitorServer.RemoteControl
             });
 
             formThread = new Thread(() => {
-                FormControl = new FormRemoteControl(this);
-                FormControl.Text = Context.UserEndPoint.Address.ToString() + " | " + Util.GetMacAddress(Context.UserEndPoint.Address.ToString()).ToUpper();
-                FormControl.ShowDialog();
+                try
+                {
+                    FormControl = new FormRemoteControl(this);
+                    FormControl.Text = Context.UserEndPoint.Address.ToString() + " | " + Util.GetMacAddress(Context.UserEndPoint.Address.ToString()).ToUpper();
+                    FormControl.ShowDialog();
+                }
+                catch { }
             });
             formThread.Start();
         }
@@ -66,8 +70,10 @@ namespace NetMonitorServer.RemoteControl
                         break;
                 }
         }
+
         protected override void OnOpen()
         {
+
         }
 
         protected override void OnError(ErrorEventArgs e)

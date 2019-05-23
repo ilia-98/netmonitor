@@ -10,6 +10,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Windows.Forms;
 using WebSocketSharp.Server;
+using System.Runtime.InteropServices;
 
 namespace NetMonitorServer
 {
@@ -105,9 +106,47 @@ namespace NetMonitorServer
             listViewClients.SmallImageList = imageList;
         }
 
+        [DllImport("gdi32.dll")]
+        static extern int GetDeviceCaps(IntPtr hdc, int nIndex);
+        public enum DeviceCap
+        {
+            VERTRES = 10,
+            DESKTOPVERTRES = 117,
+        }
+
+        private float getScalingFactor()
+        {
+            Graphics g = Graphics.FromHwnd(IntPtr.Zero);
+            IntPtr desktop = g.GetHdc();
+            int LogicalScreenHeight = GetDeviceCaps(desktop, (int)DeviceCap.VERTRES);
+            int PhysicalScreenHeight = GetDeviceCaps(desktop, (int)DeviceCap.DESKTOPVERTRES);
+
+            float ScreenScalingFactor = (float)PhysicalScreenHeight / (float)LogicalScreenHeight;
+
+            return ScreenScalingFactor; // 1.25 = 125%
+        }
+
+        public Rectangle getScreenResolution()
+        {
+            var scale = getScalingFactor();
+            return new Rectangle(0, 0, (int)(Screen.PrimaryScreen.Bounds.Width * getScalingFactor()), (int)(Screen.PrimaryScreen.Bounds.Height * getScalingFactor()));
+        }
+
+        public Bitmap getScreenShot()
+        {
+            Graphics graph = null;
+            var bmp = new Bitmap(getScreenResolution().Width, getScreenResolution().Height);
+            graph = Graphics.FromImage(bmp);
+            graph.CopyFromScreen(0, 0, 0, 0, bmp.Size);
+            return bmp;
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             ServerStart();
+
+            pictureBoxScreenMain.Image = getScreenShot();
+            MessageBox.Show(getScreenResolution().ToString());
 
             //MessageBox.Show(AppSettings.Get("WebServer"));
         }
