@@ -46,6 +46,7 @@ namespace NetMonitorClient
         public static WebSocket socketRemoteControl;
         public static Thread threadScreen;
         public static Rectangle screenResolution;
+
         public RemoteControl(string address, int port)
         {
             socketRemoteControl = new WebSocket("ws://" + address + ":" + port + "/NetMonitorSocketService/RemoteControl");
@@ -58,7 +59,7 @@ namespace NetMonitorClient
         }
 
 
-        private static float getScalingFactor()
+        private static float GetScalingFactor()
         {
             Graphics g = Graphics.FromHwnd(IntPtr.Zero);
             IntPtr desktop = g.GetHdc();
@@ -68,21 +69,21 @@ namespace NetMonitorClient
             return ScreenScalingFactor;
         }
 
-        public static Rectangle getScreenResolution()
+        public static Rectangle GetScreenResolution()
         {
-            float scale = getScalingFactor();
+            float scale = GetScalingFactor();
             return new Rectangle(0, 0, (int)(Screen.PrimaryScreen.Bounds.Width * scale), (int)(Screen.PrimaryScreen.Bounds.Height * scale));
         }
 
-        public static Bitmap getScreenshot()
+        public static Bitmap GetScreenshot()
         {
-            Bitmap bmp = new Bitmap(getScreenResolution().Width, getScreenResolution().Height);
+            Bitmap bmp = new Bitmap(GetScreenResolution().Width, GetScreenResolution().Height);
             Graphics graph = Graphics.FromImage(bmp);
             graph.CopyFromScreen(0, 0, 0, 0, bmp.Size);
             return bmp;
         }
 
-        public static Bitmap getScreen()
+        public static Bitmap GetScreen()
         {
             Bitmap bmp = new Bitmap(screenResolution.Width, screenResolution.Height);
             Graphics graph = Graphics.FromImage(bmp);
@@ -100,14 +101,14 @@ namespace NetMonitorClient
                     //Bitmap printscreen = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
                     //Graphics graphics = Graphics.FromImage(printscreen);
                     //graphics.CopyFromScreen(0, 0, 0, 0, printscreen.Size);
-                    socketRemoteControl.Send(new Packet() { Header = "RemoteControl/Screen", Data = getScreen() });
+                    socketRemoteControl.Send(new Packet() { Header = "RemoteControl/Screen", Data = GetScreen() });
 
                 }
                 catch { socketRemoteControl.Close(); }
             }
         }
 
-        public static void pressLeftMouse(Packet packet)
+        public static void PressLeftMouse(Packet packet)
         {
             MouseEvent mouseEvent = (MouseEvent)packet.Data;
             SetCursorPos(mouseEvent.X, mouseEvent.Y);
@@ -115,7 +116,7 @@ namespace NetMonitorClient
             mouse_event((uint)MouseEventFlags.LEFTUP, 0, 0, 0, 0);
         }
 
-        public static void moveMouse(Packet packet)
+        public static void MoveMouse(Packet packet)
         {
             MouseEvent mouseEvent = (MouseEvent)packet.Data;
             SetCursorPos(mouseEvent.X, mouseEvent.Y);
@@ -137,11 +138,11 @@ namespace NetMonitorClient
                 {
                     Header = "RemoteControl/Resolution",
                     Data = new Dictionary<string, int>() {
-                    { "Width", getScreenResolution().Width },
-                    { "Height", getScreenResolution().Height },
+                    { "Width", GetScreenResolution().Width },
+                    { "Height", GetScreenResolution().Height },
                 }
                 }));
-                screenResolution = getScreenResolution();
+                screenResolution = GetScreenResolution();
             }
             catch { }
         }
@@ -168,10 +169,10 @@ namespace NetMonitorClient
                         }
                         break;
                     case "MouseEvent/Click":
-                        pressLeftMouse(packet);
+                        PressLeftMouse(packet);
                         break;
                     case "MouseEvent/Move":
-                        moveMouse(packet);
+                        MoveMouse(packet);
                         break;
                     case "RemoteControl/Stop":
                         {
