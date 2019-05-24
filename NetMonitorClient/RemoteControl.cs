@@ -100,7 +100,7 @@ namespace NetMonitorClient
                     //Bitmap printscreen = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
                     //Graphics graphics = Graphics.FromImage(printscreen);
                     //graphics.CopyFromScreen(0, 0, 0, 0, printscreen.Size);
-                    socketRemoteControl.Send(new Packet() { Header = "RemoteControl/Screen", Data = getScreenShot() });
+                    socketRemoteControl.Send(new Packet() { Header = "RemoteControl/Screen", Data = getScreen() });
 
                 }
                 catch { socketRemoteControl.Close(); }
