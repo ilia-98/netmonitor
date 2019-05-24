@@ -23,6 +23,7 @@ namespace NetMonitorClient
         static int CPUTEMPsensor_index;
         static int CPULOADsensor_index;
         static List<int> HDDTEMPsensors_index = new List<int>();
+        public static List<Dictionary<string, object>> processesList = new List<Dictionary<string, object>>();
 
         public static void UpdateSensors()
         {
@@ -168,5 +169,110 @@ namespace NetMonitorClient
 
             return monitorInfo;
         }
+
+
+        static double[] GetUsage(Process process)
+        {
+            string name = "";
+            double[] result = new double[2];
+            foreach (var instance in new PerformanceCounterCategory("Process").GetInstanceNames())
+            {
+                if (instance.StartsWith(process.ProcessName))
+                {
+                    using (var processId = new PerformanceCounter("Process", "ID Process", instance, true))
+                    {
+                        if (process.Id == (int)processId.RawValue)
+                        {
+                            name = instance;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            try
+            {
+                var cpu = new PerformanceCounter("Process", "% Processor Time", name, true);
+                var ram = new PerformanceCounter("Process", "Private Bytes", name, true);
+
+                cpu.NextValue();
+                ram.NextValue();
+
+                Thread.Sleep(250);
+
+                result[0] = Math.Round(cpu.NextValue() / Environment.ProcessorCount, 2);
+                result[1] = Math.Round(ram.NextValue() / 1024 / 1024, 2);
+            }
+            catch
+            {
+                result[0] = 0;
+                result[1] = 0;
+            }
+            return result;
+
+        }
+
+        public static void GetProcesses()
+        {
+            while (true)
+            {
+                Console.WriteLine("Старт");
+                Process[] processes;
+                List<Dictionary<string, object>> temp = new List<Dictionary<string, object>>();
+
+                processes = Process.GetProcesses();
+                foreach (var process in processes)
+                {
+                    try
+                    {
+                        double[] usage = GetUsage(process);
+                        temp.Add(new Dictionary<string, object>() {
+                            { "Name", process.ProcessName },
+                            { "Description", process.MainModule.FileVersionInfo.FileDescription },
+                            { "CPUUsage", usage[0] },
+                            { "RAMUsage", usage[1] }
+                        });
+                    }
+                    catch { }
+                }
+                processesList = temp;
+                Console.WriteLine("Стоп" + temp.Count);
+            }
+        }
+
+        public static List<Dictionary<string, object>> GetAppInfo()
+        {
+            List<Dictionary<string, object>> appList = new List<Dictionary<string, object>>();
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Product");
+            foreach (ManagementObject app in searcher.Get())
+            {
+                //string appName, appInstDate, appInstLoc, appVendor, appVersion;
+                //if (app.GetPropertyValue("Name") != null)
+                //    appName = app.GetPropertyValue("Name").ToString();
+                //else
+                //    appName = "";
+                //if (app.GetPropertyValue("InstallDate") != null)
+                //    appInstDate = app.GetPropertyValue("InstallDate").ToString();
+                //else
+                //    appInstDate = "";
+                //if (app.GetPropertyValue("Vendor") != null)
+                //    appVendor = app.GetPropertyValue("Vendor").ToString();
+                //else
+                //    appVendor = "";
+                //if (app.GetPropertyValue("Version") != null)
+                //    appVersion = app.GetPropertyValue("Version").ToString();
+                //else
+                //    appVersion = "";
+
+                appList.Add(new Dictionary<string, object>() {
+                    { "Name", app.GetPropertyValue("Name") },
+                    { "InstallDate", app.GetPropertyValue("InstallDate") },
+                    { "Vendor", app.GetPropertyValue("Vendor")} ,
+                    { "Version", app.GetPropertyValue("Version") }
+                });
+            }
+            return appList;
+        }
+
     }
 }
