@@ -33,13 +33,12 @@ namespace NetMonitorClient
 
 
         static WebSocket socket;
-        //tic WebSocket socketRemoteControl;
         static RemoteControl remoteControl;
         Thread monitorThread;
         Thread processThread;
 
 
-        public string Address { get; set; } = "192.168.43.9"; //"127.0.0.1";
+        public string Address { get; set; } =  "127.0.0.1";
         public static NotifyIcon NotifyIcon { get; set; }
         public static int Port { get; set; } = 1348;
         public static bool Enabled { get; set; } = true;
@@ -53,29 +52,6 @@ namespace NetMonitorClient
         }
 
 
-
-
-        static HashSet<int> GetOpenPorts()
-        {
-            IPEndPoint[] ports = IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners();
-            HashSet<int> ports_hashset = new HashSet<int>();
-            foreach (var item in ports)
-            {
-                ports_hashset.Add(item.Port);
-            }
-            return ports_hashset;
-        }
-
-        static HashSet<string> GetTcpConnections()
-        {
-            TcpConnectionInformation[] tcp_connections = IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpConnections();
-            HashSet<string> tcp_hashset = new HashSet<string>();
-            foreach (var item in tcp_connections)
-            {
-                tcp_hashset.Add(item.RemoteEndPoint.ToString());
-            }
-            return tcp_hashset;
-        }
 
 
 
@@ -107,6 +83,8 @@ namespace NetMonitorClient
         {
             Enabled = false;
             socket.Close();
+            monitorThread.Abort();
+            processThread.Abort();
         }
 
 
@@ -145,6 +123,12 @@ namespace NetMonitorClient
                         break;
                     case "ApplicationInfo":
                         socket.Send(new Packet() { Header = "ApplicationInfo", Data = MonitoringUtils.GetAppInfo() });
+                        break;
+                    case "OpenPorts":
+                        socket.Send(new Packet() { Header = "OpenPorts", Data = MonitoringUtils.GetOpenPorts() });
+                        break;
+                    case "TcpConnections":
+                        socket.Send(new Packet() { Header = "TcpConnections", Data = MonitoringUtils.GetTcpConnections() });
                         break;
                     case "Files/GetUpdate":
                         FileUtils.SendFilesUpdate(socket);

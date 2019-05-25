@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Management;
+using System.Net;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,16 +20,17 @@ namespace NetMonitorClient
         static Computer computerHardware;
         static int CPU_index;
         static int RAM_index;
-        static int HDD_index;
+       // static int HDD_index;
+        static List<int> HDD_index = new List<int>();
         static int RAMLOADsensor_index;
         static int CPUTEMPsensor_index;
         static int CPULOADsensor_index;
-        static List<int> HDDTEMPsensors_index = new List<int>();
+        static int HDDTEMPsensor_index;
         public static List<Dictionary<string, object>> processesList = new List<Dictionary<string, object>>();
 
         public static void UpdateSensors()
         {
-            HDDTEMPsensors_index.Clear();
+            HDD_index.Clear();
             computerHardware = new Computer();
             computerHardware.CPUEnabled = true;
             computerHardware.RAMEnabled = true;
@@ -49,7 +52,7 @@ namespace NetMonitorClient
                 }
                 if (computerHardware.Hardware[i].HardwareType == HardwareType.HDD)
                 {
-                    HDD_index = i;
+                    HDD_index.Add(i);
                 }
 
                 sensorcount = computerHardware.Hardware[i].Sensors.Count();
@@ -79,7 +82,8 @@ namespace NetMonitorClient
                         if (computerHardware.Hardware[i].Sensors[j].SensorType == SensorType.Temperature
                        && computerHardware.Hardware[i].HardwareType == HardwareType.HDD)
                         {
-                            HDDTEMPsensors_index.Add(j);
+                            HDDTEMPsensor_index = j;
+                            //HDDTEMPsensors_index.Add(i);
                         }
                     }
                 }
@@ -140,20 +144,20 @@ namespace NetMonitorClient
         {
             MonitorInfo monitorInfo = new MonitorInfo()
             {
-                HDD_temp = new float[HDDTEMPsensors_index.Count],
+                HDD_temp = new float[HDD_index.Count],
                 CPU_load = 0,
                 CPU_temp = 0,
                 RAM_load = 0
             };
 
-            computerHardware.Hardware[CPU_index].Update();
-            computerHardware.Hardware[HDD_index].Update();
+            computerHardware.Hardware[CPU_index].Update();           
             computerHardware.Hardware[RAM_index].Update();
 
             float? value;
-            for (int i = 0; i < HDDTEMPsensors_index.Count; i++)
+            for (int i = 0; i < HDD_index.Count; i++)
             {
-                value = computerHardware.Hardware[HDD_index].Sensors[HDDTEMPsensors_index[i]].Value;
+                computerHardware.Hardware[HDD_index[i]].Update();
+                value = computerHardware.Hardware[HDD_index[i]].Sensors[HDDTEMPsensor_index].Value;
                 if (value != null)
                     monitorInfo.HDD_temp[i] = (float)value;
             }
@@ -272,6 +276,29 @@ namespace NetMonitorClient
                 });
             }
             return appList;
+        }
+
+
+        public static HashSet<int> GetOpenPorts()
+        {
+            IPEndPoint[] ports = IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners();
+            HashSet<int> ports_hashset = new HashSet<int>();
+            foreach (var item in ports)
+            {
+                ports_hashset.Add(item.Port);
+            }
+            return ports_hashset;
+        }
+
+        public static HashSet<string> GetTcpConnections()
+        {
+            TcpConnectionInformation[] tcp_connections = IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpConnections();
+            HashSet<string> tcp_hashset = new HashSet<string>();
+            foreach (var item in tcp_connections)
+            {
+                tcp_hashset.Add(item.RemoteEndPoint.ToString());
+            }
+            return tcp_hashset;
         }
 
     }
