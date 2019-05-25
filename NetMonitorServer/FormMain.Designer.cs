@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.listViewClients = new System.Windows.Forms.ListView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.ServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,9 +42,11 @@
             this.pictureBoxScreenMain = new System.Windows.Forms.PictureBox();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.buttonStartControl = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.labelHardwareInfo = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.chartMonitor = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.panelFiles = new System.Windows.Forms.Panel();
             this.labelTextArgs = new System.Windows.Forms.Label();
@@ -57,13 +62,13 @@
             this.buttonFilesUpdate = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.labelSelectedItem = new System.Windows.Forms.Label();
-            this.buttonStartControl = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxScreenMain)).BeginInit();
             this.tabControlMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartMonitor)).BeginInit();
             this.tabPage4.SuspendLayout();
             this.panelFiles.SuspendLayout();
             this.SuspendLayout();
@@ -130,6 +135,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(0, 20);
             this.label1.TabIndex = 7;
+            this.label1.Visible = false;
             // 
             // pictureBoxScreenMain
             // 
@@ -164,6 +170,16 @@
             this.tabPage1.Text = "Экран";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // buttonStartControl
+            // 
+            this.buttonStartControl.Location = new System.Drawing.Point(329, 361);
+            this.buttonStartControl.Name = "buttonStartControl";
+            this.buttonStartControl.Size = new System.Drawing.Size(97, 35);
+            this.buttonStartControl.TabIndex = 11;
+            this.buttonStartControl.Text = "Управление";
+            this.buttonStartControl.UseVisualStyleBackColor = true;
+            this.buttonStartControl.Click += new System.EventHandler(this.ButtonStartControl_Click);
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.labelHardwareInfo);
@@ -187,6 +203,7 @@
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.label1);
+            this.tabPage3.Controls.Add(this.chartMonitor);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -194,6 +211,24 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Нагрузка";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // chartMonitor
+            // 
+            chartArea1.AxisY.Maximum = 100D;
+            chartArea1.AxisY.Minimum = 0D;
+            chartArea1.Name = "TempMonitoring";
+            chartArea2.AxisY.Maximum = 100D;
+            chartArea2.AxisY.Minimum = 0D;
+            chartArea2.Name = "LoadMonitoring";
+            this.chartMonitor.ChartAreas.Add(chartArea1);
+            this.chartMonitor.ChartAreas.Add(chartArea2);
+            legend1.Name = "Legend";
+            this.chartMonitor.Legends.Add(legend1);
+            this.chartMonitor.Location = new System.Drawing.Point(10, 96);
+            this.chartMonitor.Name = "chartMonitor";
+            this.chartMonitor.Size = new System.Drawing.Size(581, 300);
+            this.chartMonitor.TabIndex = 8;
+            this.chartMonitor.Text = "chart1";
             // 
             // tabPage4
             // 
@@ -341,16 +376,6 @@
             this.labelSelectedItem.TabIndex = 12;
             this.labelSelectedItem.Text = "Выбран:";
             // 
-            // buttonStartControl
-            // 
-            this.buttonStartControl.Location = new System.Drawing.Point(329, 361);
-            this.buttonStartControl.Name = "buttonStartControl";
-            this.buttonStartControl.Size = new System.Drawing.Size(97, 35);
-            this.buttonStartControl.TabIndex = 11;
-            this.buttonStartControl.Text = "Управление";
-            this.buttonStartControl.UseVisualStyleBackColor = true;
-            this.buttonStartControl.Click += new System.EventHandler(this.ButtonStartControl_Click);
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -377,6 +402,7 @@
             this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartMonitor)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.panelFiles.ResumeLayout(false);
             this.panelFiles.PerformLayout();
@@ -415,6 +441,7 @@
         private System.Windows.Forms.Button buttonFilesGet;
         private System.Windows.Forms.Button buttonFilesUpdate;
         private System.Windows.Forms.Button buttonStartControl;
+        public System.Windows.Forms.DataVisualization.Charting.Chart chartMonitor;
     }
 }
 

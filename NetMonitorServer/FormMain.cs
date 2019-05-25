@@ -143,7 +143,7 @@ namespace NetMonitorServer
             {
                 if (SelectedClient.Available)
                 {
-                    SelectedClient.Send("Monitor_Info");
+                    SelectedClient.Send("MonitorInfo");
                     SelectedClient.Send("Screenshot");
                 }
             }
@@ -325,5 +325,6 @@ namespace NetMonitorServer
                 }
             }
         }
+
     }
 }
