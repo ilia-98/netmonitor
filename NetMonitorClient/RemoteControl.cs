@@ -14,6 +14,14 @@ namespace NetMonitorClient
 {
     public class RemoteControl
     {
+        [DllImport("gdi32.dll")]
+        static extern int GetDeviceCaps(IntPtr hdc, int nIndex);
+        public enum DeviceCap
+        {
+            VERTRES = 10,
+            DESKTOPVERTRES = 117,
+        }
+
         [Flags]
         public enum MouseEventFlags
         {
@@ -37,7 +45,9 @@ namespace NetMonitorClient
         public static bool Enabled { get; set; }
         public static WebSocket socketRemoteControl;
         public static Thread threadScreen;
-        public RemoteControl( string address, int port)
+        public static Rectangle screenResolution;
+
+        public RemoteControl(string address, int port)
         {
             socketRemoteControl = new WebSocket("ws://" + address + ":" + port + "/NetMonitorSocketService/RemoteControl");
             socketRemoteControl.OnClose += Socket_OnClose;
@@ -48,24 +58,57 @@ namespace NetMonitorClient
 
         }
 
+
+        private static float GetScalingFactor()
+        {
+            Graphics g = Graphics.FromHwnd(IntPtr.Zero);
+            IntPtr desktop = g.GetHdc();
+            int LogicalScreenHeight = GetDeviceCaps(desktop, (int)DeviceCap.VERTRES);
+            int PhysicalScreenHeight = GetDeviceCaps(desktop, (int)DeviceCap.DESKTOPVERTRES);
+            float ScreenScalingFactor = (float)PhysicalScreenHeight / (float)LogicalScreenHeight;
+            return ScreenScalingFactor;
+        }
+
+        public static Rectangle GetScreenResolution()
+        {
+            float scale = GetScalingFactor();
+            return new Rectangle(0, 0, (int)(Screen.PrimaryScreen.Bounds.Width * scale), (int)(Screen.PrimaryScreen.Bounds.Height * scale));
+        }
+
+        public static Bitmap GetScreenshot()
+        {
+            Bitmap bmp = new Bitmap(GetScreenResolution().Width, GetScreenResolution().Height);
+            Graphics graph = Graphics.FromImage(bmp);
+            graph.CopyFromScreen(0, 0, 0, 0, bmp.Size);
+            return bmp;
+        }
+
+        public static Bitmap GetScreen()
+        {
+            Bitmap bmp = new Bitmap(screenResolution.Width, screenResolution.Height);
+            Graphics graph = Graphics.FromImage(bmp);
+            graph.CopyFromScreen(0, 0, 0, 0, bmp.Size);
+            return bmp;
+        }
+
+
         public static void SendScreen()
         {
-            while (true)
+            while (Enabled)
             {
-                try {
-                    Bitmap printscreen = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-                    Graphics graphics = Graphics.FromImage(printscreen);
-                    graphics.CopyFromScreen(0, 0, 0, 0, printscreen.Size);
-                    socketRemoteControl.Send(new Packet() {
-                        Header = "RemoteControl/Screen", Data = printscreen
-                    });
+                try
+                {
+                    //Bitmap printscreen = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+                    //Graphics graphics = Graphics.FromImage(printscreen);
+                    //graphics.CopyFromScreen(0, 0, 0, 0, printscreen.Size);
+                    socketRemoteControl.Send(new Packet() { Header = "RemoteControl/Screen", Data = GetScreen() });
 
                 }
                 catch { socketRemoteControl.Close(); }
-                }
+            }
         }
 
-        public static void pressLeftMouse(Packet packet)
+        public static void PressLeftMouse(Packet packet)
         {
             MouseEvent mouseEvent = (MouseEvent)packet.Data;
             SetCursorPos(mouseEvent.X, mouseEvent.Y);
@@ -73,7 +116,7 @@ namespace NetMonitorClient
             mouse_event((uint)MouseEventFlags.LEFTUP, 0, 0, 0, 0);
         }
 
-        public static void moveMouse(Packet packet)
+        public static void MoveMouse(Packet packet)
         {
             MouseEvent mouseEvent = (MouseEvent)packet.Data;
             SetCursorPos(mouseEvent.X, mouseEvent.Y);
@@ -81,11 +124,8 @@ namespace NetMonitorClient
 
         private static void Socket_OnClose(object sender, CloseEventArgs e)
         {
-            //if (Enabled)
-            //{
-            //    Thread.Sleep(3000);
-            //    socketRemoteControl.ConnectAsync();
-            //}
+            Enabled = false;
+            threadScreen.Abort();
             socketRemoteControl.Close();
         }
 
@@ -93,21 +133,23 @@ namespace NetMonitorClient
         {
             try
             {
-                while(socketRemoteControl == null) { }
+                while (socketRemoteControl == null) { }
                 socketRemoteControl.Send(Packet.Serialize(new Packet()
                 {
                     Header = "RemoteControl/Resolution",
                     Data = new Dictionary<string, int>() {
-                    { "Width" ,Screen.PrimaryScreen.Bounds.Width },
-                    { "Height" ,Screen.PrimaryScreen.Bounds.Height },
+                    { "Width", GetScreenResolution().Width },
+                    { "Height", GetScreenResolution().Height },
                 }
                 }));
+                screenResolution = GetScreenResolution();
             }
             catch { }
         }
 
         private static void Socket_OnClose(object sender, EventArgs e)
         {
+            threadScreen.Abort();
             socketRemoteControl.Close();
         }
 
@@ -121,18 +163,22 @@ namespace NetMonitorClient
                 {
                     case "RemoteControl/Start":
                         {
+                            Enabled = true;
                             threadScreen = new Thread(() => SendScreen());
                             threadScreen.Start();
                         }
                         break;
                     case "MouseEvent/Click":
-                        RemoteControl.pressLeftMouse(packet);
+                        PressLeftMouse(packet);
                         break;
                     case "MouseEvent/Move":
-                        RemoteControl.moveMouse(packet);
+                        MoveMouse(packet);
                         break;
                     case "RemoteControl/Stop":
-                        threadScreen.Abort();
+                        {
+                            Enabled = false;
+                            threadScreen.Abort();
+                        }
                         break;
                     default:
                         {

@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Net.Mail;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using WebSocketSharp;
 using WebSocketSharp.Server;
 
@@ -78,6 +79,69 @@ namespace NetMonitorServer
         void Handler_Monitor_Info(Packet packet)
         {
             MonitorInfo info = (MonitorInfo)packet.Data;
+            form.chartMonitor.BeginInvoke((MethodInvoker)(delegate
+            {
+                Series[] seriesHDD = new Series[info.HDD_temp.Length];
+                Series seriesCPUTemp = new Series();
+                Series seriesCPULoad = new Series();
+                Series seriesRAMLoad = new Series();
+                for (int i = 0; i < info.HDD_temp.Length; i++)
+                {
+                    seriesHDD[i] = form.chartMonitor.Series.FindByName("HDD" + (i + 1) + " °C");
+                    if (seriesHDD[i] == null)
+                    {
+                        seriesHDD[i] = new Series("HDD" + (i + 1) + " °C");
+                        seriesHDD[i].ChartType = SeriesChartType.Line;
+                        seriesHDD[i].ChartArea = "TempMonitoring";
+                        seriesHDD[i].BorderWidth = 3;
+                        form.chartMonitor.Series.Add(seriesHDD[i]);
+                    }
+                    seriesHDD[i].Points.AddXY(DateTime.Now.ToLongTimeString(), info.HDD_temp[i]);
+                    if (seriesHDD[i].Points.Count > 6)
+                        seriesHDD[i].Points.RemoveAt(0);
+                }
+
+                seriesCPUTemp = form.chartMonitor.Series.FindByName("CPU °C");
+                if (seriesCPUTemp == null)
+                {
+                    seriesCPUTemp = new Series("CPU °C");
+                    seriesCPUTemp.ChartType = SeriesChartType.Line;
+                    seriesCPUTemp.ChartArea = "TempMonitoring";
+                    seriesCPUTemp.BorderWidth = 3;
+                    form.chartMonitor.Series.Add(seriesCPUTemp);
+                }
+                seriesCPUTemp.Points.AddXY(DateTime.Now.ToLongTimeString(), info.CPU_temp);
+                if (seriesCPUTemp.Points.Count > 6)
+                    seriesCPUTemp.Points.RemoveAt(0);
+
+                seriesCPULoad = form.chartMonitor.Series.FindByName("CPU %");
+                if (seriesCPULoad == null)
+                {
+                    seriesCPULoad = new Series("CPU %");
+                    seriesCPULoad.ChartType = SeriesChartType.Column;
+                    seriesCPULoad.ChartArea = "LoadMonitoring";
+
+                    seriesCPULoad.BorderWidth = 3;
+                    form.chartMonitor.Series.Add(seriesCPULoad);
+                }
+                seriesCPULoad.Points.AddXY(DateTime.Now.ToLongTimeString(), info.CPU_load);
+                if (seriesCPULoad.Points.Count > 1)
+                    seriesCPULoad.Points.RemoveAt(0);
+
+                seriesRAMLoad = form.chartMonitor.Series.FindByName("RAM %");
+                if (seriesRAMLoad == null)
+                {
+                    seriesRAMLoad = new Series("RAM %");
+                    seriesRAMLoad.ChartType = SeriesChartType.Column;
+                    seriesRAMLoad.ChartArea = "LoadMonitoring";
+
+                    form.chartMonitor.Series.Add(seriesRAMLoad);
+                }
+                seriesRAMLoad.Points.AddXY(DateTime.Now.ToLongTimeString(), info.RAM_load);
+                if (seriesRAMLoad.Points.Count > 1)
+                    seriesRAMLoad.Points.RemoveAt(0);
+            }));
+
             form.label1.BeginInvoke((MethodInvoker)(delegate
             {
                 form.label1.Text = "CPU:\n   Temp: " + info.CPU_temp + "\n   Load: " + info.CPU_load + "\nRAM:\n   Load: " + info.RAM_load + "\n\n" +

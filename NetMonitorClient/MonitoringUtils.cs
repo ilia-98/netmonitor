@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Management;
+using System.Net;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,15 +20,17 @@ namespace NetMonitorClient
         static Computer computerHardware;
         static int CPU_index;
         static int RAM_index;
-        static int HDD_index;
+       // static int HDD_index;
+        static List<int> HDD_index = new List<int>();
         static int RAMLOADsensor_index;
         static int CPUTEMPsensor_index;
         static int CPULOADsensor_index;
-        static List<int> HDDTEMPsensors_index = new List<int>();
+        static int HDDTEMPsensor_index;
+        public static List<Dictionary<string, object>> processesList = new List<Dictionary<string, object>>();
 
         public static void UpdateSensors()
         {
-            HDDTEMPsensors_index.Clear();
+            HDD_index.Clear();
             computerHardware = new Computer();
             computerHardware.CPUEnabled = true;
             computerHardware.RAMEnabled = true;
@@ -48,7 +52,7 @@ namespace NetMonitorClient
                 }
                 if (computerHardware.Hardware[i].HardwareType == HardwareType.HDD)
                 {
-                    HDD_index = i;
+                    HDD_index.Add(i);
                 }
 
                 sensorcount = computerHardware.Hardware[i].Sensors.Count();
@@ -78,7 +82,8 @@ namespace NetMonitorClient
                         if (computerHardware.Hardware[i].Sensors[j].SensorType == SensorType.Temperature
                        && computerHardware.Hardware[i].HardwareType == HardwareType.HDD)
                         {
-                            HDDTEMPsensors_index.Add(j);
+                            HDDTEMPsensor_index = j;
+                            //HDDTEMPsensors_index.Add(i);
                         }
                     }
                 }
@@ -139,20 +144,20 @@ namespace NetMonitorClient
         {
             MonitorInfo monitorInfo = new MonitorInfo()
             {
-                HDD_temp = new float[HDDTEMPsensors_index.Count],
+                HDD_temp = new float[HDD_index.Count],
                 CPU_load = 0,
                 CPU_temp = 0,
                 RAM_load = 0
             };
 
-            computerHardware.Hardware[CPU_index].Update();
-            computerHardware.Hardware[HDD_index].Update();
+            computerHardware.Hardware[CPU_index].Update();           
             computerHardware.Hardware[RAM_index].Update();
 
             float? value;
-            for (int i = 0; i < HDDTEMPsensors_index.Count; i++)
+            for (int i = 0; i < HDD_index.Count; i++)
             {
-                value = computerHardware.Hardware[HDD_index].Sensors[HDDTEMPsensors_index[i]].Value;
+                computerHardware.Hardware[HDD_index[i]].Update();
+                value = computerHardware.Hardware[HDD_index[i]].Sensors[HDDTEMPsensor_index].Value;
                 if (value != null)
                     monitorInfo.HDD_temp[i] = (float)value;
             }
@@ -168,5 +173,133 @@ namespace NetMonitorClient
 
             return monitorInfo;
         }
+
+
+        static double[] GetUsage(Process process)
+        {
+            string name = "";
+            double[] result = new double[2];
+            foreach (var instance in new PerformanceCounterCategory("Process").GetInstanceNames())
+            {
+                if (instance.StartsWith(process.ProcessName))
+                {
+                    using (var processId = new PerformanceCounter("Process", "ID Process", instance, true))
+                    {
+                        if (process.Id == (int)processId.RawValue)
+                        {
+                            name = instance;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            try
+            {
+                var cpu = new PerformanceCounter("Process", "% Processor Time", name, true);
+                var ram = new PerformanceCounter("Process", "Private Bytes", name, true);
+
+                cpu.NextValue();
+                ram.NextValue();
+
+                Thread.Sleep(250);
+
+                result[0] = Math.Round(cpu.NextValue() / Environment.ProcessorCount, 2);
+                result[1] = Math.Round(ram.NextValue() / 1024 / 1024, 2);
+            }
+            catch
+            {
+                result[0] = 0;
+                result[1] = 0;
+            }
+            return result;
+
+        }
+
+        public static void GetProcesses()
+        {
+            while (true)
+            {
+                Console.WriteLine("Старт");
+                Process[] processes;
+                List<Dictionary<string, object>> temp = new List<Dictionary<string, object>>();
+
+                processes = Process.GetProcesses();
+                foreach (var process in processes)
+                {
+                    try
+                    {
+                        double[] usage = GetUsage(process);
+                        temp.Add(new Dictionary<string, object>() {
+                            { "Name", process.ProcessName },
+                            { "Description", process.MainModule.FileVersionInfo.FileDescription },
+                            { "CPUUsage", usage[0] },
+                            { "RAMUsage", usage[1] }
+                        });
+                    }
+                    catch { }
+                }
+                processesList = temp;
+                Console.WriteLine("Стоп" + temp.Count);
+            }
+        }
+
+        public static List<Dictionary<string, object>> GetAppInfo()
+        {
+            List<Dictionary<string, object>> appList = new List<Dictionary<string, object>>();
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Product");
+            foreach (ManagementObject app in searcher.Get())
+            {
+                //string appName, appInstDate, appInstLoc, appVendor, appVersion;
+                //if (app.GetPropertyValue("Name") != null)
+                //    appName = app.GetPropertyValue("Name").ToString();
+                //else
+                //    appName = "";
+                //if (app.GetPropertyValue("InstallDate") != null)
+                //    appInstDate = app.GetPropertyValue("InstallDate").ToString();
+                //else
+                //    appInstDate = "";
+                //if (app.GetPropertyValue("Vendor") != null)
+                //    appVendor = app.GetPropertyValue("Vendor").ToString();
+                //else
+                //    appVendor = "";
+                //if (app.GetPropertyValue("Version") != null)
+                //    appVersion = app.GetPropertyValue("Version").ToString();
+                //else
+                //    appVersion = "";
+
+                appList.Add(new Dictionary<string, object>() {
+                    { "Name", app.GetPropertyValue("Name") },
+                    { "InstallDate", app.GetPropertyValue("InstallDate") },
+                    { "Vendor", app.GetPropertyValue("Vendor")} ,
+                    { "Version", app.GetPropertyValue("Version") }
+                });
+            }
+            return appList;
+        }
+
+
+        public static HashSet<int> GetOpenPorts()
+        {
+            IPEndPoint[] ports = IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners();
+            HashSet<int> ports_hashset = new HashSet<int>();
+            foreach (var item in ports)
+            {
+                ports_hashset.Add(item.Port);
+            }
+            return ports_hashset;
+        }
+
+        public static HashSet<string> GetTcpConnections()
+        {
+            TcpConnectionInformation[] tcp_connections = IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpConnections();
+            HashSet<string> tcp_hashset = new HashSet<string>();
+            foreach (var item in tcp_connections)
+            {
+                tcp_hashset.Add(item.RemoteEndPoint.ToString());
+            }
+            return tcp_hashset;
+        }
+
     }
 }
