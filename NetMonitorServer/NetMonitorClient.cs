@@ -142,17 +142,17 @@ namespace NetMonitorServer
                     seriesRAMLoad.Points.RemoveAt(0);
             }));
 
-            form.label1.BeginInvoke((MethodInvoker)(delegate
-            {
-                form.label1.Text = "CPU:\n   Temp: " + info.CPU_temp + "\n   Load: " + info.CPU_load + "\nRAM:\n   Load: " + info.RAM_load + "\n\n" +
-                                   "HDD:\n";
-                int i = 1;
-                foreach (var item in info.HDD_temp)
-                {
-                    form.label1.Text += "   " + i + " Temp: " + item + "\n";
-                    i++;
-                }
-            }));
+            //form.label1.BeginInvoke((MethodInvoker)(delegate
+            //{
+            //    form.label1.Text = "CPU:\n   Temp: " + info.CPU_temp + "\n   Load: " + info.CPU_load + "\nRAM:\n   Load: " + info.RAM_load + "\n\n" +
+            //                       "HDD:\n";
+            //    int i = 1;
+            //    foreach (var item in info.HDD_temp)
+            //    {
+            //        form.label1.Text += "   " + i + " Temp: " + item + "\n";
+            //        i++;
+            //    }
+            //}));
         }
 
         void Handler_Screenshot(Packet packet)

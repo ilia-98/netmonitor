@@ -63,7 +63,6 @@
             this.buttonFilesGet = new System.Windows.Forms.Button();
             this.buttonFilesUpdate = new System.Windows.Forms.Button();
             this.tabPageMonitoring = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
             this.tabPageInfo = new System.Windows.Forms.TabPage();
             this.labelHardwareInfo = new System.Windows.Forms.Label();
             this.tabPageMain = new System.Windows.Forms.TabPage();
@@ -231,9 +230,9 @@
             this.chartMonitor.ChartAreas.Add(chartArea2);
             legend1.Name = "Legend";
             this.chartMonitor.Legends.Add(legend1);
-            this.chartMonitor.Location = new System.Drawing.Point(95, 81);
+            this.chartMonitor.Location = new System.Drawing.Point(6, 6);
             this.chartMonitor.Name = "chartMonitor";
-            this.chartMonitor.Size = new System.Drawing.Size(581, 300);
+            this.chartMonitor.Size = new System.Drawing.Size(709, 393);
             this.chartMonitor.TabIndex = 8;
             this.chartMonitor.Text = "chart1";
             // 
@@ -371,7 +370,6 @@
             // 
             // tabPageMonitoring
             // 
-            this.tabPageMonitoring.Controls.Add(this.label1);
             this.tabPageMonitoring.Controls.Add(this.chartMonitor);
             this.tabPageMonitoring.Location = new System.Drawing.Point(4, 22);
             this.tabPageMonitoring.Name = "tabPageMonitoring";
@@ -380,15 +378,7 @@
             this.tabPageMonitoring.TabIndex = 2;
             this.tabPageMonitoring.Text = "Нагрузка";
             this.tabPageMonitoring.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label1.Location = new System.Drawing.Point(6, 4);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 20);
-            this.label1.TabIndex = 7;
+            this.tabPageMonitoring.Click += new System.EventHandler(this.TabPageMonitoring_Click);
             // 
             // tabPageInfo
             // 
@@ -469,7 +459,6 @@
             this.panelFiles.ResumeLayout(false);
             this.panelFiles.PerformLayout();
             this.tabPageMonitoring.ResumeLayout(false);
-            this.tabPageMonitoring.PerformLayout();
             this.tabPageInfo.ResumeLayout(false);
             this.tabPageInfo.PerformLayout();
             this.tabPageMain.ResumeLayout(false);
@@ -504,7 +493,6 @@
         private System.Windows.Forms.Button buttonFilesGet;
         private System.Windows.Forms.Button buttonFilesUpdate;
         private System.Windows.Forms.TabPage tabPageMonitoring;
-        public System.Windows.Forms.Label label1;
         private System.Windows.Forms.TabPage tabPageInfo;
         public System.Windows.Forms.Label labelHardwareInfo;
         private System.Windows.Forms.TabPage tabPageMain;
