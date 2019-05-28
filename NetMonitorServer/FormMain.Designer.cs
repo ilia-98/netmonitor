@@ -35,13 +35,14 @@
             this.RestartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelTextStatus = new System.Windows.Forms.Label();
             this.labelServerStatus = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.pictureBoxScreenMain = new System.Windows.Forms.PictureBox();
-            this.tabControlMain = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.labelHardwareInfo = new System.Windows.Forms.Label();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.labelSelectedItem = new System.Windows.Forms.Label();
+            this.tabPageProcess = new System.Windows.Forms.TabPage();
+            this.listViewProcess = new System.Windows.Forms.ListView();
+            this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderCPU = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderRAM = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.panelFiles = new System.Windows.Forms.Panel();
             this.labelTextArgs = new System.Windows.Forms.Label();
@@ -55,17 +56,24 @@
             this.listBoxElements = new System.Windows.Forms.ListBox();
             this.buttonFilesGet = new System.Windows.Forms.Button();
             this.buttonFilesUpdate = new System.Windows.Forms.Button();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.labelSelectedItem = new System.Windows.Forms.Label();
+            this.tabPageMonitoring = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.tabPageInfo = new System.Windows.Forms.TabPage();
+            this.labelHardwareInfo = new System.Windows.Forms.Label();
+            this.tabPageMain = new System.Windows.Forms.TabPage();
             this.buttonStartControl = new System.Windows.Forms.Button();
+            this.pictureBoxScreenMain = new System.Windows.Forms.PictureBox();
+            this.tabControlMain = new System.Windows.Forms.TabControl();
+            this.buttonGetProcess = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxScreenMain)).BeginInit();
-            this.tabControlMain.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            this.tabPage3.SuspendLayout();
+            this.tabPageProcess.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.panelFiles.SuspendLayout();
+            this.tabPageMonitoring.SuspendLayout();
+            this.tabPageInfo.SuspendLayout();
+            this.tabPageMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxScreenMain)).BeginInit();
+            this.tabControlMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // listViewClients
@@ -122,78 +130,69 @@
             this.labelServerStatus.TabIndex = 6;
             this.labelServerStatus.Text = "OFLINE";
             // 
-            // label1
+            // timer1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label1.Location = new System.Drawing.Point(6, 4);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 20);
-            this.label1.TabIndex = 7;
+            this.timer1.Interval = 1300;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // pictureBoxScreenMain
+            // labelSelectedItem
             // 
-            this.pictureBoxScreenMain.Location = new System.Drawing.Point(36, 16);
-            this.pictureBoxScreenMain.Name = "pictureBoxScreenMain";
-            this.pictureBoxScreenMain.Size = new System.Drawing.Size(654, 339);
-            this.pictureBoxScreenMain.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBoxScreenMain.TabIndex = 10;
-            this.pictureBoxScreenMain.TabStop = false;
+            this.labelSelectedItem.AutoSize = true;
+            this.labelSelectedItem.Location = new System.Drawing.Point(9, 65);
+            this.labelSelectedItem.Name = "labelSelectedItem";
+            this.labelSelectedItem.Size = new System.Drawing.Size(49, 13);
+            this.labelSelectedItem.TabIndex = 12;
+            this.labelSelectedItem.Text = "Выбран:";
             // 
-            // tabControlMain
+            // tabPageProcess
             // 
-            this.tabControlMain.Controls.Add(this.tabPage1);
-            this.tabControlMain.Controls.Add(this.tabPage2);
-            this.tabControlMain.Controls.Add(this.tabPage3);
-            this.tabControlMain.Controls.Add(this.tabPage4);
-            this.tabControlMain.Location = new System.Drawing.Point(404, 27);
-            this.tabControlMain.Name = "tabControlMain";
-            this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(729, 428);
-            this.tabControlMain.TabIndex = 11;
+            this.tabPageProcess.Controls.Add(this.buttonGetProcess);
+            this.tabPageProcess.Controls.Add(this.listViewProcess);
+            this.tabPageProcess.Location = new System.Drawing.Point(4, 22);
+            this.tabPageProcess.Name = "tabPageProcess";
+            this.tabPageProcess.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageProcess.Size = new System.Drawing.Size(721, 402);
+            this.tabPageProcess.TabIndex = 4;
+            this.tabPageProcess.Text = "Процессы";
+            this.tabPageProcess.UseVisualStyleBackColor = true;
             // 
-            // tabPage1
+            // listViewProcess
             // 
-            this.tabPage1.Controls.Add(this.buttonStartControl);
-            this.tabPage1.Controls.Add(this.pictureBoxScreenMain);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(721, 402);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Экран";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.listViewProcess.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeaderName,
+            this.columnHeaderDescription,
+            this.columnHeaderCPU,
+            this.columnHeaderRAM});
+            this.listViewProcess.FullRowSelect = true;
+            this.listViewProcess.GridLines = true;
+            this.listViewProcess.Location = new System.Drawing.Point(6, 32);
+            this.listViewProcess.Name = "listViewProcess";
+            this.listViewProcess.Size = new System.Drawing.Size(709, 364);
+            this.listViewProcess.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.listViewProcess.TabIndex = 0;
+            this.listViewProcess.UseCompatibleStateImageBehavior = false;
+            this.listViewProcess.View = System.Windows.Forms.View.Details;
+            this.listViewProcess.SelectedIndexChanged += new System.EventHandler(this.ListViewProcess_SelectedIndexChanged);
             // 
-            // tabPage2
+            // columnHeaderName
             // 
-            this.tabPage2.Controls.Add(this.labelHardwareInfo);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(721, 402);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Информация";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.columnHeaderName.Text = "Название";
+            this.columnHeaderName.Width = 150;
             // 
-            // labelHardwareInfo
+            // columnHeaderDescription
             // 
-            this.labelHardwareInfo.AutoSize = true;
-            this.labelHardwareInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.labelHardwareInfo.Location = new System.Drawing.Point(7, 7);
-            this.labelHardwareInfo.Name = "labelHardwareInfo";
-            this.labelHardwareInfo.Size = new System.Drawing.Size(0, 20);
-            this.labelHardwareInfo.TabIndex = 0;
+            this.columnHeaderDescription.Text = "Описание";
+            this.columnHeaderDescription.Width = 150;
             // 
-            // tabPage3
+            // columnHeaderCPU
             // 
-            this.tabPage3.Controls.Add(this.label1);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(721, 402);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Нагрузка";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.columnHeaderCPU.Text = "CPU";
+            this.columnHeaderCPU.Width = 150;
+            // 
+            // columnHeaderRAM
+            // 
+            this.columnHeaderRAM.Text = "RAM";
+            this.columnHeaderRAM.Width = 150;
             // 
             // tabPage4
             // 
@@ -327,19 +326,57 @@
             this.buttonFilesUpdate.UseVisualStyleBackColor = true;
             this.buttonFilesUpdate.Click += new System.EventHandler(this.ButtonFilesUpdate_Click);
             // 
-            // timer1
+            // tabPageMonitoring
             // 
-            this.timer1.Interval = 1300;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.tabPageMonitoring.Controls.Add(this.label1);
+            this.tabPageMonitoring.Location = new System.Drawing.Point(4, 22);
+            this.tabPageMonitoring.Name = "tabPageMonitoring";
+            this.tabPageMonitoring.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageMonitoring.Size = new System.Drawing.Size(721, 402);
+            this.tabPageMonitoring.TabIndex = 2;
+            this.tabPageMonitoring.Text = "Нагрузка";
+            this.tabPageMonitoring.UseVisualStyleBackColor = true;
             // 
-            // labelSelectedItem
+            // label1
             // 
-            this.labelSelectedItem.AutoSize = true;
-            this.labelSelectedItem.Location = new System.Drawing.Point(9, 65);
-            this.labelSelectedItem.Name = "labelSelectedItem";
-            this.labelSelectedItem.Size = new System.Drawing.Size(49, 13);
-            this.labelSelectedItem.TabIndex = 12;
-            this.labelSelectedItem.Text = "Выбран:";
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.label1.Location = new System.Drawing.Point(6, 4);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(0, 20);
+            this.label1.TabIndex = 7;
+            // 
+            // tabPageInfo
+            // 
+            this.tabPageInfo.Controls.Add(this.labelHardwareInfo);
+            this.tabPageInfo.Location = new System.Drawing.Point(4, 22);
+            this.tabPageInfo.Name = "tabPageInfo";
+            this.tabPageInfo.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageInfo.Size = new System.Drawing.Size(721, 402);
+            this.tabPageInfo.TabIndex = 1;
+            this.tabPageInfo.Text = "Информация";
+            this.tabPageInfo.UseVisualStyleBackColor = true;
+            // 
+            // labelHardwareInfo
+            // 
+            this.labelHardwareInfo.AutoSize = true;
+            this.labelHardwareInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.labelHardwareInfo.Location = new System.Drawing.Point(7, 7);
+            this.labelHardwareInfo.Name = "labelHardwareInfo";
+            this.labelHardwareInfo.Size = new System.Drawing.Size(0, 20);
+            this.labelHardwareInfo.TabIndex = 0;
+            // 
+            // tabPageMain
+            // 
+            this.tabPageMain.Controls.Add(this.buttonStartControl);
+            this.tabPageMain.Controls.Add(this.pictureBoxScreenMain);
+            this.tabPageMain.Location = new System.Drawing.Point(4, 22);
+            this.tabPageMain.Name = "tabPageMain";
+            this.tabPageMain.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageMain.Size = new System.Drawing.Size(721, 402);
+            this.tabPageMain.TabIndex = 0;
+            this.tabPageMain.Text = "Экран";
+            this.tabPageMain.UseVisualStyleBackColor = true;
             // 
             // buttonStartControl
             // 
@@ -350,6 +387,38 @@
             this.buttonStartControl.Text = "Управление";
             this.buttonStartControl.UseVisualStyleBackColor = true;
             this.buttonStartControl.Click += new System.EventHandler(this.ButtonStartControl_Click);
+            // 
+            // pictureBoxScreenMain
+            // 
+            this.pictureBoxScreenMain.Location = new System.Drawing.Point(36, 16);
+            this.pictureBoxScreenMain.Name = "pictureBoxScreenMain";
+            this.pictureBoxScreenMain.Size = new System.Drawing.Size(654, 339);
+            this.pictureBoxScreenMain.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxScreenMain.TabIndex = 10;
+            this.pictureBoxScreenMain.TabStop = false;
+            // 
+            // tabControlMain
+            // 
+            this.tabControlMain.Controls.Add(this.tabPageMain);
+            this.tabControlMain.Controls.Add(this.tabPageInfo);
+            this.tabControlMain.Controls.Add(this.tabPageMonitoring);
+            this.tabControlMain.Controls.Add(this.tabPage4);
+            this.tabControlMain.Controls.Add(this.tabPageProcess);
+            this.tabControlMain.Location = new System.Drawing.Point(404, 27);
+            this.tabControlMain.Name = "tabControlMain";
+            this.tabControlMain.SelectedIndex = 0;
+            this.tabControlMain.Size = new System.Drawing.Size(729, 428);
+            this.tabControlMain.TabIndex = 11;
+            // 
+            // buttonGetProcess
+            // 
+            this.buttonGetProcess.Location = new System.Drawing.Point(6, 6);
+            this.buttonGetProcess.Name = "buttonGetProcess";
+            this.buttonGetProcess.Size = new System.Drawing.Size(75, 23);
+            this.buttonGetProcess.TabIndex = 1;
+            this.buttonGetProcess.Text = "Обновить";
+            this.buttonGetProcess.UseVisualStyleBackColor = true;
+            this.buttonGetProcess.Click += new System.EventHandler(this.ButtonGetProcess_Click);
             // 
             // FormMain
             // 
@@ -370,16 +439,17 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxScreenMain)).EndInit();
-            this.tabControlMain.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
+            this.tabPageProcess.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             this.panelFiles.ResumeLayout(false);
             this.panelFiles.PerformLayout();
+            this.tabPageMonitoring.ResumeLayout(false);
+            this.tabPageMonitoring.PerformLayout();
+            this.tabPageInfo.ResumeLayout(false);
+            this.tabPageInfo.PerformLayout();
+            this.tabPageMain.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxScreenMain)).EndInit();
+            this.tabControlMain.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -392,15 +462,9 @@
         private System.Windows.Forms.Label labelTextStatus;
         private System.Windows.Forms.Label labelServerStatus;
         private System.Windows.Forms.ToolStripMenuItem RestartToolStripMenuItem;
-        public System.Windows.Forms.Label label1;
-        public System.Windows.Forms.PictureBox pictureBoxScreenMain;
-        private System.Windows.Forms.TabControl tabControlMain;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label labelSelectedItem;
-        public System.Windows.Forms.Label labelHardwareInfo;
+        private System.Windows.Forms.TabPage tabPageProcess;
         private System.Windows.Forms.TabPage tabPage4;
         public System.Windows.Forms.Panel panelFiles;
         private System.Windows.Forms.Label labelTextArgs;
@@ -414,7 +478,20 @@
         public System.Windows.Forms.ListBox listBoxElements;
         private System.Windows.Forms.Button buttonFilesGet;
         private System.Windows.Forms.Button buttonFilesUpdate;
+        private System.Windows.Forms.TabPage tabPageMonitoring;
+        public System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TabPage tabPageInfo;
+        public System.Windows.Forms.Label labelHardwareInfo;
+        private System.Windows.Forms.TabPage tabPageMain;
         private System.Windows.Forms.Button buttonStartControl;
+        public System.Windows.Forms.PictureBox pictureBoxScreenMain;
+        private System.Windows.Forms.TabControl tabControlMain;
+        public System.Windows.Forms.ListView listViewProcess;
+        private System.Windows.Forms.ColumnHeader columnHeaderName;
+        private System.Windows.Forms.ColumnHeader columnHeaderDescription;
+        private System.Windows.Forms.ColumnHeader columnHeaderCPU;
+        private System.Windows.Forms.ColumnHeader columnHeaderRAM;
+        private System.Windows.Forms.Button buttonGetProcess;
     }
 }
 

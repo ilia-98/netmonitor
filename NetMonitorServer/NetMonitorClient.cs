@@ -117,9 +117,33 @@ namespace NetMonitorServer
             }));
         }
 
+        void Handler_Process_Info(Packet packet)
+        {
+            List<Dictionary<string, object>> keyValuePairs = (List<Dictionary<string, object>>)packet.Data;
+
+            List<ListViewItem> listToAdd = new List<ListViewItem>();
+
+            foreach (var item in keyValuePairs)
+            {
+                ListViewItem itemToAdd = new ListViewItem((item["Name"] != null) ? item["Name"].ToString() : "");
+
+                itemToAdd.SubItems.Add(new ListViewItem.ListViewSubItem(itemToAdd, (item["Description"] != null) ? item["Description"].ToString() : ""));
+                itemToAdd.SubItems.Add(new ListViewItem.ListViewSubItem(itemToAdd, (item["CPUUsage"] != null) ? item["CPUUsage"].ToString() : ""));
+                itemToAdd.SubItems.Add(new ListViewItem.ListViewSubItem(itemToAdd, (item["RAMUsage"] != null) ? item["RAMUsage"].ToString() : ""));
+
+                listToAdd.Add(itemToAdd);
+            }
+
+            form.listViewProcess.BeginInvoke((MethodInvoker)(delegate
+            {
+                form.listViewProcess.Items.Clear();
+                form.listViewProcess.Items.AddRange(listToAdd.ToArray());
+            }));
+        }
+
         protected override void OnMessage(MessageEventArgs e)
         {
-            while (client == null){ }
+            while (client == null) { }
             if (e.IsBinary)
             {
                 Packet packet = Packet.Deserialize(e.RawData);
@@ -129,85 +153,88 @@ namespace NetMonitorServer
                 }
                 else
                     switch (packet.Header)
-                {
-                    case "Monitor_Info":
-                        Handler_Monitor_Info(packet);
-                        break;
-                    case "Screenshot":
-                        Handler_Screenshot(packet);
-                        break;
-                    case "Hardware_Info":
-                        Handler_Hardware_Info(packet);
-                        break;
-                    case "Files/Update":
-                    case "Files/ElementsFromPath":
-                        {
-                            Dictionary<string, bool> elements = (Dictionary<string, bool>)packet.Data;
-
-                            string path = packet.Path;
-
-                            form.textBoxPath.BeginInvoke((MethodInvoker)(delegate
+                    {
+                        case "MonitorInfo":
+                            Handler_Monitor_Info(packet);
+                            break;
+                        case "Screenshot":
+                            Handler_Screenshot(packet);
+                            break;
+                        case "HardwareInfo":
+                            Handler_Hardware_Info(packet);
+                            break;
+                        case "ProcessInfo":
+                            Handler_Process_Info(packet);
+                            break;
+                        case "Files/Update":
+                        case "Files/ElementsFromPath":
                             {
-                                form.textBoxPath.Text = path;
-                            }));
+                                Dictionary<string, bool> elements = (Dictionary<string, bool>)packet.Data;
 
-                            form.listBoxElements.BeginInvoke((MethodInvoker)(delegate
-                            {
-                                form.listBoxElements.Items.Clear();
-                                if (path.Length > 3)
-                                    form.listBoxElements.Items.Add(new ExplorerTreeElement()
-                                    {
-                                        IsFolder = false,
-                                        IsRoot = true,
-                                        Name = "\\..",
-                                        Path = path
-                                    });
-                                foreach (var item in elements)
-                                    form.listBoxElements.Items.Add(new ExplorerTreeElement()
-                                    {
-                                        IsFolder = item.Value,
-                                        Name = item.Key,
-                                        Path = path
-                                    });
-                            }));
+                                string path = packet.Path;
 
-                            form.panelFiles.BeginInvoke((MethodInvoker)(delegate
+                                form.textBoxPath.BeginInvoke((MethodInvoker)(delegate
+                                {
+                                    form.textBoxPath.Text = path;
+                                }));
+
+                                form.listBoxElements.BeginInvoke((MethodInvoker)(delegate
+                                {
+                                    form.listBoxElements.Items.Clear();
+                                    if (path.Length > 3)
+                                        form.listBoxElements.Items.Add(new ExplorerTreeElement()
+                                        {
+                                            IsFolder = false,
+                                            IsRoot = true,
+                                            Name = "\\..",
+                                            Path = path
+                                        });
+                                    foreach (var item in elements)
+                                        form.listBoxElements.Items.Add(new ExplorerTreeElement()
+                                        {
+                                            IsFolder = item.Value,
+                                            Name = item.Key,
+                                            Path = path
+                                        });
+                                }));
+
+                                form.panelFiles.BeginInvoke((MethodInvoker)(delegate
+                                {
+                                    form.panelFiles.Enabled = true;
+                                }));
+                            }
+                            break;
+                        case "Files/RunFileOnPathResult":
                             {
-                                form.panelFiles.Enabled = true;
-                            }));
-                        }
-                        break;
-                    case "Files/RunFileOnPathResult":
-                        {
-                            MessageBox.Show("Файл успешно запущен");
-                        }
-                        break;
-                    case "Files/UploadFileResult":
-                        {
-                            MessageBox.Show("Файл успешно загружен");
-                        }
-                        break;
+                                MessageBox.Show("Файл успешно запущен");
+                            }
+                            break;
+                        case "Files/UploadFileResult":
+                            {
+                                MessageBox.Show("Файл успешно загружен");
+                            }
+                            break;
                         case "Files/GetFileResult":
-                        {
-                            try
                             {
-                                File.WriteAllBytes(packet.Path, (byte[])packet.Data);
-                                MessageBox.Show("Файл успешно сохранен по пути: " + packet.Path);
-                            }
-                            catch (Exception exp)
-                            {
-                                MessageBox.Show(exp.Message);
-                            }
+                                try
+                                {
+                                    File.WriteAllBytes(packet.Path, (byte[])packet.Data);
+                                    MessageBox.Show("Файл успешно сохранен по пути: " + packet.Path);
+                                }
+                                catch (Exception exp)
+                                {
+                                    MessageBox.Show(exp.Message);
+                                }
 
-                        }
-                        break;
+                            }
+                            break;
                         case "Notify/CriticalTemp":
                             //smtpClient.Send(new MailMessage("netmonitor.client@gmail.com", EmailTo, "Warning", (string)packet.Data));
                             break;
                         default:
-                        Console.WriteLine(ClientIP + " Error Packet: " + packet.Header);
-                        break;
-                }
+                            Console.WriteLine(ClientIP + " Error Packet: " + packet.Header);
+                            break;
+                    }
                 return;
             }
         }
