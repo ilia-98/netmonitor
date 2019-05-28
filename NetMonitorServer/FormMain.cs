@@ -344,5 +344,9 @@ namespace NetMonitorServer
 
         }
 
+        private void TabPageMonitoring_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -12,7 +12,7 @@ using WebSocketSharp.Server;
 
 namespace NetMonitorServer.RemoteControl
 {
-    public class RemoteControlClient : WebSocketBehavior
+    public class RemoteControlClient : WebSocketBehavior , IDisposable
     {
         public FormMain FormMain { get; set; }
         public static FormRemoteControl FormControl { get; set; } = null;
@@ -26,6 +26,11 @@ namespace NetMonitorServer.RemoteControl
         public RemoteControlClient(FormMain _formMain)
         {
             FormMain = _formMain;
+        }
+
+        ~RemoteControlClient()
+        {
+
         }
 
         protected void SetScreenResolution(Packet packet)
@@ -79,11 +84,23 @@ namespace NetMonitorServer.RemoteControl
         protected override void OnError(ErrorEventArgs e)
         {
             formThread.Abort();
+            this.Dispose();
+        }
+
+        protected override void OnClose(CloseEventArgs e)
+        {
+            formThread.Abort();
+            this.Dispose();
         }
 
         public void SendPacket(Packet packet)
         {
             Send(packet);
+        }
+
+        public void Dispose()
+        {
+            
         }
     }
 }
