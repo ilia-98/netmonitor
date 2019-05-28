@@ -124,5 +124,6 @@
   <ItemGroup>
     <None Include="Resources\icons8-system-information-100.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
