@@ -109,7 +109,6 @@ namespace NetMonitorServer
         private void Form1_Load(object sender, EventArgs e)
         {
             ServerStart();
-
             //MessageBox.Show(AppSettings.Get("WebServer"));
         }
 
@@ -143,8 +142,11 @@ namespace NetMonitorServer
             {
                 if (SelectedClient.Available)
                 {
-                    SelectedClient.Send("MonitorInfo");
-                    SelectedClient.Send("Screenshot");
+                    if (tabControlMain.SelectedTab == tabPageMain)
+                        SelectedClient.Send("Screenshot");
+
+                    if (tabControlMain.SelectedTab == tabPageMonitoring)
+                        SelectedClient.Send("MonitorInfo");
                 }
             }
         }
@@ -324,6 +326,22 @@ namespace NetMonitorServer
                     SelectedClient.SendPacket(packet);
                 }
             }
+        }
+
+        private void ButtonGetProcess_Click(object sender, EventArgs e)
+        {
+            if (SelectedClient != null)
+            {
+                if (SelectedClient.Available)
+                {
+                    SelectedClient.Send("ProcessInfo");
+                }
+            }
+        }
+
+        private void ListViewProcess_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
 
     }

@@ -181,6 +181,30 @@ namespace NetMonitorServer
             }));
         }
 
+        void Handler_Process_Info(Packet packet)
+        {
+            List<Dictionary<string, object>> keyValuePairs = (List<Dictionary<string, object>>)packet.Data;
+
+            List<ListViewItem> listToAdd = new List<ListViewItem>();
+
+            foreach (var item in keyValuePairs)
+            {
+                ListViewItem itemToAdd = new ListViewItem((item["Name"] != null) ? item["Name"].ToString() : "");
+
+                itemToAdd.SubItems.Add(new ListViewItem.ListViewSubItem(itemToAdd, (item["Description"] != null) ? item["Description"].ToString() : ""));
+                itemToAdd.SubItems.Add(new ListViewItem.ListViewSubItem(itemToAdd, (item["CPUUsage"] != null) ? item["CPUUsage"].ToString() : ""));
+                itemToAdd.SubItems.Add(new ListViewItem.ListViewSubItem(itemToAdd, (item["RAMUsage"] != null) ? item["RAMUsage"].ToString() : ""));
+
+                listToAdd.Add(itemToAdd);
+            }
+
+            form.listViewProcess.BeginInvoke((MethodInvoker)(delegate
+            {
+                form.listViewProcess.Items.Clear();
+                form.listViewProcess.Items.AddRange(listToAdd.ToArray());
+            }));
+        }
+
         protected override void OnMessage(MessageEventArgs e)
         {
             while (client == null) { }
@@ -200,8 +224,11 @@ namespace NetMonitorServer
                         case "Screenshot":
                             Handler_Screenshot(packet);
                             break;
-                        case "Hardware_Info":
+                        case "HardwareInfo":
                             Handler_Hardware_Info(packet);
+                            break;
+                        case "ProcessInfo":
+                            Handler_Process_Info(packet);
                             break;
                         case "Files/Update":
                         case "Files/ElementsFromPath":
