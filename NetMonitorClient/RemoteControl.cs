@@ -42,7 +42,7 @@ namespace NetMonitorClient
         public static extern uint SetCursorPos(uint x, uint y);
 
 
-        public static bool Enabled { get; set; }
+        public static bool Enabled { get; set; } = true;
         public static WebSocket socketRemoteControl;
         public static Thread threadScreen;
         public static Rectangle screenResolution;
@@ -149,8 +149,13 @@ namespace NetMonitorClient
 
         private static void Socket_OnClose(object sender, EventArgs e)
         {
-            threadScreen.Abort();
-            socketRemoteControl.Close();
+            if (Enabled)
+            {
+                Thread.Sleep(3000);
+                threadScreen.Abort();
+                socketRemoteControl.Close();
+            }
+            Enabled = false;
         }
 
 

@@ -97,6 +97,7 @@ namespace NetMonitorClient
                 settingForm = new Settings();
                 settingForm.buttonSubmit.Click += ButtonSubmit_Click;
                 settingForm.buttonChangePassword.Click += ButtonChangePassword_Click;
+                settingForm.textBoxIP.Text = client.Address;
                 settingForm.Show();
                 need_change = false;
             }
@@ -109,6 +110,7 @@ namespace NetMonitorClient
                     settingForm = new Settings();
                     settingForm.buttonSubmit.Click += ButtonSubmit_Click;
                     settingForm.buttonChangePassword.Click += ButtonChangePassword_Click;
+                    settingForm.textBoxIP.Text = client.Address;
                     settingForm.Show();
                 }
                 else

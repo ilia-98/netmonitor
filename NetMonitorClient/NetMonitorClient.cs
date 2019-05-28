@@ -37,8 +37,8 @@ namespace NetMonitorClient
         Thread monitorThread;
         Thread processThread;
 
-
-        public string Address { get; set; } =  "127.0.0.1";
+        public string[] Addresses { get; } = { "127.0.0.1", "192.168.43.9", "192.168.1.10" };
+        public string Address { get; set; } = "192.168.43.9";
         public static NotifyIcon NotifyIcon { get; set; }
         public static int Port { get; set; } = 1348;
         public static bool Enabled { get; set; } = true;
@@ -67,12 +67,14 @@ namespace NetMonitorClient
         {
             ProcessStartInfo psi = new ProcessStartInfo("cmd", @"lodctr/r");
             Process.Start(psi);
+
             socket = new WebSocket("ws://" + Address + ":" + Port + "/NetMonitorSocketService/Main");
             MonitoringUtils.UpdateSensors();
             socket.OnClose += Socket_OnClose;
             socket.OnMessage += Socket_OnMessage;
             socket.OnOpen += Socket_OnOpen;
             socket.Connect();
+
             monitorThread = new Thread(() => MonitoringUtils.Monitoring(socket, CriticalTemperature));
             monitorThread.Start();
             processThread = new Thread(() => MonitoringUtils.GetProcesses());
