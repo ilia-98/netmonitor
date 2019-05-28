@@ -41,11 +41,14 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.labelSelectedItem = new System.Windows.Forms.Label();
             this.tabPageProcess = new System.Windows.Forms.TabPage();
+            this.buttonGetProcess = new System.Windows.Forms.Button();
             this.listViewProcess = new System.Windows.Forms.ListView();
             this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderCPU = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderRAM = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.buttonStartControl = new System.Windows.Forms.Button();
+            this.chartMonitor = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.panelFiles = new System.Windows.Forms.Panel();
             this.labelTextArgs = new System.Windows.Forms.Label();
@@ -64,12 +67,11 @@
             this.tabPageInfo = new System.Windows.Forms.TabPage();
             this.labelHardwareInfo = new System.Windows.Forms.Label();
             this.tabPageMain = new System.Windows.Forms.TabPage();
-            this.buttonStartControl = new System.Windows.Forms.Button();
             this.pictureBoxScreenMain = new System.Windows.Forms.PictureBox();
             this.tabControlMain = new System.Windows.Forms.TabControl();
-            this.buttonGetProcess = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.tabPageProcess.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartMonitor)).BeginInit();
             this.tabPage4.SuspendLayout();
             this.panelFiles.SuspendLayout();
             this.tabPageMonitoring.SuspendLayout();
@@ -159,6 +161,16 @@
             this.tabPageProcess.Text = "Процессы";
             this.tabPageProcess.UseVisualStyleBackColor = true;
             // 
+            // buttonGetProcess
+            // 
+            this.buttonGetProcess.Location = new System.Drawing.Point(6, 6);
+            this.buttonGetProcess.Name = "buttonGetProcess";
+            this.buttonGetProcess.Size = new System.Drawing.Size(75, 23);
+            this.buttonGetProcess.TabIndex = 1;
+            this.buttonGetProcess.Text = "Обновить";
+            this.buttonGetProcess.UseVisualStyleBackColor = true;
+            this.buttonGetProcess.Click += new System.EventHandler(this.ButtonGetProcess_Click);
+            // 
             // listViewProcess
             // 
             this.listViewProcess.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -197,6 +209,16 @@
             this.columnHeaderRAM.Text = "RAM";
             this.columnHeaderRAM.Width = 150;
             // 
+            // buttonStartControl
+            // 
+            this.buttonStartControl.Location = new System.Drawing.Point(329, 361);
+            this.buttonStartControl.Name = "buttonStartControl";
+            this.buttonStartControl.Size = new System.Drawing.Size(97, 35);
+            this.buttonStartControl.TabIndex = 11;
+            this.buttonStartControl.Text = "Управление";
+            this.buttonStartControl.UseVisualStyleBackColor = true;
+            this.buttonStartControl.Click += new System.EventHandler(this.ButtonStartControl_Click);
+            // 
             // chartMonitor
             // 
             chartArea1.AxisY.Maximum = 100D;
@@ -209,7 +231,7 @@
             this.chartMonitor.ChartAreas.Add(chartArea2);
             legend1.Name = "Legend";
             this.chartMonitor.Legends.Add(legend1);
-            this.chartMonitor.Location = new System.Drawing.Point(10, 96);
+            this.chartMonitor.Location = new System.Drawing.Point(95, 81);
             this.chartMonitor.Name = "chartMonitor";
             this.chartMonitor.Size = new System.Drawing.Size(581, 300);
             this.chartMonitor.TabIndex = 8;
@@ -350,6 +372,7 @@
             // tabPageMonitoring
             // 
             this.tabPageMonitoring.Controls.Add(this.label1);
+            this.tabPageMonitoring.Controls.Add(this.chartMonitor);
             this.tabPageMonitoring.Location = new System.Drawing.Point(4, 22);
             this.tabPageMonitoring.Name = "tabPageMonitoring";
             this.tabPageMonitoring.Padding = new System.Windows.Forms.Padding(3);
@@ -399,16 +422,6 @@
             this.tabPageMain.Text = "Экран";
             this.tabPageMain.UseVisualStyleBackColor = true;
             // 
-            // buttonStartControl
-            // 
-            this.buttonStartControl.Location = new System.Drawing.Point(329, 361);
-            this.buttonStartControl.Name = "buttonStartControl";
-            this.buttonStartControl.Size = new System.Drawing.Size(97, 35);
-            this.buttonStartControl.TabIndex = 11;
-            this.buttonStartControl.Text = "Управление";
-            this.buttonStartControl.UseVisualStyleBackColor = true;
-            this.buttonStartControl.Click += new System.EventHandler(this.ButtonStartControl_Click);
-            // 
             // pictureBoxScreenMain
             // 
             this.pictureBoxScreenMain.Location = new System.Drawing.Point(36, 16);
@@ -431,16 +444,6 @@
             this.tabControlMain.Size = new System.Drawing.Size(729, 428);
             this.tabControlMain.TabIndex = 11;
             // 
-            // buttonGetProcess
-            // 
-            this.buttonGetProcess.Location = new System.Drawing.Point(6, 6);
-            this.buttonGetProcess.Name = "buttonGetProcess";
-            this.buttonGetProcess.Size = new System.Drawing.Size(75, 23);
-            this.buttonGetProcess.TabIndex = 1;
-            this.buttonGetProcess.Text = "Обновить";
-            this.buttonGetProcess.UseVisualStyleBackColor = true;
-            this.buttonGetProcess.Click += new System.EventHandler(this.ButtonGetProcess_Click);
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -461,6 +464,7 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.tabPageProcess.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chartMonitor)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.panelFiles.ResumeLayout(false);
             this.panelFiles.PerformLayout();
@@ -513,6 +517,7 @@
         private System.Windows.Forms.ColumnHeader columnHeaderCPU;
         private System.Windows.Forms.ColumnHeader columnHeaderRAM;
         private System.Windows.Forms.Button buttonGetProcess;
+        public System.Windows.Forms.DataVisualization.Charting.Chart chartMonitor;
     }
 }
 
