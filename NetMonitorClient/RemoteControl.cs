@@ -55,7 +55,6 @@ namespace NetMonitorClient
             socketRemoteControl.OnOpen += Socket_OnOpen;
             socketRemoteControl.OnError += Socket_OnClose;
             socketRemoteControl.Connect();
-
         }
 
 
@@ -126,7 +125,6 @@ namespace NetMonitorClient
         {
             Enabled = false;
             threadScreen.Abort();
-            socketRemoteControl.Close();
         }
 
         private static void Socket_OnOpen(object sender, EventArgs e)
