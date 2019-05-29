@@ -14,7 +14,7 @@ namespace NetMonitorServer.RemoteControl
 {
     public class RemoteControlClient : WebSocketBehavior , IDisposable
     {
-        public FormMain FormMain { get; set; }
+        public FormMain formMain { get; set; }
         public static FormRemoteControl FormControl { get; set; } = null;
 
         public int ScreenHeight = -1;
@@ -25,12 +25,13 @@ namespace NetMonitorServer.RemoteControl
 
         public RemoteControlClient(FormMain _formMain)
         {
-            FormMain = _formMain;
+            formMain = _formMain;
+            formMain.remoteControlClient = this;
         }
 
         ~RemoteControlClient()
         {
-
+            
         }
 
         protected void SetScreenResolution(Packet packet)
@@ -83,13 +84,23 @@ namespace NetMonitorServer.RemoteControl
 
         protected override void OnError(ErrorEventArgs e)
         {
-            formThread.Abort();
+            try
+            {
+                formThread.Abort();
+            }
+            catch
+            { }
             this.Dispose();
         }
 
         protected override void OnClose(CloseEventArgs e)
         {
-            formThread.Abort();
+            try
+            {
+                formThread.Abort();
+            }
+            catch
+            { }
             this.Dispose();
         }
 
@@ -100,7 +111,7 @@ namespace NetMonitorServer.RemoteControl
 
         public void Dispose()
         {
-            
+            formMain.remoteControlClient = null;
         }
     }
 }
