@@ -11,6 +11,8 @@ using System.Net.Mail;
 using System.Windows.Forms;
 using WebSocketSharp.Server;
 using System.Runtime.InteropServices;
+using MongoDB.Bson;
+using NetMonitorServer.Addons;
 
 namespace NetMonitorServer
 {
@@ -25,7 +27,7 @@ namespace NetMonitorServer
 
         MongoClient mongoClient = null;
         IMongoDatabase database = null;
-        public IMongoCollection<Client> clientDBCollection = null;
+        public IMongoCollection<ClientDB> clientDBCollection = null;
 
         public Client SelectedClient
         {
@@ -73,7 +75,7 @@ namespace NetMonitorServer
             string connectionString = "mongodb://localhost:27017";
             mongoClient = new MongoClient(connectionString);
             database = mongoClient.GetDatabase("netmonitordb");
-            clientDBCollection = database.GetCollection<Client>("clients");
+            clientDBCollection = database.GetCollection<ClientDB>("clients");
 
             smtpClient = new SmtpClient("smtp.gmail.com", 587);
             smtpClient.UseDefaultCredentials = false;
@@ -344,5 +346,9 @@ namespace NetMonitorServer
 
         }
 
+        private void TabPageMonitoring_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
