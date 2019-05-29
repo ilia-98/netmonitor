@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
 using NetMonitor;
+using NetMonitorServer.Addons;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -58,9 +59,8 @@ namespace NetMonitorServer
                     form.listViewClients.Items.Add(client);
                 }
 
-                var filter = new BsonDocument("MAC", ClientMAC);
-                UpdateDefinition<Client> ToUpdate = client.ToBsonDocument();
-                //form.clientDBCollection.UpdateOne(filter, ToUpdate, new UpdateOptions() { IsUpsert = true });
+                ClientDB clientDB = client;
+                form.clientDBCollection.UpdateOne(clientDB.GetFilter(), clientDB.GetUpdate(), new UpdateOptions() { IsUpsert = true });
             }));
         }
 
@@ -175,9 +175,8 @@ namespace NetMonitorServer
 
             form.listViewClients.BeginInvoke((MethodInvoker)(delegate
             {
-                var filter = new BsonDocument("MAC", ClientMAC);
-                UpdateDefinition<Client> ToUpdate = client.ToBsonDocument();
-                //form.clientDBCollection.UpdateOne(filter, ToUpdate, new UpdateOptions() { IsUpsert = true });
+                ClientDB clientDB = client;
+                form.clientDBCollection.UpdateOne(clientDB.GetFilter(), clientDB.GetUpdate(), new UpdateOptions() { IsUpsert = true });
             }));
         }
 
