@@ -24,7 +24,7 @@ public static class Util
         }
         else
         {
-            return "not found";
+            return "localhost";
         }
     }
 }

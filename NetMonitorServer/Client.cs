@@ -47,6 +47,8 @@ namespace NetMonitorServer
         {
             this.IP = IP;
             this.MAC = MAC;
+            base.Text = this.MAC;
+            Available = false;
         }
 
         public Client(NetMonitorClient socket)
@@ -56,6 +58,7 @@ namespace NetMonitorServer
             this.IP = socket.Context.UserEndPoint.Address.ToString();
             this.MAC = Util.GetMacAddress(IP).ToUpper();
             base.Text = this.MAC;
+            Available = false;
         }
 
         public void GetElementsFromPath(string path)

@@ -9,15 +9,19 @@ using System.Threading.Tasks;
 
 namespace NetMonitorServer.Addons
 {
+    [BsonIgnoreExtraElements]
     public class ClientDB
     {
+
         [BsonIgnoreIfNull]
         public string IP { get; set; } = null;
 
+        [BsonId]
+        [BsonIgnoreIfNull]
+        public string MAC { get; set; } = null;
+
         [BsonIgnoreIfNull]
         public Dictionary<string, string> HardwareInfo = null;
-
-        public string MAC { get; set; }
 
         public BsonDocument GetUpdate()
         {
@@ -30,6 +34,15 @@ namespace NetMonitorServer.Addons
         {
             var filter = new BsonDocument("MAC", this.MAC);
             return filter.ToBsonDocument();
+        }
+
+        public Client GetClient()
+        {
+            Client client = new Client(IP, MAC)
+            {
+                HardwareInfo = HardwareInfo,
+            };
+            return client;
         }
 
         public static implicit operator ClientDB(Client client)

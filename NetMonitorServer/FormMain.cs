@@ -13,6 +13,7 @@ using WebSocketSharp.Server;
 using System.Runtime.InteropServices;
 using MongoDB.Bson;
 using NetMonitorServer.Addons;
+using NetMonitorServer.RemoteControl;
 
 namespace NetMonitorServer
 {
@@ -28,6 +29,8 @@ namespace NetMonitorServer
         MongoClient mongoClient = null;
         IMongoDatabase database = null;
         public IMongoCollection<ClientDB> clientDBCollection = null;
+
+        public RemoteControlClient remoteControlClient = null;
 
         public Client SelectedClient
         {
@@ -72,11 +75,6 @@ namespace NetMonitorServer
 
         public void ServerStart()
         {
-            string connectionString = "mongodb://localhost:27017";
-            mongoClient = new MongoClient(connectionString);
-            database = mongoClient.GetDatabase("netmonitordb");
-            clientDBCollection = database.GetCollection<ClientDB>("clients");
-
             smtpClient = new SmtpClient("smtp.gmail.com", 587);
             smtpClient.UseDefaultCredentials = false;
             smtpClient.Credentials = new NetworkCredential("netmonitor.client@gmail.com", "1w3r5y7UIO");
@@ -102,6 +100,19 @@ namespace NetMonitorServer
         public FormMain()
         {
             InitializeComponent();
+
+
+            string connectionString = "mongodb://localhost:27017";
+            mongoClient = new MongoClient(connectionString);
+            database = mongoClient.GetDatabase("netmonitordb");
+            clientDBCollection = database.GetCollection<ClientDB>("clients");
+            var clientDBs = clientDBCollection.Find(Builders<ClientDB>.Filter.Empty).ToList();
+
+            foreach (var item in clientDBs)
+            {
+                listViewClients.Items.Add(item.GetClient());
+            }
+
             ImageList imageList = new ImageList();
             imageList.Images.Add(Properties.Resources.Circle_Red);
             imageList.Images.Add(Properties.Resources.Circle_Green);
@@ -320,12 +331,19 @@ namespace NetMonitorServer
             {
                 if (SelectedClient.Available)
                 {
-                    var packet = new Packet()
+                    if (remoteControlClient == null)
                     {
-                        Header = "RemoteControl"
-                    };
+                        var packet = new Packet()
+                        {
+                            Header = "RemoteControl"
+                        };
 
-                    SelectedClient.SendPacket(packet);
+                        SelectedClient.SendPacket(packet);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Управление уже идет");
+                    }
                 }
             }
         }
