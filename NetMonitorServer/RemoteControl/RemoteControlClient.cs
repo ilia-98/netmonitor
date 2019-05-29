@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,9 +24,37 @@ namespace NetMonitorServer.RemoteControl
         public int ScreenWidth = -1;
 
         Thread formThread;
+        Thread screenThread;
+
+        UdpClient udpClientForScreenShare = null;
+
+        public static Bitmap BytesToBitmap(byte[] byteArray)
+        {
+
+            using (System.IO.MemoryStream ms = new System.IO.MemoryStream(byteArray))
+            {
+                Bitmap img = (Bitmap)Image.FromStream(ms);
+                return img;
+            }
+
+        }
 
         public RemoteControlClient(FormMain _formMain)
         {
+            udpClientForScreenShare = new UdpClient(1350);
+            screenThread = new Thread(() => {
+                try
+                {
+                    IPEndPoint ip = null;
+                    var bytes = udpClientForScreenShare.Receive(ref ip);
+                    FormControl.pictureBoxScreen.BeginInvoke((MethodInvoker)(delegate
+                    {
+                        FormControl.pictureBoxScreen.Image = BytesToBitmap(bytes);
+                    }));
+                }
+                catch { }
+            });
+
             formMain = _formMain;
             formMain.remoteControlClient = this;
         }
