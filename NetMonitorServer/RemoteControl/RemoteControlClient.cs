@@ -166,6 +166,10 @@ namespace NetMonitorServer.RemoteControl
 
         public void Dispose()
         {
+            SendPacket(new Packet()
+            {
+                Header = "RemoteControl/Stop"
+            });
             formMain.remoteControlClient = null;
             screenThread.Abort();
             tcpListenerForScreenShare.Stop();
