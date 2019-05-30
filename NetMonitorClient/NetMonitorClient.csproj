@@ -43,6 +43,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
     <Reference Include="System.Security" />
@@ -58,13 +59,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileUtils.cs" />
-    <Compile Include="MonitoringUtils.cs" />
+    <Compile Include="Utils\FileUtils.cs" />
+    <Compile Include="Utils\MonitoringUtils.cs" />
     <Compile Include="NetMonitorClient.cs" />
-    <Compile Include="Password.cs">
+    <Compile Include="Forms\Password.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Password.Designer.cs">
+    <Compile Include="Forms\Password.Designer.cs">
       <DependentUpon>Password.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -75,10 +76,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RemoteControl.cs" />
-    <Compile Include="Settings.cs">
+    <Compile Include="Forms\Settings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Settings.Designer.cs">
+    <Compile Include="Forms\Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -92,14 +93,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Password.resx">
+    <EmbeddedResource Include="Forms\Password.resx">
       <DependentUpon>Password.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Settings.resx">
+    <EmbeddedResource Include="Forms\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
@@ -107,7 +108,7 @@
     <None Include="Resources\icon.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Main.ico" />
+    <None Include="Resources\Main.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icons8-system-information-100.png" />

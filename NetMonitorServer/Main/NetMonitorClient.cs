@@ -59,8 +59,11 @@ namespace NetMonitorServer
                     form.listViewClients.Items.Add(client);
                 }
 
-                ClientDB clientDB = client;
-                form.clientDBCollection.UpdateOne(clientDB.GetFilter(), clientDB.GetUpdate(), new UpdateOptions() { IsUpsert = true });
+                if (form.StatusDBServer)
+                {
+                    ClientDB clientDB = client;
+                    form.clientDBCollection.UpdateOne(clientDB.GetFilter(), clientDB.GetUpdate(), new UpdateOptions() { IsUpsert = true });
+                }
             }));
         }
 
@@ -173,11 +176,12 @@ namespace NetMonitorServer
             client.ScreenWidth = int.Parse(resolution[0]);
             client.ScreenHeight = int.Parse(resolution[1]);
 
-            form.listViewClients.BeginInvoke((MethodInvoker)(delegate
-            {
-                ClientDB clientDB = client;
-                form.clientDBCollection.UpdateOne(clientDB.GetFilter(), clientDB.GetUpdate(), new UpdateOptions() { IsUpsert = true });
-            }));
+            if (form.StatusDBServer)
+                form.listViewClients.BeginInvoke((MethodInvoker)(delegate
+                {
+                    ClientDB clientDB = client;
+                    form.clientDBCollection.UpdateOne(clientDB.GetFilter(), clientDB.GetUpdate(), new UpdateOptions() { IsUpsert = true });
+                }));
         }
 
         void Handler_Process_Info(Packet packet)
