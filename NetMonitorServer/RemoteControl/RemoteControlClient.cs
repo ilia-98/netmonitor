@@ -31,7 +31,7 @@ namespace NetMonitorServer.RemoteControl
         public RemoteControlClient(FormMain _formMain)
         {
             screenThread = new Thread(() => {
-                tcpListenerForScreenShare = new TcpListener(1350);
+                tcpListenerForScreenShare = new TcpListener(IPAddress.Any, 1350);
                 tcpListenerForScreenShare.Start();
                 var client = tcpListenerForScreenShare.AcceptTcpClient();
                 var stream = client.GetStream();

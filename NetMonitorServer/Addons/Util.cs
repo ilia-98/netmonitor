@@ -2,6 +2,21 @@
 
 public static class Util
 {
+    public static string GetMachineNameFromIPAddress(string ipAdress)
+    {
+        string machineName = string.Empty;
+        try
+        {
+            System.Net.IPHostEntry hostEntry = System.Net.Dns.GetHostEntry(ipAdress);
+            machineName = hostEntry.HostName;
+        }
+        catch (Exception ex)
+        {
+            //log here
+        }
+        return machineName;
+    }
+
     public static string GetMacAddress(string ipAddress)
     {
         string macAddress = string.Empty;

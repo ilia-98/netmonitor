@@ -89,16 +89,12 @@ namespace NetMonitorServer
                 if (value == null)
                 {
                     labelSelectedItem.Text = "Выбран: " + "none";
+                    tabControlMain.Enabled = false;
                 }
                 else
                 {
-                    labelHardwareInfo.Text = "";
-
-                    if (value.HardwareInfo != null)
-                        foreach (var item in value.HardwareInfo)
-                            labelHardwareInfo.Text += item.Key + ": " + item.Value + "\n";
-
-                    labelSelectedItem.Text = "Выбран: " + value.MAC;
+                    labelSelectedItem.Text = "Выбран: " + value.ToString();
+                    tabControlMain.Enabled = true;
                 }
 
                 _selectedClient = value;
@@ -147,8 +143,16 @@ namespace NetMonitorServer
         {
             InitializeComponent();
 
-            string connectionString = "mongodb://localhost:27017";
+            ImageList imageList = new ImageList();
+            imageList.Images.Add(Properties.Resources.Circle_Red);
+            imageList.Images.Add(Properties.Resources.Circle_Green);
+            imageList.Images.Add(Properties.Resources.Circle_Blue);
+            listViewClients.SmallImageList = imageList;
+        }
 
+        public void InitializeDB()
+        {
+            string connectionString = "mongodb://localhost:27017";
             mongoClient = new MongoClient(connectionString);
             database = mongoClient.GetDatabase("netmonitordb");
             if (StatusDBServer)
@@ -158,16 +162,13 @@ namespace NetMonitorServer
                 foreach (var item in clientDBs)
                     listViewClients.Items.Add(item.GetClient());
             }
-
-            ImageList imageList = new ImageList();
-            imageList.Images.Add(Properties.Resources.Circle_Red);
-            imageList.Images.Add(Properties.Resources.Circle_Green);
-            listViewClients.SmallImageList = imageList;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            InitializeDB();
             ServerStart();
+            SelectedClient = null;
             //MessageBox.Show(AppSettings.Get("WebServer"));
         }
 
@@ -176,7 +177,6 @@ namespace NetMonitorServer
             if (listViewClients.SelectedItems.Count != 1)
             {
                 SelectedClient = null;
-                tabControlMain.Enabled = false;
                 panelFiles.Enabled = false;
                 return;
             }
@@ -410,11 +410,6 @@ namespace NetMonitorServer
 
         }
 
-        private void TabPageMonitoring_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void Button1_Click(object sender, EventArgs e)
         {
             if (SelectedClient != null)
@@ -433,6 +428,17 @@ namespace NetMonitorServer
                     };
                     SelectedClient.SendPacket(packet);
                 }
+            }
+        }
+
+        private void TabControlMain_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControlMain.SelectedTab == tabPageInfo)
+            {
+                if(SelectedClient != null)
+                    if (SelectedClient.HardwareInfo != null)
+                        foreach (var item in SelectedClient.HardwareInfo)
+                            labelHardwareInfo.Text += item.Key + ": " + item.Value + "\n";
             }
         }
     }
