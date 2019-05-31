@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -47,8 +49,12 @@ namespace NetMonitorClient
         public static Thread threadScreen;
         public static Rectangle screenResolution;
 
+        public static string Address = null;
+
         public RemoteControl(string address, int port)
         {
+            Address = address;
+
             socketRemoteControl = new WebSocket("ws://" + address + ":" + port + "/NetMonitorSocketService/RemoteControl");
             socketRemoteControl.OnClose += Socket_OnClose;
             socketRemoteControl.OnMessage += Socket_OnMessage;
@@ -90,21 +96,33 @@ namespace NetMonitorClient
             return bmp;
         }
 
-
         public static void SendScreen()
         {
+
+            TcpClient udpClient = new TcpClient();
+            udpClient.Connect(Address, 1350);
+            NetworkStream netStream = udpClient.GetStream();
             while (Enabled)
             {
-                try
-                {
-                    //Bitmap printscreen = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-                    //Graphics graphics = Graphics.FromImage(printscreen);
-                    //graphics.CopyFromScreen(0, 0, 0, 0, printscreen.Size);
-                    socketRemoteControl.Send(new Packet() { Header = "RemoteControl/Screen", Data = GetScreen() });
 
-                }
-                catch { socketRemoteControl.Close(); }
+                //Bitmap printscreen = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+                //Graphics graphics = Graphics.FromImage(printscreen);
+                //graphics.CopyFromScreen(0, 0, 0, 0, printscreen.Size);
+
+                MemoryStream ms = new MemoryStream();
+                GetScreen().Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] bmpBytes = ms.ToArray();
+                ms.Close();
+
+                netStream.Write(BitConverter.GetBytes(bmpBytes.Length), 0, BitConverter.GetBytes(bmpBytes.Length).Length);
+                netStream.Write(bmpBytes, 0, bmpBytes.Length);
+
+                //socketRemoteControl.Send(new Packet() { Header = "RemoteControl/Screen", Data = GetScreen() });
+
+                //socketRemoteControl.Close();
+
             }
+
         }
 
         public static void PressLeftMouse(Packet packet)

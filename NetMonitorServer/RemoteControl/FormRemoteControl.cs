@@ -68,7 +68,12 @@ namespace NetMonitorServer
 
         private void FormRemoteControl_FormClosing(object sender, FormClosingEventArgs e)
         {
-            CLIENT.SendPacket(new Packet() { Header = "RemoteControl/Stop" });
+            CLIENT.Dispose();
+        }
+
+        private void PictureBoxScreen_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

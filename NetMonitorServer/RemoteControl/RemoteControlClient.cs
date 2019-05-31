@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,9 +24,70 @@ namespace NetMonitorServer.RemoteControl
         public int ScreenWidth = -1;
 
         Thread formThread;
+        Thread screenThread;
+
+        TcpListener tcpListenerForScreenShare = null;
 
         public RemoteControlClient(FormMain _formMain)
         {
+            screenThread = new Thread(() => {
+                tcpListenerForScreenShare = new TcpListener(IPAddress.Any, 1350);
+                tcpListenerForScreenShare.Start();
+                var client = tcpListenerForScreenShare.AcceptTcpClient();
+                var stream = client.GetStream();
+                while (true)
+                {
+                    try
+                    {
+                        Console.WriteLine("Жду экран");
+                        Bitmap bitmap1 = null;
+
+                        using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
+                        {
+                            byte[] data = new byte[4];
+
+                            stream.Read(data, 0, data.Length);
+                            int imagesize = BitConverter.ToInt32(data, 0);
+
+                            data = new byte[65536];
+                            Console.WriteLine("Нужно принять байт: " + imagesize);
+                            do
+                            {
+                                int bytes = stream.Read(data, 0, imagesize > 65536? 65536: imagesize);
+                                imagesize -= bytes;
+                                ms.Write(data, 0, bytes);
+                            }
+                            while (imagesize > 0);
+                            Console.WriteLine("Принял байт: " + ms.Length);
+
+                            ImageConverter ic = new ImageConverter();
+                            Image img = (Image)ic.ConvertFrom(ms.ToArray());
+                            bitmap1 = new Bitmap(img);
+
+                            ms.Dispose();
+                        }
+
+                        FormControl.pictureBoxScreen.BeginInvoke((MethodInvoker)(delegate
+                        {
+                            FormControl.pictureBoxScreen.Image = bitmap1;
+                        }));
+                    }
+                    catch (System.IO.IOException exp)
+                    {
+                        return;
+                    }
+                    catch (System.InvalidOperationException exp)
+                    {
+                        
+                    }
+                    catch (Exception exp)
+                    {
+                        Console.WriteLine("Ошибка: " + exp.Message + " | в screenThread");
+                    }
+                }
+            });
+            screenThread.Start();
+
             formMain = _formMain;
             formMain.remoteControlClient = this;
         }
@@ -48,7 +111,9 @@ namespace NetMonitorServer.RemoteControl
                 try
                 {
                     FormControl = new FormRemoteControl(this);
-                    FormControl.Text = Context.UserEndPoint.Address.ToString() + " | " + Util.GetMacAddress(Context.UserEndPoint.Address.ToString()).ToUpper();
+                    FormControl.Text = Context.UserEndPoint.Address.ToString() + 
+                    " | " + Util.GetMacAddress(Context.UserEndPoint.Address.ToString()).ToUpper() + 
+                    " | Экран: " + ScreenWidth + " x " + ScreenHeight;
                     FormControl.ShowDialog();
                 }
                 catch { }
@@ -90,6 +155,7 @@ namespace NetMonitorServer.RemoteControl
             }
             catch
             { }
+            screenThread.Abort();
             this.Dispose();
         }
 
@@ -101,6 +167,7 @@ namespace NetMonitorServer.RemoteControl
             }
             catch
             { }
+            screenThread.Abort();
             this.Dispose();
         }
 
@@ -112,6 +179,8 @@ namespace NetMonitorServer.RemoteControl
         public void Dispose()
         {
             formMain.remoteControlClient = null;
+            screenThread.Abort();
+            tcpListenerForScreenShare.Stop();
         }
     }
 }

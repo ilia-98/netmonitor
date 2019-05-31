@@ -19,6 +19,8 @@ namespace NetMonitorServer
         public string IP { get; set; }
         public string MAC { get; set; }
 
+        public string MachineName { get; set; }
+
         [BsonIgnore]
         public int ScreenHeight = -1;
 
@@ -43,22 +45,19 @@ namespace NetMonitorServer
             }
         }
 
-        public Client(string IP, string MAC)
+        public Client(string IP, string MAC, string MachineName)
         {
             this.IP = IP;
             this.MAC = MAC;
-            base.Text = this.MAC;
+            this.MachineName = MachineName;
+            base.Text = MachineName;
             Available = false;
         }
 
-        public Client(NetMonitorClient socket)
+        public Client(NetMonitorClient socket) : this(socket.Context.UserEndPoint.Address.ToString(), Util.GetMacAddress(socket.Context.UserEndPoint.Address.ToString()).ToUpper(), Util.GetMachineNameFromIPAddress(socket.Context.UserEndPoint.Address.ToString()))
         {
             this.socket = socket;
             //this.socket.Poll(1000, SelectMode.SelectRead);
-            this.IP = socket.Context.UserEndPoint.Address.ToString();
-            this.MAC = Util.GetMacAddress(IP).ToUpper();
-            base.Text = this.MAC;
-            Available = false;
         }
 
         public void GetElementsFromPath(string path)
@@ -97,7 +96,7 @@ namespace NetMonitorServer
 
         public override string ToString()
         {
-            return MAC;
+            return MachineName;
         }
     }
 }
