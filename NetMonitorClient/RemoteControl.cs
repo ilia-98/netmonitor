@@ -98,14 +98,13 @@ namespace NetMonitorClient
 
         public static void SendScreen()
         {
-            try
-            {
-                UdpClient udpClient = new UdpClient();
+
+                TcpClient udpClient = new TcpClient();
                 udpClient.Connect(Address, 1350);
-                while (Enabled)
+            NetworkStream netStream = udpClient.GetStream();
+            while (Enabled)
                 {
-                    try
-                    {
+
                         //Bitmap printscreen = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
                         //Graphics graphics = Graphics.FromImage(printscreen);
                         //graphics.CopyFromScreen(0, 0, 0, 0, printscreen.Size);
@@ -114,17 +113,15 @@ namespace NetMonitorClient
                         GetScreen().Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
                         byte[] bmpBytes = ms.ToArray();
                         ms.Close();
-                        udpClient.Send(bmpBytes, bmpBytes.Length, Address, 1350);
+
+                        netStream.Write(bmpBytes, 0,bmpBytes.Length);
 
                         //socketRemoteControl.Send(new Packet() { Header = "RemoteControl/Screen", Data = GetScreen() });
-                    }
-                    catch
-                    {
+     
                         //socketRemoteControl.Close();
-                    }
+                    
                 }
-            }
-            catch { }
+
         }
 
         public static void PressLeftMouse(Packet packet)
