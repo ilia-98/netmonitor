@@ -28,9 +28,58 @@ namespace NetMonitorServer
 
         MongoClient mongoClient = null;
         IMongoDatabase database = null;
+
         public IMongoCollection<ClientDB> clientDBCollection = null;
 
         public RemoteControlClient remoteControlClient = null;
+
+
+        bool isServerMainLive = false;
+        public bool StatusMainServer
+        {
+            get { return isServerMainLive; }
+            set
+            {
+                if (value)
+                {
+                    Console.WriteLine("Сервер запущен. Ожидание подключений...");
+                    labelServerStatus.Text = "ONLINE";
+                    labelServerStatus.ForeColor = Color.Green;
+                }
+                else
+                {
+                    Console.WriteLine("Сервер выключен.");
+                    labelServerStatus.Text = "OFLINE";
+                    labelServerStatus.ForeColor = Color.Red;
+                }
+
+                isServerMainLive = value;
+            }
+        }
+        bool isServerDBLive = false;
+        public bool StatusDBServer
+        {
+            get
+            {
+                StatusDBServer = database.RunCommandAsync((Command<BsonDocument>)"{ping:1}").Wait(1000);
+                return isServerDBLive;
+            }
+            set
+            {
+                if (value)
+                {
+                    labelServerDBStatus.Text = "ONLINE";
+                    labelServerDBStatus.ForeColor = Color.Green;
+                }
+                else
+                {
+                    labelServerDBStatus.Text = "OFLINE";
+                    labelServerDBStatus.ForeColor = Color.Red;
+                }
+
+                isServerDBLive = value;
+            }
+        }
 
         public Client SelectedClient
         {
@@ -40,16 +89,12 @@ namespace NetMonitorServer
                 if (value == null)
                 {
                     labelSelectedItem.Text = "Выбран: " + "none";
+                    tabControlMain.Enabled = false;
                 }
                 else
                 {
-                    labelHardwareInfo.Text = "";
-
-                    if (value.HardwareInfo != null)
-                        foreach (var item in value.HardwareInfo)
-                            labelHardwareInfo.Text += item.Key + ": " + item.Value + "\n";
-
-                    labelSelectedItem.Text = "Выбран: " + value.MAC;
+                    labelSelectedItem.Text = "Выбран: " + value.ToString();
+                    tabControlMain.Enabled = true;
                 }
 
                 _selectedClient = value;
@@ -67,9 +112,7 @@ namespace NetMonitorServer
         public void ServerStop()
         {
             socketServer.Stop();
-            Console.WriteLine("Сервер Выключен.");
-            labelServerStatus.Text = "OFLINE";
-            labelServerStatus.ForeColor = Color.Red;
+            StatusMainServer = false;
             timer1.Stop();
         }
 
@@ -85,9 +128,8 @@ namespace NetMonitorServer
             socketServer.AddWebSocketService("/NetMonitorSocketService/RemoteControl", () => new RemoteControl.RemoteControlClient(this));
             socketServer.Start();
 
-            Console.WriteLine("Сервер запущен. Ожидание подключений...");
-            labelServerStatus.Text = "ONLINE";
-            labelServerStatus.ForeColor = Color.Green;
+            StatusMainServer = true;
+
             timer1.Start();
         }
 
@@ -101,27 +143,32 @@ namespace NetMonitorServer
         {
             InitializeComponent();
 
-
-            string connectionString = "mongodb://localhost:27017";
-            mongoClient = new MongoClient(connectionString);
-            database = mongoClient.GetDatabase("netmonitordb");
-            clientDBCollection = database.GetCollection<ClientDB>("clients");
-            var clientDBs = clientDBCollection.Find(Builders<ClientDB>.Filter.Empty).ToList();
-
-            foreach (var item in clientDBs)
-            {
-                listViewClients.Items.Add(item.GetClient());
-            }
-
             ImageList imageList = new ImageList();
             imageList.Images.Add(Properties.Resources.Circle_Red);
             imageList.Images.Add(Properties.Resources.Circle_Green);
+            imageList.Images.Add(Properties.Resources.Circle_Blue);
             listViewClients.SmallImageList = imageList;
+        }
+
+        public void InitializeDB()
+        {
+            string connectionString = "mongodb://localhost:27017";
+            mongoClient = new MongoClient(connectionString);
+            database = mongoClient.GetDatabase("netmonitordb");
+            if (StatusDBServer)
+            {
+                clientDBCollection = database.GetCollection<ClientDB>("clients");
+                var clientDBs = clientDBCollection.Find(Builders<ClientDB>.Filter.Empty).ToList();
+                foreach (var item in clientDBs)
+                    listViewClients.Items.Add(item.GetClient());
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            InitializeDB();
             ServerStart();
+            SelectedClient = null;
             //MessageBox.Show(AppSettings.Get("WebServer"));
         }
 
@@ -130,7 +177,6 @@ namespace NetMonitorServer
             if (listViewClients.SelectedItems.Count != 1)
             {
                 SelectedClient = null;
-                tabControlMain.Enabled = false;
                 panelFiles.Enabled = false;
                 return;
             }
@@ -364,9 +410,39 @@ namespace NetMonitorServer
 
         }
 
-        private void TabPageMonitoring_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
+            if (SelectedClient != null)
+            {
+                if (SelectedClient.Available)
+                {
+                    var notify = new BalloonTip() {
+                        timeout = 0,
+                        tipTitle = textBoxNotifyTitle.Text,
+                        tipText = textBoxNotifyText.Text,
+                        tipIcon = (ToolTipIcon)comboBoxNotifyIconType.SelectedItem
+                    };
+                    var packet = new Packet() {
+                        Header = "ShowBalloonTip",
+                        Data = notify
+                    };
+                    SelectedClient.SendPacket(packet);
+                }
+            }
+        }
 
+        private void TabControlMain_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControlMain.SelectedTab == tabPageInfo)
+            {
+                if (SelectedClient != null)
+                    if (SelectedClient.HardwareInfo != null)
+                    {
+                        labelHardwareInfo.Text = "";
+                        foreach (var item in SelectedClient.HardwareInfo)
+                            labelHardwareInfo.Text += item.Key + ": " + item.Value + "\n";
+                    }
+            }
         }
     }
 }

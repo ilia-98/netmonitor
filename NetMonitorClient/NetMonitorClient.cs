@@ -1,23 +1,10 @@
-﻿using OpenHardwareMonitor.Hardware;
+﻿using NetMonitor;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Management;
-using WebSocketSharp;
-using System.Text;
-using System.Threading.Tasks;
-using NetMonitor;
-using System.Windows.Forms;
-using System.Net;
-using System.Drawing;
-using System.Threading;
-using System.Net.Mail;
-using System.Net;
-using System.Net.NetworkInformation;
 using System.Diagnostics;
-using System.Dynamic;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Windows.Forms;
+using WebSocketSharp;
 
 namespace NetMonitorClient
 {
@@ -38,7 +25,7 @@ namespace NetMonitorClient
         Thread processThread;
 
 
-        public string Address { get; set; } =  "192.168.43.9";
+        public string Address { get; set; } = "192.168.1.10";
         public static NotifyIcon NotifyIcon { get; set; }
         public static int Port { get; set; } = 1348;
         public static bool Enabled { get; set; } = true;
@@ -50,10 +37,6 @@ namespace NetMonitorClient
         {
             NotifyIcon = notifyIcon;
         }
-
-
-
-
 
         struct ProcessInfo
         {
@@ -112,13 +95,27 @@ namespace NetMonitorClient
                     case "MonitorInfo":
                         socket.Send(new Packet() { Header = "MonitorInfo", Data = MonitoringUtils.GetMonitorInfo() });
                         break;
+                    case "ShowBalloonTip":
+                        {
+                            try
+                            {
+                                BalloonTip balloonTip = (BalloonTip)packet.Data;
+                                NotifyIcon.ShowBalloonTip(balloonTip.timeout, balloonTip.tipTitle, balloonTip.tipText, balloonTip.tipIcon);
+                                socket.Send(new Packet() { Header = "ShowBalloonTip/Result", Data = "OK" });
+                            }
+                            catch(Exception exp)
+                            {
+                                socket.Send(new Packet() { Header = "ShowBalloonTip/Result", Data = exp.Message, IsError = true });
+                            }
+                        }
+                        break;
                     case "Screenshot":
                         //Bitmap printscreen = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
                         //Graphics graphics = Graphics.FromImage(printscreen);
                         //graphics.CopyFromScreen(0, 0, 0, 0, printscreen.Size);
                         socket.Send(new Packet() { Header = "Screenshot", Data = RemoteControl.GetScreenshot() });
                         break;
-                    case "ProcessInfo":                  
+                    case "ProcessInfo":
                         socket.Send(new Packet() { Header = "ProcessInfo", Data = MonitoringUtils.processesList });
                         break;
                     case "ApplicationInfo":

@@ -99,28 +99,29 @@ namespace NetMonitorClient
         public static void SendScreen()
         {
 
-                TcpClient udpClient = new TcpClient();
-                udpClient.Connect(Address, 1350);
+            TcpClient udpClient = new TcpClient();
+            udpClient.Connect(Address, 1350);
             NetworkStream netStream = udpClient.GetStream();
             while (Enabled)
-                {
+            {
 
-                        //Bitmap printscreen = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-                        //Graphics graphics = Graphics.FromImage(printscreen);
-                        //graphics.CopyFromScreen(0, 0, 0, 0, printscreen.Size);
+                //Bitmap printscreen = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+                //Graphics graphics = Graphics.FromImage(printscreen);
+                //graphics.CopyFromScreen(0, 0, 0, 0, printscreen.Size);
 
-                        MemoryStream ms = new MemoryStream();
-                        GetScreen().Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                        byte[] bmpBytes = ms.ToArray();
-                        ms.Close();
+                MemoryStream ms = new MemoryStream();
+                GetScreen().Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] bmpBytes = ms.ToArray();
+                ms.Close();
 
-                        netStream.Write(bmpBytes, 0,bmpBytes.Length);
+                netStream.Write(BitConverter.GetBytes(bmpBytes.Length), 0, BitConverter.GetBytes(bmpBytes.Length).Length);
+                netStream.Write(bmpBytes, 0, bmpBytes.Length);
 
-                        //socketRemoteControl.Send(new Packet() { Header = "RemoteControl/Screen", Data = GetScreen() });
-     
-                        //socketRemoteControl.Close();
-                    
-                }
+                //socketRemoteControl.Send(new Packet() { Header = "RemoteControl/Screen", Data = GetScreen() });
+
+                //socketRemoteControl.Close();
+
+            }
 
         }
 
