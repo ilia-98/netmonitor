@@ -39,27 +39,32 @@ namespace NetMonitorServer.RemoteControl
                 {
                     try
                     {
-                        Console.WriteLine("Жду экран");
-                        Bitmap img = null;
-                        //img = (Bitmap)Image.FromStream(stream);
+                        //Console.WriteLine("Жду экран");
+                        Bitmap bitmap1 = null;
 
                         using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
                         {
                             byte[] data = new byte[65536];
+
+                            stream.Read(data, 0, data.Length);
+                            int imagesize = BitConverter.ToInt32(data, 0);
+
+                            data = new byte[65536];
+                            //Console.WriteLine("Нужно принять байт: " + imagesize);
                             do
                             {
                                 int bytes = stream.Read(data, 0, data.Length);
-                                Console.WriteLine("Принял байт: " + bytes);
                                 ms.Write(data, 0, bytes);
                             }
-                            while (stream.DataAvailable);
-                            img = (Bitmap)Image.FromStream(ms);
+                            while (ms.Length < imagesize);
+                            //Console.WriteLine("Принял байт: " + ms.Length);
+                            bitmap1 = (Bitmap)Image.FromStream(ms);
                             ms.Dispose();
                         }
 
                         FormControl.pictureBoxScreen.BeginInvoke((MethodInvoker)(delegate
                         {
-                            FormControl.pictureBoxScreen.Image = img;
+                            FormControl.pictureBoxScreen.Image = bitmap1;
                         }));
                     }
                     catch (System.IO.IOException exp)
@@ -166,10 +171,6 @@ namespace NetMonitorServer.RemoteControl
 
         public void Dispose()
         {
-            SendPacket(new Packet()
-            {
-                Header = "RemoteControl/Stop"
-            });
             formMain.remoteControlClient = null;
             screenThread.Abort();
             tcpListenerForScreenShare.Stop();
