@@ -60,6 +60,11 @@ namespace NetMonitorServer
             //this.socket.Poll(1000, SelectMode.SelectRead);
         }
 
+        public Client()
+        {
+
+        }
+
         public void GetElementsFromPath(string path)
         {
             var packet = new Packet()

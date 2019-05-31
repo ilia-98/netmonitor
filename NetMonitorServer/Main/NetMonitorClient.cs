@@ -37,9 +37,7 @@ namespace NetMonitorServer
             {
                 bool addtolist = true;
 
-                client = new Client(netMonitorClient);
-
-                string MAC_addr = client.MAC;
+                string MAC_addr = Util.GetMacAddress(netMonitorClient.Context.UserEndPoint.Address.ToString()).ToUpper();
 
                 foreach (Client item in form.listViewClients.Items)
                 {
@@ -55,6 +53,7 @@ namespace NetMonitorServer
 
                 if (addtolist)
                 {
+                    client = new Client(netMonitorClient);
                     client.Available = true;
                     form.listViewClients.Items.Add(client);
                 }
@@ -321,7 +320,7 @@ namespace NetMonitorServer
 
         public void Send(Packet packet)
         {
-            base.Send(packet);
+            base.SendAsync(packet, (bool complete) => { });
         }
     }
 }

@@ -61,7 +61,6 @@ namespace NetMonitorServer
         {
             get
             {
-                StatusDBServer = database.RunCommandAsync((Command<BsonDocument>)"{ping:1}").Wait(1000);
                 return isServerDBLive;
             }
             set
@@ -143,6 +142,8 @@ namespace NetMonitorServer
         {
             InitializeComponent();
 
+            comboBoxNotifyIconType.SelectedIndex = 0;
+
             ImageList imageList = new ImageList();
             imageList.Images.Add(Properties.Resources.Circle_Red);
             imageList.Images.Add(Properties.Resources.Circle_Green);
@@ -155,6 +156,8 @@ namespace NetMonitorServer
             string connectionString = "mongodb://localhost:27017";
             mongoClient = new MongoClient(connectionString);
             database = mongoClient.GetDatabase("netmonitordb");
+            StatusDBServer = database.RunCommandAsync((Command<BsonDocument>)"{ping:1}").Wait(1000);
+
             if (StatusDBServer)
             {
                 clientDBCollection = database.GetCollection<ClientDB>("clients");
