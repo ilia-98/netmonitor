@@ -70,5 +70,10 @@ namespace NetMonitorServer
         {
             CLIENT.Dispose();
         }
+
+        private void PictureBoxScreen_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

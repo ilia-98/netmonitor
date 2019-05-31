@@ -39,26 +39,31 @@ namespace NetMonitorServer.RemoteControl
                 {
                     try
                     {
-                        //Console.WriteLine("Жду экран");
+                        Console.WriteLine("Жду экран");
                         Bitmap bitmap1 = null;
 
                         using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
                         {
-                            byte[] data = new byte[65536];
+                            byte[] data = new byte[4];
 
                             stream.Read(data, 0, data.Length);
                             int imagesize = BitConverter.ToInt32(data, 0);
 
                             data = new byte[65536];
-                            //Console.WriteLine("Нужно принять байт: " + imagesize);
+                            Console.WriteLine("Нужно принять байт: " + imagesize);
                             do
                             {
-                                int bytes = stream.Read(data, 0, data.Length);
+                                int bytes = stream.Read(data, 0, imagesize > 65536? 65536: imagesize);
+                                imagesize -= bytes;
                                 ms.Write(data, 0, bytes);
                             }
-                            while (ms.Length < imagesize);
-                            //Console.WriteLine("Принял байт: " + ms.Length);
-                            bitmap1 = (Bitmap)Image.FromStream(ms);
+                            while (imagesize > 0);
+                            Console.WriteLine("Принял байт: " + ms.Length);
+
+                            ImageConverter ic = new ImageConverter();
+                            Image img = (Image)ic.ConvertFrom(ms.ToArray());
+                            bitmap1 = new Bitmap(img);
+
                             ms.Dispose();
                         }
 
@@ -106,7 +111,9 @@ namespace NetMonitorServer.RemoteControl
                 try
                 {
                     FormControl = new FormRemoteControl(this);
-                    FormControl.Text = Context.UserEndPoint.Address.ToString() + " | " + Util.GetMacAddress(Context.UserEndPoint.Address.ToString()).ToUpper();
+                    FormControl.Text = Context.UserEndPoint.Address.ToString() + 
+                    " | " + Util.GetMacAddress(Context.UserEndPoint.Address.ToString()).ToUpper() + 
+                    " | Экран: " + ScreenWidth + " x " + ScreenHeight;
                     FormControl.ShowDialog();
                 }
                 catch { }

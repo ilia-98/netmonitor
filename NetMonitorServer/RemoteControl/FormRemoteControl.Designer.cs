@@ -37,21 +37,24 @@
             // 
             this.pictureBoxScreen.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBoxScreen.Location = new System.Drawing.Point(0, 0);
+            this.pictureBoxScreen.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pictureBoxScreen.Name = "pictureBoxScreen";
-            this.pictureBoxScreen.Size = new System.Drawing.Size(800, 450);
+            this.pictureBoxScreen.Size = new System.Drawing.Size(1200, 692);
             this.pictureBoxScreen.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxScreen.TabIndex = 0;
             this.pictureBoxScreen.TabStop = false;
+            this.pictureBoxScreen.Click += new System.EventHandler(this.PictureBoxScreen_Click);
             this.pictureBoxScreen.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PictureBoxScreen_MouseClick);
             this.pictureBoxScreen.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PictureBoxScreen_MouseMove);
             // 
             // FormRemoteControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1200, 692);
             this.Controls.Add(this.pictureBoxScreen);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "FormRemoteControl";
             this.Text = "FormRemoteControl";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormRemoteControl_FormClosing);

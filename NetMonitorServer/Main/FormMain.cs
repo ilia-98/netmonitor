@@ -435,10 +435,13 @@ namespace NetMonitorServer
         {
             if (tabControlMain.SelectedTab == tabPageInfo)
             {
-                if(SelectedClient != null)
+                if (SelectedClient != null)
                     if (SelectedClient.HardwareInfo != null)
+                    {
+                        labelHardwareInfo.Text = "";
                         foreach (var item in SelectedClient.HardwareInfo)
                             labelHardwareInfo.Text += item.Key + ": " + item.Value + "\n";
+                    }
             }
         }
     }
