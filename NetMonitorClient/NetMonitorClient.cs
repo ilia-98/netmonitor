@@ -25,7 +25,7 @@ namespace NetMonitorClient
         Thread processThread;
 
 
-        public string Address { get; set; } = "192.168.43.9";
+        public string Address { get; set; } = "192.168.1.10";
         public static NotifyIcon NotifyIcon { get; set; }
         public static int Port { get; set; } = 1348;
         public static bool Enabled { get; set; } = true;

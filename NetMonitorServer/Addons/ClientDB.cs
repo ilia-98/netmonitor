@@ -12,13 +12,15 @@ namespace NetMonitorServer.Addons
     [BsonIgnoreExtraElements]
     public class ClientDB
     {
+        [BsonId]
+        [BsonIgnoreIfNull]
+        public string MAC { get; set; } = null;
 
         [BsonIgnoreIfNull]
         public string IP { get; set; } = null;
 
-        [BsonId]
         [BsonIgnoreIfNull]
-        public string MAC { get; set; } = null;
+        public string MachineName { get; set; } = null;
 
         [BsonIgnoreIfNull]
         public Dictionary<string, string> HardwareInfo = null;
@@ -38,7 +40,7 @@ namespace NetMonitorServer.Addons
 
         public Client GetClient()
         {
-            Client client = new Client(IP, MAC)
+            Client client = new Client(IP, MAC, MachineName)
             {
                 HardwareInfo = HardwareInfo,
             };
@@ -51,6 +53,7 @@ namespace NetMonitorServer.Addons
             {
                 IP = client.IP,
                 MAC = client.MAC,
+                MachineName = client.MachineName,
                 HardwareInfo = client.HardwareInfo,
             };
             return clientDB;

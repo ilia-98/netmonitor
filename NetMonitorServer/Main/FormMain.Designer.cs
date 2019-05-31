@@ -31,9 +31,9 @@ namespace NetMonitorServer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.listViewClients = new System.Windows.Forms.ListView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.ServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,16 +70,16 @@ namespace NetMonitorServer
             this.tabPageMain = new System.Windows.Forms.TabPage();
             this.pictureBoxScreenMain = new System.Windows.Forms.PictureBox();
             this.tabControlMain = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.labelTextNotifyIconType = new System.Windows.Forms.Label();
+            this.comboBoxNotifyIconType = new System.Windows.Forms.ComboBox();
+            this.labelTextNotifyText = new System.Windows.Forms.Label();
+            this.textBoxNotifyText = new System.Windows.Forms.TextBox();
+            this.textBoxNotifyTitle = new System.Windows.Forms.TextBox();
+            this.labelTextNotifyTitle = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.labelTextDBStatus = new System.Windows.Forms.Label();
             this.labelServerDBStatus = new System.Windows.Forms.Label();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.button1 = new System.Windows.Forms.Button();
-            this.labelTextNotifyTitle = new System.Windows.Forms.Label();
-            this.textBoxNotifyTitle = new System.Windows.Forms.TextBox();
-            this.textBoxNotifyText = new System.Windows.Forms.TextBox();
-            this.labelTextNotifyText = new System.Windows.Forms.Label();
-            this.comboBoxNotifyIconType = new System.Windows.Forms.ComboBox();
-            this.labelTextNotifyIconType = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.tabPageProcess.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartMonitor)).BeginInit();
@@ -243,16 +243,16 @@ namespace NetMonitorServer
             // 
             // chartMonitor
             // 
-            chartArea3.AxisY.Maximum = 100D;
-            chartArea3.AxisY.Minimum = 0D;
-            chartArea3.Name = "TempMonitoring";
-            chartArea4.AxisY.Maximum = 100D;
-            chartArea4.AxisY.Minimum = 0D;
-            chartArea4.Name = "LoadMonitoring";
-            this.chartMonitor.ChartAreas.Add(chartArea3);
-            this.chartMonitor.ChartAreas.Add(chartArea4);
-            legend2.Name = "Legend";
-            this.chartMonitor.Legends.Add(legend2);
+            chartArea1.AxisY.Maximum = 100D;
+            chartArea1.AxisY.Minimum = 0D;
+            chartArea1.Name = "TempMonitoring";
+            chartArea2.AxisY.Maximum = 100D;
+            chartArea2.AxisY.Minimum = 0D;
+            chartArea2.Name = "LoadMonitoring";
+            this.chartMonitor.ChartAreas.Add(chartArea1);
+            this.chartMonitor.ChartAreas.Add(chartArea2);
+            legend1.Name = "Legend";
+            this.chartMonitor.Legends.Add(legend1);
             this.chartMonitor.Location = new System.Drawing.Point(9, 9);
             this.chartMonitor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chartMonitor.Name = "chartMonitor";
@@ -417,7 +417,6 @@ namespace NetMonitorServer
             this.tabPageMonitoring.TabIndex = 2;
             this.tabPageMonitoring.Text = "Нагрузка";
             this.tabPageMonitoring.UseVisualStyleBackColor = true;
-            this.tabPageMonitoring.Click += new System.EventHandler(this.TabPageMonitoring_Click);
             // 
             // tabPageInfo
             // 
@@ -478,6 +477,88 @@ namespace NetMonitorServer
             this.tabControlMain.SelectedIndex = 0;
             this.tabControlMain.Size = new System.Drawing.Size(1094, 658);
             this.tabControlMain.TabIndex = 11;
+            this.tabControlMain.SelectedIndexChanged += new System.EventHandler(this.TabControlMain_SelectedIndexChanged);
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.labelTextNotifyIconType);
+            this.tabPage1.Controls.Add(this.comboBoxNotifyIconType);
+            this.tabPage1.Controls.Add(this.labelTextNotifyText);
+            this.tabPage1.Controls.Add(this.textBoxNotifyText);
+            this.tabPage1.Controls.Add(this.textBoxNotifyTitle);
+            this.tabPage1.Controls.Add(this.labelTextNotifyTitle);
+            this.tabPage1.Controls.Add(this.button1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 29);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1086, 625);
+            this.tabPage1.TabIndex = 5;
+            this.tabPage1.Text = "Уведомление";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // labelTextNotifyIconType
+            // 
+            this.labelTextNotifyIconType.AutoSize = true;
+            this.labelTextNotifyIconType.Location = new System.Drawing.Point(11, 378);
+            this.labelTextNotifyIconType.Name = "labelTextNotifyIconType";
+            this.labelTextNotifyIconType.Size = new System.Drawing.Size(92, 20);
+            this.labelTextNotifyIconType.TabIndex = 6;
+            this.labelTextNotifyIconType.Text = "Тип иконки";
+            // 
+            // comboBoxNotifyIconType
+            // 
+            this.comboBoxNotifyIconType.FormattingEnabled = true;
+            this.comboBoxNotifyIconType.Items.AddRange(new object[] {
+            System.Windows.Forms.ToolTipIcon.Info,
+            System.Windows.Forms.ToolTipIcon.Warning,
+            System.Windows.Forms.ToolTipIcon.Error});
+            this.comboBoxNotifyIconType.Location = new System.Drawing.Point(11, 404);
+            this.comboBoxNotifyIconType.Name = "comboBoxNotifyIconType";
+            this.comboBoxNotifyIconType.Size = new System.Drawing.Size(422, 28);
+            this.comboBoxNotifyIconType.TabIndex = 5;
+            // 
+            // labelTextNotifyText
+            // 
+            this.labelTextNotifyText.AutoSize = true;
+            this.labelTextNotifyText.Location = new System.Drawing.Point(7, 75);
+            this.labelTextNotifyText.Name = "labelTextNotifyText";
+            this.labelTextNotifyText.Size = new System.Drawing.Size(52, 20);
+            this.labelTextNotifyText.TabIndex = 4;
+            this.labelTextNotifyText.Text = "Текст";
+            // 
+            // textBoxNotifyText
+            // 
+            this.textBoxNotifyText.Location = new System.Drawing.Point(11, 98);
+            this.textBoxNotifyText.Multiline = true;
+            this.textBoxNotifyText.Name = "textBoxNotifyText";
+            this.textBoxNotifyText.Size = new System.Drawing.Size(422, 258);
+            this.textBoxNotifyText.TabIndex = 3;
+            // 
+            // textBoxNotifyTitle
+            // 
+            this.textBoxNotifyTitle.Location = new System.Drawing.Point(11, 35);
+            this.textBoxNotifyTitle.Name = "textBoxNotifyTitle";
+            this.textBoxNotifyTitle.Size = new System.Drawing.Size(422, 26);
+            this.textBoxNotifyTitle.TabIndex = 2;
+            // 
+            // labelTextNotifyTitle
+            // 
+            this.labelTextNotifyTitle.AutoSize = true;
+            this.labelTextNotifyTitle.Location = new System.Drawing.Point(7, 12);
+            this.labelTextNotifyTitle.Name = "labelTextNotifyTitle";
+            this.labelTextNotifyTitle.Size = new System.Drawing.Size(90, 20);
+            this.labelTextNotifyTitle.TabIndex = 1;
+            this.labelTextNotifyTitle.Text = "Заголовок";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(156, 576);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(135, 43);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "Send";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // labelTextDBStatus
             // 
@@ -497,87 +578,6 @@ namespace NetMonitorServer
             this.labelServerDBStatus.Size = new System.Drawing.Size(67, 20);
             this.labelServerDBStatus.TabIndex = 14;
             this.labelServerDBStatus.Text = "OFLINE";
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.labelTextNotifyIconType);
-            this.tabPage1.Controls.Add(this.comboBoxNotifyIconType);
-            this.tabPage1.Controls.Add(this.labelTextNotifyText);
-            this.tabPage1.Controls.Add(this.textBoxNotifyText);
-            this.tabPage1.Controls.Add(this.textBoxNotifyTitle);
-            this.tabPage1.Controls.Add(this.labelTextNotifyTitle);
-            this.tabPage1.Controls.Add(this.button1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 29);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1086, 625);
-            this.tabPage1.TabIndex = 5;
-            this.tabPage1.Text = "Уведомление";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(156, 576);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(135, 43);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Send";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.Button1_Click);
-            // 
-            // labelTextNotifyTitle
-            // 
-            this.labelTextNotifyTitle.AutoSize = true;
-            this.labelTextNotifyTitle.Location = new System.Drawing.Point(7, 12);
-            this.labelTextNotifyTitle.Name = "labelTextNotifyTitle";
-            this.labelTextNotifyTitle.Size = new System.Drawing.Size(90, 20);
-            this.labelTextNotifyTitle.TabIndex = 1;
-            this.labelTextNotifyTitle.Text = "Заголовок";
-            // 
-            // textBoxNotifyTitle
-            // 
-            this.textBoxNotifyTitle.Location = new System.Drawing.Point(11, 35);
-            this.textBoxNotifyTitle.Name = "textBoxNotifyTitle";
-            this.textBoxNotifyTitle.Size = new System.Drawing.Size(422, 26);
-            this.textBoxNotifyTitle.TabIndex = 2;
-            // 
-            // textBoxNotifyText
-            // 
-            this.textBoxNotifyText.Location = new System.Drawing.Point(11, 98);
-            this.textBoxNotifyText.Multiline = true;
-            this.textBoxNotifyText.Name = "textBoxNotifyText";
-            this.textBoxNotifyText.Size = new System.Drawing.Size(422, 258);
-            this.textBoxNotifyText.TabIndex = 3;
-            // 
-            // labelTextNotifyText
-            // 
-            this.labelTextNotifyText.AutoSize = true;
-            this.labelTextNotifyText.Location = new System.Drawing.Point(7, 75);
-            this.labelTextNotifyText.Name = "labelTextNotifyText";
-            this.labelTextNotifyText.Size = new System.Drawing.Size(52, 20);
-            this.labelTextNotifyText.TabIndex = 4;
-            this.labelTextNotifyText.Text = "Текст";
-            // 
-            // comboBoxNotifyIconType
-            // 
-            this.comboBoxNotifyIconType.FormattingEnabled = true;
-            this.comboBoxNotifyIconType.Location = new System.Drawing.Point(11, 404);
-            this.comboBoxNotifyIconType.Name = "comboBoxNotifyIconType";
-            this.comboBoxNotifyIconType.Size = new System.Drawing.Size(422, 28);
-            this.comboBoxNotifyIconType.TabIndex = 5;
-            this.comboBoxNotifyIconType.Items.Add(ToolTipIcon.Info);
-            this.comboBoxNotifyIconType.Items.Add(ToolTipIcon.Warning);
-            this.comboBoxNotifyIconType.Items.Add(ToolTipIcon.Error);
-            this.comboBoxNotifyIconType.SelectedIndex = 0;
-            // 
-            // labelTextNotifyIconType
-            // 
-            this.labelTextNotifyIconType.AutoSize = true;
-            this.labelTextNotifyIconType.Location = new System.Drawing.Point(11, 378);
-            this.labelTextNotifyIconType.Name = "labelTextNotifyIconType";
-            this.labelTextNotifyIconType.Size = new System.Drawing.Size(92, 20);
-            this.labelTextNotifyIconType.TabIndex = 6;
-            this.labelTextNotifyIconType.Text = "Тип иконки";
             // 
             // FormMain
             // 
