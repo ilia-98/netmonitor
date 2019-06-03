@@ -23,6 +23,7 @@ namespace NetMonitorClient
         static RegistryKey registryUserSubKey;
         static void Main(string[] args)
         {
+            Mutex mutex = new Mutex(true, "NetMonitorClient");
             RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
             if (registryKey.GetValue("NetMonitorClient") == null)
             {
