@@ -20,7 +20,6 @@ namespace NetMonitorClient
         static Computer computerHardware;
         static int CPU_index;
         static int RAM_index;
-       // static int HDD_index;
         static List<int> HDD_index = new List<int>();
         static int RAMLOADsensor_index;
         static int CPUTEMPsensor_index;
@@ -82,8 +81,7 @@ namespace NetMonitorClient
                         if (computerHardware.Hardware[i].Sensors[j].SensorType == SensorType.Temperature
                        && computerHardware.Hardware[i].HardwareType == HardwareType.HDD)
                         {
-                            HDDTEMPsensor_index = j;
-                            //HDDTEMPsensors_index.Add(i);
+                            HDDTEMPsensor_index = j;                        
                         }
                     }
                 }
