@@ -23,6 +23,7 @@ namespace NetMonitorClient
         static RegistryKey registryUserSubKey;
         static void Main(string[] args)
         {
+            Mutex mutex = new Mutex(true, "NetMonitorClient");
             RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
             if (registryKey.GetValue("NetMonitorClient") == null)
             {
@@ -98,6 +99,7 @@ namespace NetMonitorClient
                 settingForm = new Settings();
                 settingForm.buttonSubmit.Click += ButtonSubmit_Click;
                 settingForm.buttonChangePassword.Click += ButtonChangePassword_Click;
+                settingForm.textBoxIP.Text = client.Address;
                 settingForm.Show();
                 need_change = false;
             }
@@ -110,6 +112,7 @@ namespace NetMonitorClient
                     settingForm = new Settings();
                     settingForm.buttonSubmit.Click += ButtonSubmit_Click;
                     settingForm.buttonChangePassword.Click += ButtonChangePassword_Click;
+                    settingForm.textBoxIP.Text = client.Address;
                     settingForm.Show();
                 }
                 else

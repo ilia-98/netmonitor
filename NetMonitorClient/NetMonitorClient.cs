@@ -24,8 +24,8 @@ namespace NetMonitorClient
         Thread monitorThread;
         Thread processThread;
 
-
-        public string Address { get; set; } = "192.168.1.10";
+        public string[] Addresses { get; } = { "127.0.0.1", "192.168.43.9", "192.168.1.10" };
+        public string Address { get; set; } = "192.168.43.9";
         public static NotifyIcon NotifyIcon { get; set; }
         public static int Port { get; set; } = 1348;
         public static bool Enabled { get; set; } = true;
@@ -50,12 +50,14 @@ namespace NetMonitorClient
         {
             ProcessStartInfo psi = new ProcessStartInfo("cmd", @"lodctr/r");
             Process.Start(psi);
+
             socket = new WebSocket("ws://" + Address + ":" + Port + "/NetMonitorSocketService/Main");
             MonitoringUtils.UpdateSensors();
             socket.OnClose += Socket_OnClose;
             socket.OnMessage += Socket_OnMessage;
             socket.OnOpen += Socket_OnOpen;
             socket.Connect();
+
             monitorThread = new Thread(() => MonitoringUtils.Monitoring(socket, CriticalTemperature));
             monitorThread.Start();
             processThread = new Thread(() => MonitoringUtils.GetProcesses());
@@ -90,10 +92,10 @@ namespace NetMonitorClient
                 switch (packet.Header)
                 {
                     case "HardwareInfo":
-                        socket.Send(new Packet() { Header = "HardwareInfo", Data = MonitoringUtils.GetHardwareInfo() });
+                        socket.SendAsync(new Packet() { Header = "HardwareInfo", Data = MonitoringUtils.GetHardwareInfo() }, (bool noterror) => { });
                         break;
                     case "MonitorInfo":
-                        socket.Send(new Packet() { Header = "MonitorInfo", Data = MonitoringUtils.GetMonitorInfo() });
+                        socket.SendAsync(new Packet() { Header = "MonitorInfo", Data = MonitoringUtils.GetMonitorInfo() }, (bool noterror) => { });
                         break;
                     case "ShowBalloonTip":
                         {
@@ -101,11 +103,11 @@ namespace NetMonitorClient
                             {
                                 BalloonTip balloonTip = (BalloonTip)packet.Data;
                                 NotifyIcon.ShowBalloonTip(balloonTip.timeout, balloonTip.tipTitle, balloonTip.tipText, balloonTip.tipIcon);
-                                socket.Send(new Packet() { Header = "ShowBalloonTip/Result", Data = "OK" });
+                                socket.SendAsync(new Packet() { Header = "ShowBalloonTip/Result", Data = "OK" }, (bool noterror) => { });
                             }
                             catch(Exception exp)
                             {
-                                socket.Send(new Packet() { Header = "ShowBalloonTip/Result", Data = exp.Message, IsError = true });
+                                socket.SendAsync(new Packet() { Header = "ShowBalloonTip/Result", Data = exp.Message, IsError = true }, (bool noterror) => { });
                             }
                         }
                         break;
@@ -113,19 +115,19 @@ namespace NetMonitorClient
                         //Bitmap printscreen = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
                         //Graphics graphics = Graphics.FromImage(printscreen);
                         //graphics.CopyFromScreen(0, 0, 0, 0, printscreen.Size);
-                        socket.Send(new Packet() { Header = "Screenshot", Data = RemoteControl.GetScreenshot() });
+                        socket.SendAsync(new Packet() { Header = "Screenshot", Data = RemoteControl.GetScreenshot() }, (bool noterror) => { });
                         break;
                     case "ProcessInfo":
-                        socket.Send(new Packet() { Header = "ProcessInfo", Data = MonitoringUtils.processesList });
+                        socket.SendAsync(new Packet() { Header = "ProcessInfo", Data = MonitoringUtils.processesList }, (bool noterror) => { });
                         break;
                     case "ApplicationInfo":
-                        socket.Send(new Packet() { Header = "ApplicationInfo", Data = MonitoringUtils.GetAppInfo() });
+                        socket.SendAsync(new Packet() { Header = "ApplicationInfo", Data = MonitoringUtils.GetAppInfo() }, (bool noterror) => { });
                         break;
                     case "OpenPorts":
-                        socket.Send(new Packet() { Header = "OpenPorts", Data = MonitoringUtils.GetOpenPorts() });
+                        socket.SendAsync(new Packet() { Header = "OpenPorts", Data = MonitoringUtils.GetOpenPorts() }, (bool noterror) => { });
                         break;
                     case "TcpConnections":
-                        socket.Send(new Packet() { Header = "TcpConnections", Data = MonitoringUtils.GetTcpConnections() });
+                        socket.SendAsync(new Packet() { Header = "TcpConnections", Data = MonitoringUtils.GetTcpConnections() }, (bool noterror) => { });
                         break;
                     case "Files/GetUpdate":
                         FileUtils.SendFilesUpdate(socket);
@@ -150,7 +152,7 @@ namespace NetMonitorClient
                         break;
                     default:
                         {
-                            socket.Send(new Packet() { Header = "Error", Data = packet });
+                            socket.SendAsync(new Packet() { Header = "Error", Data = packet }, (bool noterror) => { });
                             Console.WriteLine("Ошибка");
                         }
                         break;

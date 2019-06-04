@@ -44,7 +44,7 @@ namespace NetMonitorClient
         public static extern uint SetCursorPos(uint x, uint y);
 
 
-        public static bool Enabled { get; set; }
+        public static bool Enabled { get; set; } = true;
         public static WebSocket socketRemoteControl;
         public static Thread threadScreen;
         public static Rectangle screenResolution;
@@ -102,26 +102,30 @@ namespace NetMonitorClient
             TcpClient udpClient = new TcpClient();
             udpClient.Connect(Address, 1350);
             NetworkStream netStream = udpClient.GetStream();
-            while (Enabled)
+            try
             {
+                while (Enabled)
+                {
 
-                //Bitmap printscreen = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-                //Graphics graphics = Graphics.FromImage(printscreen);
-                //graphics.CopyFromScreen(0, 0, 0, 0, printscreen.Size);
+                    //Bitmap printscreen = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+                    //Graphics graphics = Graphics.FromImage(printscreen);
+                    //graphics.CopyFromScreen(0, 0, 0, 0, printscreen.Size);
 
-                MemoryStream ms = new MemoryStream();
-                GetScreen().Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                byte[] bmpBytes = ms.ToArray();
-                ms.Close();
+                    MemoryStream ms = new MemoryStream();
+                    GetScreen().Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    byte[] bmpBytes = ms.ToArray();
+                    ms.Close();
 
-                netStream.Write(BitConverter.GetBytes(bmpBytes.Length), 0, BitConverter.GetBytes(bmpBytes.Length).Length);
-                netStream.Write(bmpBytes, 0, bmpBytes.Length);
+                    netStream.Write(BitConverter.GetBytes(bmpBytes.Length), 0, BitConverter.GetBytes(bmpBytes.Length).Length);
+                    netStream.Write(bmpBytes, 0, bmpBytes.Length);
 
-                //socketRemoteControl.Send(new Packet() { Header = "RemoteControl/Screen", Data = GetScreen() });
+                    //socketRemoteControl.Send(new Packet() { Header = "RemoteControl/Screen", Data = GetScreen() });
 
-                //socketRemoteControl.Close();
+                    //socketRemoteControl.Close();
 
+                }
             }
+            catch { }
 
         }
 
@@ -165,8 +169,13 @@ namespace NetMonitorClient
 
         private static void Socket_OnClose(object sender, EventArgs e)
         {
-            threadScreen.Abort();
-            socketRemoteControl.Close();
+            if (Enabled)
+            {
+                Thread.Sleep(3000);
+                threadScreen.Abort();
+                socketRemoteControl.Close();
+            }
+            Enabled = false;
         }
 
 
