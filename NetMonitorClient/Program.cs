@@ -70,7 +70,6 @@ namespace NetMonitorClient
         {
             passwordForm = new Password();
             passwordForm.buttonPassword.Click += ButtonPassword_Click;
-      
             if (registryUserSubKey.GetValue("password") == null || need_change)
             {
                 passwordForm.labelPassword.Text = "Придумайте пароль:";
