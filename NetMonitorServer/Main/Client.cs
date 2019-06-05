@@ -14,6 +14,8 @@ namespace NetMonitorServer
 
         public Dictionary<string, string> HardwareInfo = null;
 
+        public List<ApplicationInfo> ApplicationInfo = null;
+
         [BsonIgnore]
         public NetMonitorClient socket = null;
         public string IP { get; set; }
@@ -58,6 +60,11 @@ namespace NetMonitorServer
         {
             this.socket = socket;
             //this.socket.Poll(1000, SelectMode.SelectRead);
+        }
+
+        public Client()
+        {
+
         }
 
         public void GetElementsFromPath(string path)

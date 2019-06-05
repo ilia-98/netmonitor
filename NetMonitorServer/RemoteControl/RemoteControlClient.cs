@@ -39,7 +39,7 @@ namespace NetMonitorServer.RemoteControl
                 {
                     try
                     {
-                        Console.WriteLine("Жду экран");
+                        //Console.WriteLine("Жду экран");
                         Bitmap bitmap1 = null;
 
                         using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
@@ -50,7 +50,7 @@ namespace NetMonitorServer.RemoteControl
                             int imagesize = BitConverter.ToInt32(data, 0);
 
                             data = new byte[65536];
-                            Console.WriteLine("Нужно принять байт: " + imagesize);
+                            //Console.WriteLine("Нужно принять байт: " + imagesize);
                             do
                             {
                                 int bytes = stream.Read(data, 0, imagesize > 65536? 65536: imagesize);
@@ -58,7 +58,7 @@ namespace NetMonitorServer.RemoteControl
                                 ms.Write(data, 0, bytes);
                             }
                             while (imagesize > 0);
-                            Console.WriteLine("Принял байт: " + ms.Length);
+                            //Console.WriteLine("Принял байт: " + ms.Length);
 
                             ImageConverter ic = new ImageConverter();
                             Image img = (Image)ic.ConvertFrom(ms.ToArray());

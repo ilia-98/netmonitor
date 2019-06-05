@@ -61,7 +61,6 @@ namespace NetMonitorServer
         {
             get
             {
-                StatusDBServer = database.RunCommandAsync((Command<BsonDocument>)"{ping:1}").Wait(1000);
                 return isServerDBLive;
             }
             set
@@ -94,6 +93,7 @@ namespace NetMonitorServer
                 else
                 {
                     labelSelectedItem.Text = "Выбран: " + value.ToString();
+                    labelHardwareInfo.Text = value.HardwareInfo==null?"":{;
                     tabControlMain.Enabled = true;
                 }
 
@@ -143,6 +143,8 @@ namespace NetMonitorServer
         {
             InitializeComponent();
 
+            comboBoxNotifyIconType.SelectedIndex = 0;
+
             ImageList imageList = new ImageList();
             imageList.Images.Add(Properties.Resources.Circle_Red);
             imageList.Images.Add(Properties.Resources.Circle_Green);
@@ -155,6 +157,8 @@ namespace NetMonitorServer
             string connectionString = "mongodb://localhost:27017";
             mongoClient = new MongoClient(connectionString);
             database = mongoClient.GetDatabase("netmonitordb");
+            StatusDBServer = database.RunCommandAsync((Command<BsonDocument>)"{ping:1}").Wait(1000);
+
             if (StatusDBServer)
             {
                 clientDBCollection = database.GetCollection<ClientDB>("clients");
@@ -442,6 +446,17 @@ namespace NetMonitorServer
                         foreach (var item in SelectedClient.HardwareInfo)
                             labelHardwareInfo.Text += item.Key + ": " + item.Value + "\n";
                     }
+            }
+        }
+
+        private void ButtonGetApps_Click(object sender, EventArgs e)
+        {
+            if (SelectedClient != null)
+            {
+                if (SelectedClient.Available)
+                {
+                    SelectedClient.Send("ApplicationInfo");
+                }
             }
         }
     }

@@ -7,6 +7,20 @@ using System.Windows.Forms;
 namespace NetMonitor
 {
     [Serializable]
+    public struct ApplicationInfo
+    {
+        public string Name;
+        public string InstallDate;
+        public string Vendor;
+        public string Version;
+
+        public override string ToString()
+        {
+            return Name;
+        }
+    }
+
+    [Serializable]
     public struct MonitorInfo
     {
         public float[] HDD_temp;
@@ -41,6 +55,8 @@ namespace NetMonitor
         public object Data { get; set; } = null;
 
         public bool IsError { get; set; } = false;
+
+        public DateTime Date { get; set; } = DateTime.Now;
 
         public static byte[] Serialize(Packet anySerializableObject)
         {
