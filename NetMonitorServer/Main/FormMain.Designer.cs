@@ -71,6 +71,13 @@ namespace NetMonitorServer
             this.tabPageMain = new System.Windows.Forms.TabPage();
             this.pictureBoxScreenMain = new System.Windows.Forms.PictureBox();
             this.tabControlMain = new System.Windows.Forms.TabControl();
+            this.tabPageApps = new System.Windows.Forms.TabPage();
+            this.buttonGetApps = new System.Windows.Forms.Button();
+            this.listViewApps = new System.Windows.Forms.ListView();
+            this.columnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnInstallDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnVendor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnVersion = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPageNotify = new System.Windows.Forms.TabPage();
             this.labelTextNotifyIconType = new System.Windows.Forms.Label();
             this.comboBoxNotifyIconType = new System.Windows.Forms.ComboBox();
@@ -79,13 +86,6 @@ namespace NetMonitorServer
             this.textBoxNotifyTitle = new System.Windows.Forms.TextBox();
             this.labelTextNotifyTitle = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.tabPageApps = new System.Windows.Forms.TabPage();
-            this.buttonGetApps = new System.Windows.Forms.Button();
-            this.listViewApps = new System.Windows.Forms.ListView();
-            this.columnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnInstallDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnVendor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnVersion = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.labelTextDBStatus = new System.Windows.Forms.Label();
             this.labelServerDBStatus = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
@@ -98,8 +98,8 @@ namespace NetMonitorServer
             this.tabPageMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxScreenMain)).BeginInit();
             this.tabControlMain.SuspendLayout();
-            this.tabPageNotify.SuspendLayout();
             this.tabPageApps.SuspendLayout();
+            this.tabPageNotify.SuspendLayout();
             this.SuspendLayout();
             // 
             // listViewClients
@@ -107,7 +107,7 @@ namespace NetMonitorServer
             resources.ApplyResources(this.listViewClients, "listViewClients");
             this.listViewClients.Name = "listViewClients";
             this.listViewClients.UseCompatibleStateImageBehavior = false;
-            this.listViewClients.View = System.Windows.Forms.View.SmallIcon;
+            this.listViewClients.View = System.Windows.Forms.View.List;
             this.listViewClients.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
             // menuStrip1
@@ -361,6 +361,49 @@ namespace NetMonitorServer
             this.tabControlMain.SelectedIndex = 0;
             this.tabControlMain.SelectedIndexChanged += new System.EventHandler(this.TabControlMain_SelectedIndexChanged);
             // 
+            // tabPageApps
+            // 
+            resources.ApplyResources(this.tabPageApps, "tabPageApps");
+            this.tabPageApps.Controls.Add(this.buttonGetApps);
+            this.tabPageApps.Controls.Add(this.listViewApps);
+            this.tabPageApps.Name = "tabPageApps";
+            this.tabPageApps.UseVisualStyleBackColor = true;
+            // 
+            // buttonGetApps
+            // 
+            resources.ApplyResources(this.buttonGetApps, "buttonGetApps");
+            this.buttonGetApps.Name = "buttonGetApps";
+            this.buttonGetApps.UseVisualStyleBackColor = true;
+            this.buttonGetApps.Click += new System.EventHandler(this.ButtonGetApps_Click);
+            // 
+            // listViewApps
+            // 
+            resources.ApplyResources(this.listViewApps, "listViewApps");
+            this.listViewApps.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnName,
+            this.columnInstallDate,
+            this.columnVendor,
+            this.columnVersion});
+            this.listViewApps.Name = "listViewApps";
+            this.listViewApps.UseCompatibleStateImageBehavior = false;
+            this.listViewApps.View = System.Windows.Forms.View.Details;
+            // 
+            // columnName
+            // 
+            resources.ApplyResources(this.columnName, "columnName");
+            // 
+            // columnInstallDate
+            // 
+            resources.ApplyResources(this.columnInstallDate, "columnInstallDate");
+            // 
+            // columnVendor
+            // 
+            resources.ApplyResources(this.columnVendor, "columnVendor");
+            // 
+            // columnVersion
+            // 
+            resources.ApplyResources(this.columnVersion, "columnVersion");
+            // 
             // tabPageNotify
             // 
             resources.ApplyResources(this.tabPageNotify, "tabPageNotify");
@@ -416,49 +459,6 @@ namespace NetMonitorServer
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
-            // tabPageApps
-            // 
-            resources.ApplyResources(this.tabPageApps, "tabPageApps");
-            this.tabPageApps.Controls.Add(this.buttonGetApps);
-            this.tabPageApps.Controls.Add(this.listViewApps);
-            this.tabPageApps.Name = "tabPageApps";
-            this.tabPageApps.UseVisualStyleBackColor = true;
-            // 
-            // buttonGetApps
-            // 
-            resources.ApplyResources(this.buttonGetApps, "buttonGetApps");
-            this.buttonGetApps.Name = "buttonGetApps";
-            this.buttonGetApps.UseVisualStyleBackColor = true;
-            this.buttonGetApps.Click += new System.EventHandler(this.ButtonGetApps_Click);
-            // 
-            // listViewApps
-            // 
-            resources.ApplyResources(this.listViewApps, "listViewApps");
-            this.listViewApps.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnName,
-            this.columnInstallDate,
-            this.columnVendor,
-            this.columnVersion});
-            this.listViewApps.Name = "listViewApps";
-            this.listViewApps.UseCompatibleStateImageBehavior = false;
-            this.listViewApps.View = System.Windows.Forms.View.Details;
-            // 
-            // columnName
-            // 
-            resources.ApplyResources(this.columnName, "columnName");
-            // 
-            // columnInstallDate
-            // 
-            resources.ApplyResources(this.columnInstallDate, "columnInstallDate");
-            // 
-            // columnVendor
-            // 
-            resources.ApplyResources(this.columnVendor, "columnVendor");
-            // 
-            // columnVersion
-            // 
-            resources.ApplyResources(this.columnVersion, "columnVersion");
-            // 
             // labelTextDBStatus
             // 
             resources.ApplyResources(this.labelTextDBStatus, "labelTextDBStatus");
@@ -501,9 +501,9 @@ namespace NetMonitorServer
             this.tabPageMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxScreenMain)).EndInit();
             this.tabControlMain.ResumeLayout(false);
+            this.tabPageApps.ResumeLayout(false);
             this.tabPageNotify.ResumeLayout(false);
             this.tabPageNotify.PerformLayout();
-            this.tabPageApps.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

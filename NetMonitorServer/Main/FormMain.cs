@@ -14,6 +14,8 @@ using System.Runtime.InteropServices;
 using MongoDB.Bson;
 using NetMonitorServer.Addons;
 using NetMonitorServer.RemoteControl;
+using System.DirectoryServices;
+using System.Threading;
 
 namespace NetMonitorServer
 {
@@ -109,6 +111,70 @@ namespace NetMonitorServer
             return result;
         }
 
+        public void GetPCsInLan()
+        {
+            /// <summary>
+            /// Список имен локальных компьютеров
+            /// </summary>
+            var root = new DirectoryEntry("WinNT:");
+            List<DirectoryEntry> items = new List<DirectoryEntry>();
+
+            foreach (DirectoryEntry dom in root.Children)
+            {
+                foreach (DirectoryEntry entry in dom.Children)
+                {
+                    if (entry.Name != "Schema")
+                    {
+                        if (!items.Contains(entry))
+                            items.Add(entry);
+                    }
+                }
+            }
+
+
+
+            Console.WriteLine("Компьютеры в локальной сети:");
+            listViewClients.BeginInvoke((MethodInvoker)(delegate
+            {
+                foreach (var new_client in items)
+                {
+                    bool NeedAdd = true;
+
+                    foreach (Client item in listViewClients.Items)
+                    {
+                        if (item.MachineName.ToUpper() == new_client.Name.ToUpper())
+                        {
+                            NeedAdd = false;
+                            break;
+                        }
+                    }
+                    
+                    if (NeedAdd)
+                    {
+                        var ipadd = Dns.GetHostAddresses(new_client.Name);
+                        var ip = "";
+
+                        if (ipadd.Length > 0)
+                        {
+                            ip = ipadd[0].MapToIPv4().ToString();
+                        }
+
+                        Client client = new Client() {
+                            MachineName = new_client.Name,
+                            IP = ip,
+                            MAC = Util.GetMacAddress(ip),
+                            ImageIndex = 2
+                        };
+
+                        Console.WriteLine(client.MachineName + " |ip: " + client.IP + " |mac: " + client.MAC);
+                        listViewClients.Items.Add(client);
+                    }
+                }
+            }));
+
+            //Util.GetAllPCInLan();
+        }
+
         public void ServerStop()
         {
             socketServer.Stop();
@@ -173,6 +239,8 @@ namespace NetMonitorServer
             InitializeDB();
             ServerStart();
             SelectedClient = null;
+            Thread getpcsThread = new Thread(new ThreadStart(GetPCsInLan));
+            getpcsThread.Start();
             //MessageBox.Show(AppSettings.Get("WebServer"));
         }
 

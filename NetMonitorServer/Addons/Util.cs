@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 public static class Util
 {
@@ -39,7 +40,30 @@ public static class Util
         }
         else
         {
-            return "localhost";
+            return "Not Found";
         }
+    }
+
+    public static string[] GetAllPCInLan()
+    {
+        string macAddress = string.Empty;
+        System.Diagnostics.Process pProcess = new System.Diagnostics.Process();
+        pProcess.StartInfo.FileName = "arp";
+        pProcess.StartInfo.Arguments = "-a";
+        pProcess.StartInfo.UseShellExecute = false;
+        pProcess.StartInfo.RedirectStandardOutput = true;
+        pProcess.StartInfo.CreateNoWindow = true;
+        pProcess.Start();
+        string strOutput = pProcess.StandardOutput.ReadToEnd();
+
+        Console.WriteLine(strOutput);
+
+        List<string> pcs = new List<string>();
+
+
+
+
+
+        return pcs.ToArray();
     }
 }

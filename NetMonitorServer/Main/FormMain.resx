@@ -213,8 +213,8 @@
   <data name="&gt;&gt;buttonFilesRun.Parent" xml:space="preserve">
     <value>panelFiles</value>
   </data>
-  <data name="&gt;&gt;buttonFilesGet.ZOrder" xml:space="preserve">
-    <value>9</value>
+  <data name="buttonFilesGet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 70</value>
   </data>
   <data name="textBoxNotifyTitle.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -226,6 +226,9 @@
     <value>283, 169</value>
   </data>
   <data name="&gt;&gt;textBoxArgs.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBoxNotifyText.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="labelTextDBStatus.Size" type="System.Drawing.Size, System.Drawing">
@@ -257,9 +260,6 @@
   </data>
   <data name="pictureBoxScreenMain.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>StretchImage</value>
-  </data>
-  <data name="labelTextNotifyIconType.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
   </data>
   <data name="&gt;&gt;tabPageApps.Type" xml:space="preserve">
     <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -360,8 +360,8 @@
   <data name="buttonGetProcess.Text" xml:space="preserve">
     <value>Обновить</value>
   </data>
-  <data name="buttonFilesGet.Size" type="System.Drawing.Size, System.Drawing">
-    <value>70, 70</value>
+  <data name="&gt;&gt;comboBoxNotifyIconType.Parent" xml:space="preserve">
+    <value>tabPageNotify</value>
   </data>
   <data name="&gt;&gt;buttonFilesGet.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -413,6 +413,9 @@
   </data>
   <data name="&gt;&gt;tabPageInfo.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="comboBoxNotifyIconType.Items" type="System.Windows.Forms.ToolTipIcon, System.Windows.Forms">
+    <value>Info</value>
   </data>
   <data name="&gt;&gt;textBoxNotifyTitle.ZOrder" xml:space="preserve">
     <value>4</value>
@@ -495,6 +498,9 @@
   <data name="&gt;&gt;columnHeaderCPU.Name" xml:space="preserve">
     <value>columnHeaderCPU</value>
   </data>
+  <data name="&gt;&gt;buttonFilesGet.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
   <data name="pictureBoxScreenMain.Location" type="System.Drawing.Point, System.Drawing">
     <value>36, 16</value>
   </data>
@@ -542,9 +548,6 @@
   </data>
   <data name="&gt;&gt;buttonFilesGetElements.ZOrder" xml:space="preserve">
     <value>4</value>
-  </data>
-  <data name="&gt;&gt;comboBoxNotifyIconType.Parent" xml:space="preserve">
-    <value>tabPageNotify</value>
   </data>
   <data name="buttonGetApps.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -672,14 +675,8 @@
   <data name="tabPageNotify.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
-  <data name="&gt;&gt;labelTextNotifyIconType.Name" xml:space="preserve">
-    <value>labelTextNotifyIconType</value>
-  </data>
   <data name="columnHeaderName.Width" type="System.Int32, mscorlib">
     <value>150</value>
-  </data>
-  <data name="buttonGetProcess.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 6</value>
   </data>
   <data name="&gt;&gt;columnVendor.Name" xml:space="preserve">
     <value>columnVendor</value>
@@ -894,9 +891,6 @@
   <data name="&gt;&gt;tabPageInfo.Parent" xml:space="preserve">
     <value>tabControlMain</value>
   </data>
-  <data name="tabPageMonitoring.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
-  </data>
   <data name="pictureBoxScreenMain.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
   </data>
@@ -948,8 +942,8 @@
   <data name="tabPage4.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
-  <data name="&gt;&gt;textBoxNotifyText.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="tabPageMonitoring.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
   </data>
   <data name="&gt;&gt;textBoxNotifyTitle.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -965,6 +959,9 @@
   </data>
   <data name="labelTextArgs.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="&gt;&gt;buttonFilesUpload.ZOrder" xml:space="preserve">
+    <value>5</value>
   </data>
   <data name="&gt;&gt;listViewApps.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -1044,8 +1041,8 @@
   <data name="tabPageNotify.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
   </data>
-  <data name="comboBoxNotifyIconType.Items" type="System.Windows.Forms.ToolTipIcon, System.Windows.Forms">
-    <value>Info</value>
+  <data name="&gt;&gt;labelTextNotifyIconType.Name" xml:space="preserve">
+    <value>labelTextNotifyIconType</value>
   </data>
   <data name="labelTextNotifyText.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -1124,6 +1121,9 @@
   </data>
   <data name="labelServerStatus.Text" xml:space="preserve">
     <value>OFLINE</value>
+  </data>
+  <data name="&gt;&gt;timer1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ServerToolStripMenuItem.Text" xml:space="preserve">
     <value>Сервер</value>
@@ -1206,8 +1206,8 @@
   <data name="&gt;&gt;buttonGetProcess.Name" xml:space="preserve">
     <value>buttonGetProcess</value>
   </data>
-  <data name="&gt;&gt;timer1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="labelTextNotifyIconType.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
   </data>
   <data name="&gt;&gt;listViewApps.Parent" xml:space="preserve">
     <value>tabPageApps</value>
@@ -1254,8 +1254,8 @@
   <data name="&gt;&gt;buttonStartControl.Parent" xml:space="preserve">
     <value>tabPageMain</value>
   </data>
-  <data name="&gt;&gt;buttonFilesUpload.ZOrder" xml:space="preserve">
-    <value>5</value>
+  <data name="buttonGetProcess.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 6</value>
   </data>
   <data name="textBoxArgs.Size" type="System.Drawing.Size, System.Drawing">
     <value>396, 20</value>
