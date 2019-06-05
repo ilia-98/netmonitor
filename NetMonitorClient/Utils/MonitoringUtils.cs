@@ -25,8 +25,8 @@ namespace NetMonitorClient
         static int CPUTEMPsensor_index;
         static int CPULOADsensor_index;
         static int HDDTEMPsensor_index;
-        public static List<Dictionary<string, object>> processesList = new List<Dictionary<string, object>>();
-
+        public static List<ProcessInfo> processesList = new List<ProcessInfo>();
+        public static List<ApplicationInfo> applictionList = new List<ApplicationInfo>();
         public static void UpdateSensors()
         {
             HDD_index.Clear();
@@ -81,14 +81,14 @@ namespace NetMonitorClient
                         if (computerHardware.Hardware[i].Sensors[j].SensorType == SensorType.Temperature
                        && computerHardware.Hardware[i].HardwareType == HardwareType.HDD)
                         {
-                            HDDTEMPsensor_index = j;                        
+                            HDDTEMPsensor_index = j;
                         }
                     }
                 }
             }
         }
 
-        public static void Monitoring(WebSocket socket,float CriticalTemperature = 80)
+        public static void Monitoring(WebSocket socket, float CriticalTemperature = 80)
         {
             MonitorInfo info;
             while (true)
@@ -98,8 +98,8 @@ namespace NetMonitorClient
                 {
                     try
                     {
-                        socket.Send(new Packet() { Header = "Notify/CriticalTemp" , Data = "Температура процессора превысила " + CriticalTemperature });
-                       // smtpClient.Send(new MailMessage("netmonitor.client@gmail.com", EmailTo, "Warning", "Температура процессора превысила " + CriticalTemperature));
+                        socket.Send(new Packet() { Header = "Notify/CriticalTemp", Data = "Температура процессора превысила " + CriticalTemperature });
+                        // smtpClient.Send(new MailMessage("netmonitor.client@gmail.com", EmailTo, "Warning", "Температура процессора превысила " + CriticalTemperature));
                     }
                     catch { }
                 }
@@ -148,7 +148,7 @@ namespace NetMonitorClient
                 RAM_load = 0
             };
 
-            computerHardware.Hardware[CPU_index].Update();           
+            computerHardware.Hardware[CPU_index].Update();
             computerHardware.Hardware[RAM_index].Update();
 
             float? value;
@@ -218,9 +218,8 @@ namespace NetMonitorClient
         {
             while (true)
             {
-                Console.WriteLine("Старт");
                 Process[] processes;
-                List<Dictionary<string, object>> temp = new List<Dictionary<string, object>>();
+                List<ProcessInfo> temp = new List<ProcessInfo>();
 
                 processes = Process.GetProcesses();
                 foreach (var process in processes)
@@ -228,54 +227,39 @@ namespace NetMonitorClient
                     try
                     {
                         double[] usage = GetUsage(process);
-                        temp.Add(new Dictionary<string, object>() {
-                            { "Name", process.ProcessName },
-                            { "Description", process.MainModule.FileVersionInfo.FileDescription },
-                            { "CPUUsage", usage[0] },
-                            { "RAMUsage", usage[1] }
+                        temp.Add(new ProcessInfo()
+                        {
+                            Name = process.ProcessName,
+                            Description = process.MainModule.FileVersionInfo.FileDescription,
+                            CPUUsage = usage[0],
+                            RAMUsage = usage[1]
                         });
                     }
                     catch { }
                 }
                 processesList = temp;
-                Console.WriteLine("Стоп" + temp.Count);
+                Thread.Sleep(1000);
             }
         }
 
-        public static List<ApplicationInfo> GetAppInfo()
+        public static void GetAppInfo()
         {
-            List<ApplicationInfo> appList = new List<ApplicationInfo>();
+            List<ApplicationInfo> temp = new List<ApplicationInfo>();
             ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Product");
             foreach (ManagementObject app in searcher.Get())
             {
-                //string appName, appInstDate, appInstLoc, appVendor, appVersion;
-                //if (app.GetPropertyValue("Name") != null)
-                //    appName = app.GetPropertyValue("Name").ToString();
-                //else
-                //    appName = "";
-                //if (app.GetPropertyValue("InstallDate") != null)
-                //    appInstDate = app.GetPropertyValue("InstallDate").ToString();
-                //else
-                //    appInstDate = "";
-                //if (app.GetPropertyValue("Vendor") != null)
-                //    appVendor = app.GetPropertyValue("Vendor").ToString();
-                //else
-                //    appVendor = "";
-                //if (app.GetPropertyValue("Version") != null)
-                //    appVersion = app.GetPropertyValue("Version").ToString();
-                //else
-                //    appVersion = "";
 
-                var app_struct = new ApplicationInfo() {
-                    Name = app.GetPropertyValue("Name") == null ? "" :app.GetPropertyValue("Name").ToString(),
-                    InstallDate = app.GetPropertyValue("InstallDate") == null ? "" : app.GetPropertyValue("InstallDate").ToString(),
-                    Vendor = app.GetPropertyValue("Vendor") == null ? "" : app.GetPropertyValue("Vendor").ToString(),
-                    Version = app.GetPropertyValue("Version") == null ? "" : app.GetPropertyValue("Version").ToString(),
+                var app_struct = new ApplicationInfo()
+                {
+                    Name = app.GetPropertyValue("Name"),
+                    InstallDate = app.GetPropertyValue("InstallDate"),
+                    Vendor = app.GetPropertyValue("Vendor"),
+                    Version = app.GetPropertyValue("Version"),
                 };
 
-                appList.Add(app_struct);
+                temp.Add(app_struct);
             }
-            return appList;
+            applictionList = temp;
         }
 
 
