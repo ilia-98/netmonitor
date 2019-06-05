@@ -37,9 +37,7 @@ namespace NetMonitorServer
             {
                 bool addtolist = true;
 
-                client = new Client(netMonitorClient);
-
-                string MAC_addr = client.MAC;
+                string MAC_addr = Util.GetMacAddress(netMonitorClient.Context.UserEndPoint.Address.ToString()).ToUpper();
 
                 foreach (Client item in form.listViewClients.Items)
                 {
@@ -55,6 +53,7 @@ namespace NetMonitorServer
 
                 if (addtolist)
                 {
+                    client = new Client(netMonitorClient);
                     client.Available = true;
                     form.listViewClients.Items.Add(client);
                 }
@@ -167,6 +166,24 @@ namespace NetMonitorServer
             }));
         }
 
+        private void Handler_Application_Info(Packet packet)
+        {
+            List<ApplicationInfo> apps = (List<ApplicationInfo>)packet.Data;
+            client.ApplicationInfo = apps;
+
+            form.listViewApps.BeginInvoke((MethodInvoker)(delegate
+            {
+                foreach(var app in apps)
+                    form.listViewApps.Items.Add(app.ToString());
+            }));
+
+            if (form.StatusDBServer)
+            {
+                ClientDB clientDB = client;
+                form.clientDBCollection.UpdateOne(clientDB.GetFilter(), clientDB.GetUpdate(), new UpdateOptions() { IsUpsert = true });
+            }
+        }
+
         void Handler_Hardware_Info(Packet packet)
         {
             Dictionary<string, string> keyValuePairs = (Dictionary<string, string>)packet.Data;
@@ -177,11 +194,10 @@ namespace NetMonitorServer
             client.ScreenHeight = int.Parse(resolution[1]);
 
             if (form.StatusDBServer)
-                form.listViewClients.BeginInvoke((MethodInvoker)(delegate
-                {
-                    ClientDB clientDB = client;
-                    form.clientDBCollection.UpdateOne(clientDB.GetFilter(), clientDB.GetUpdate(), new UpdateOptions() { IsUpsert = true });
-                }));
+            {
+                ClientDB clientDB = client;
+                form.clientDBCollection.UpdateOne(clientDB.GetFilter(), clientDB.GetUpdate(), new UpdateOptions() { IsUpsert = true });
+            }
         }
 
         void Handler_Process_Info(Packet packet)
@@ -232,6 +248,9 @@ namespace NetMonitorServer
                             break;
                         case "ProcessInfo":
                             Handler_Process_Info(packet);
+                            break;
+                        case "ApplicationInfo":
+                            Handler_Application_Info(packet);
                             break;
                         case "Files/Update":
                         case "Files/ElementsFromPath":
@@ -321,7 +340,7 @@ namespace NetMonitorServer
 
         public void Send(Packet packet)
         {
-            base.Send(packet);
+            base.SendAsync(packet, (bool complete) => { });
         }
     }
 }

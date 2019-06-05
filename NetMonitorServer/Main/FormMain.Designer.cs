@@ -31,9 +31,9 @@ namespace NetMonitorServer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.listViewClients = new System.Windows.Forms.ListView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.ServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,7 +70,7 @@ namespace NetMonitorServer
             this.tabPageMain = new System.Windows.Forms.TabPage();
             this.pictureBoxScreenMain = new System.Windows.Forms.PictureBox();
             this.tabControlMain = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPageNotify = new System.Windows.Forms.TabPage();
             this.labelTextNotifyIconType = new System.Windows.Forms.Label();
             this.comboBoxNotifyIconType = new System.Windows.Forms.ComboBox();
             this.labelTextNotifyText = new System.Windows.Forms.Label();
@@ -80,6 +80,9 @@ namespace NetMonitorServer
             this.button1 = new System.Windows.Forms.Button();
             this.labelTextDBStatus = new System.Windows.Forms.Label();
             this.labelServerDBStatus = new System.Windows.Forms.Label();
+            this.tabPageApps = new System.Windows.Forms.TabPage();
+            this.listViewApps = new System.Windows.Forms.ListView();
+            this.buttonGetApps = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.tabPageProcess.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartMonitor)).BeginInit();
@@ -90,15 +93,15 @@ namespace NetMonitorServer
             this.tabPageMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxScreenMain)).BeginInit();
             this.tabControlMain.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.tabPageNotify.SuspendLayout();
+            this.tabPageApps.SuspendLayout();
             this.SuspendLayout();
             // 
             // listViewClients
             // 
-            this.listViewClients.Location = new System.Drawing.Point(18, 179);
-            this.listViewClients.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.listViewClients.Location = new System.Drawing.Point(12, 116);
             this.listViewClients.Name = "listViewClients";
-            this.listViewClients.Size = new System.Drawing.Size(577, 519);
+            this.listViewClients.Size = new System.Drawing.Size(386, 339);
             this.listViewClients.TabIndex = 3;
             this.listViewClients.UseCompatibleStateImageBehavior = false;
             this.listViewClients.View = System.Windows.Forms.View.SmallIcon;
@@ -111,8 +114,7 @@ namespace NetMonitorServer
             this.ServerToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(9, 3, 0, 3);
-            this.menuStrip1.Size = new System.Drawing.Size(1706, 35);
+            this.menuStrip1.Size = new System.Drawing.Size(1137, 24);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStripMain";
             // 
@@ -121,23 +123,22 @@ namespace NetMonitorServer
             this.ServerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.RestartToolStripMenuItem});
             this.ServerToolStripMenuItem.Name = "ServerToolStripMenuItem";
-            this.ServerToolStripMenuItem.Size = new System.Drawing.Size(89, 29);
+            this.ServerToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.ServerToolStripMenuItem.Text = "Сервер";
             // 
             // RestartToolStripMenuItem
             // 
             this.RestartToolStripMenuItem.Name = "RestartToolStripMenuItem";
-            this.RestartToolStripMenuItem.Size = new System.Drawing.Size(209, 34);
+            this.RestartToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.RestartToolStripMenuItem.Text = "Перезапуск";
             this.RestartToolStripMenuItem.Click += new System.EventHandler(this.RestartToolStripMenuItem_Click);
             // 
             // labelTextStatus
             // 
             this.labelTextStatus.AutoSize = true;
-            this.labelTextStatus.Location = new System.Drawing.Point(14, 54);
-            this.labelTextStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelTextStatus.Location = new System.Drawing.Point(9, 35);
             this.labelTextStatus.Name = "labelTextStatus";
-            this.labelTextStatus.Size = new System.Drawing.Size(205, 20);
+            this.labelTextStatus.Size = new System.Drawing.Size(138, 13);
             this.labelTextStatus.TabIndex = 5;
             this.labelTextStatus.Text = "Статус главного сервера:";
             // 
@@ -145,10 +146,9 @@ namespace NetMonitorServer
             // 
             this.labelServerStatus.AutoSize = true;
             this.labelServerStatus.ForeColor = System.Drawing.Color.Red;
-            this.labelServerStatus.Location = new System.Drawing.Point(227, 54);
-            this.labelServerStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelServerStatus.Location = new System.Drawing.Point(151, 35);
             this.labelServerStatus.Name = "labelServerStatus";
-            this.labelServerStatus.Size = new System.Drawing.Size(67, 20);
+            this.labelServerStatus.Size = new System.Drawing.Size(45, 13);
             this.labelServerStatus.TabIndex = 6;
             this.labelServerStatus.Text = "OFLINE";
             // 
@@ -160,10 +160,9 @@ namespace NetMonitorServer
             // labelSelectedItem
             // 
             this.labelSelectedItem.AutoSize = true;
-            this.labelSelectedItem.Location = new System.Drawing.Point(14, 145);
-            this.labelSelectedItem.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelSelectedItem.Location = new System.Drawing.Point(9, 94);
             this.labelSelectedItem.Name = "labelSelectedItem";
-            this.labelSelectedItem.Size = new System.Drawing.Size(71, 20);
+            this.labelSelectedItem.Size = new System.Drawing.Size(49, 13);
             this.labelSelectedItem.TabIndex = 12;
             this.labelSelectedItem.Text = "Выбран:";
             // 
@@ -171,21 +170,19 @@ namespace NetMonitorServer
             // 
             this.tabPageProcess.Controls.Add(this.buttonGetProcess);
             this.tabPageProcess.Controls.Add(this.listViewProcess);
-            this.tabPageProcess.Location = new System.Drawing.Point(4, 29);
-            this.tabPageProcess.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tabPageProcess.Location = new System.Drawing.Point(4, 22);
             this.tabPageProcess.Name = "tabPageProcess";
-            this.tabPageProcess.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPageProcess.Size = new System.Drawing.Size(1086, 625);
+            this.tabPageProcess.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPageProcess.Size = new System.Drawing.Size(721, 402);
             this.tabPageProcess.TabIndex = 4;
             this.tabPageProcess.Text = "Процессы";
             this.tabPageProcess.UseVisualStyleBackColor = true;
             // 
             // buttonGetProcess
             // 
-            this.buttonGetProcess.Location = new System.Drawing.Point(9, 9);
-            this.buttonGetProcess.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonGetProcess.Location = new System.Drawing.Point(6, 6);
             this.buttonGetProcess.Name = "buttonGetProcess";
-            this.buttonGetProcess.Size = new System.Drawing.Size(112, 35);
+            this.buttonGetProcess.Size = new System.Drawing.Size(75, 23);
             this.buttonGetProcess.TabIndex = 1;
             this.buttonGetProcess.Text = "Обновить";
             this.buttonGetProcess.UseVisualStyleBackColor = true;
@@ -200,10 +197,9 @@ namespace NetMonitorServer
             this.columnHeaderRAM});
             this.listViewProcess.FullRowSelect = true;
             this.listViewProcess.GridLines = true;
-            this.listViewProcess.Location = new System.Drawing.Point(9, 49);
-            this.listViewProcess.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.listViewProcess.Location = new System.Drawing.Point(6, 32);
             this.listViewProcess.Name = "listViewProcess";
-            this.listViewProcess.Size = new System.Drawing.Size(1062, 558);
+            this.listViewProcess.Size = new System.Drawing.Size(709, 364);
             this.listViewProcess.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listViewProcess.TabIndex = 0;
             this.listViewProcess.UseCompatibleStateImageBehavior = false;
@@ -232,10 +228,9 @@ namespace NetMonitorServer
             // 
             // buttonStartControl
             // 
-            this.buttonStartControl.Location = new System.Drawing.Point(494, 555);
-            this.buttonStartControl.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonStartControl.Location = new System.Drawing.Point(329, 361);
             this.buttonStartControl.Name = "buttonStartControl";
-            this.buttonStartControl.Size = new System.Drawing.Size(146, 54);
+            this.buttonStartControl.Size = new System.Drawing.Size(97, 35);
             this.buttonStartControl.TabIndex = 11;
             this.buttonStartControl.Text = "Управление";
             this.buttonStartControl.UseVisualStyleBackColor = true;
@@ -243,20 +238,19 @@ namespace NetMonitorServer
             // 
             // chartMonitor
             // 
-            chartArea1.AxisY.Maximum = 100D;
-            chartArea1.AxisY.Minimum = 0D;
-            chartArea1.Name = "TempMonitoring";
-            chartArea2.AxisY.Maximum = 100D;
-            chartArea2.AxisY.Minimum = 0D;
-            chartArea2.Name = "LoadMonitoring";
-            this.chartMonitor.ChartAreas.Add(chartArea1);
-            this.chartMonitor.ChartAreas.Add(chartArea2);
-            legend1.Name = "Legend";
-            this.chartMonitor.Legends.Add(legend1);
-            this.chartMonitor.Location = new System.Drawing.Point(9, 9);
-            this.chartMonitor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            chartArea3.AxisY.Maximum = 100D;
+            chartArea3.AxisY.Minimum = 0D;
+            chartArea3.Name = "TempMonitoring";
+            chartArea4.AxisY.Maximum = 100D;
+            chartArea4.AxisY.Minimum = 0D;
+            chartArea4.Name = "LoadMonitoring";
+            this.chartMonitor.ChartAreas.Add(chartArea3);
+            this.chartMonitor.ChartAreas.Add(chartArea4);
+            legend2.Name = "Legend";
+            this.chartMonitor.Legends.Add(legend2);
+            this.chartMonitor.Location = new System.Drawing.Point(6, 6);
             this.chartMonitor.Name = "chartMonitor";
-            this.chartMonitor.Size = new System.Drawing.Size(1064, 605);
+            this.chartMonitor.Size = new System.Drawing.Size(709, 393);
             this.chartMonitor.TabIndex = 8;
             this.chartMonitor.Text = "chart1";
             // 
@@ -264,11 +258,10 @@ namespace NetMonitorServer
             // 
             this.tabPage4.Controls.Add(this.panelFiles);
             this.tabPage4.Controls.Add(this.buttonFilesUpdate);
-            this.tabPage4.Location = new System.Drawing.Point(4, 29);
-            this.tabPage4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage4.Size = new System.Drawing.Size(1086, 625);
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage4.Size = new System.Drawing.Size(721, 402);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Файлы";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -286,46 +279,41 @@ namespace NetMonitorServer
             this.panelFiles.Controls.Add(this.listBoxElements);
             this.panelFiles.Controls.Add(this.buttonFilesGet);
             this.panelFiles.Enabled = false;
-            this.panelFiles.Location = new System.Drawing.Point(9, 9);
-            this.panelFiles.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.panelFiles.Location = new System.Drawing.Point(6, 6);
             this.panelFiles.Name = "panelFiles";
-            this.panelFiles.Size = new System.Drawing.Size(960, 600);
+            this.panelFiles.Size = new System.Drawing.Size(640, 390);
             this.panelFiles.TabIndex = 11;
             // 
             // labelTextArgs
             // 
             this.labelTextArgs.AutoSize = true;
-            this.labelTextArgs.Location = new System.Drawing.Point(346, 72);
-            this.labelTextArgs.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelTextArgs.Location = new System.Drawing.Point(231, 47);
             this.labelTextArgs.Name = "labelTextArgs";
-            this.labelTextArgs.Size = new System.Drawing.Size(154, 20);
+            this.labelTextArgs.Size = new System.Drawing.Size(107, 13);
             this.labelTextArgs.TabIndex = 10;
             this.labelTextArgs.Text = "Аргументы запуска";
             // 
             // textBoxArgs
             // 
-            this.textBoxArgs.Location = new System.Drawing.Point(346, 97);
-            this.textBoxArgs.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBoxArgs.Location = new System.Drawing.Point(231, 63);
             this.textBoxArgs.Name = "textBoxArgs";
-            this.textBoxArgs.Size = new System.Drawing.Size(592, 26);
+            this.textBoxArgs.Size = new System.Drawing.Size(396, 20);
             this.textBoxArgs.TabIndex = 9;
             // 
             // labelTextPath
             // 
             this.labelTextPath.AutoSize = true;
-            this.labelTextPath.Location = new System.Drawing.Point(4, 2);
-            this.labelTextPath.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelTextPath.Location = new System.Drawing.Point(3, 1);
             this.labelTextPath.Name = "labelTextPath";
-            this.labelTextPath.Size = new System.Drawing.Size(42, 20);
+            this.labelTextPath.Size = new System.Drawing.Size(29, 13);
             this.labelTextPath.TabIndex = 3;
             this.labelTextPath.Text = "Path";
             // 
             // buttonFilesDelete
             // 
-            this.buttonFilesDelete.Location = new System.Drawing.Point(346, 488);
-            this.buttonFilesDelete.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonFilesDelete.Location = new System.Drawing.Point(231, 317);
             this.buttonFilesDelete.Name = "buttonFilesDelete";
-            this.buttonFilesDelete.Size = new System.Drawing.Size(105, 108);
+            this.buttonFilesDelete.Size = new System.Drawing.Size(70, 70);
             this.buttonFilesDelete.TabIndex = 8;
             this.buttonFilesDelete.Text = "Del";
             this.buttonFilesDelete.UseVisualStyleBackColor = true;
@@ -333,10 +321,9 @@ namespace NetMonitorServer
             // 
             // buttonFilesGetElements
             // 
-            this.buttonFilesGetElements.Location = new System.Drawing.Point(4, 72);
-            this.buttonFilesGetElements.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonFilesGetElements.Location = new System.Drawing.Point(3, 47);
             this.buttonFilesGetElements.Name = "buttonFilesGetElements";
-            this.buttonFilesGetElements.Size = new System.Drawing.Size(328, 54);
+            this.buttonFilesGetElements.Size = new System.Drawing.Size(219, 35);
             this.buttonFilesGetElements.TabIndex = 0;
             this.buttonFilesGetElements.Text = "Получить список файлов и папок";
             this.buttonFilesGetElements.UseVisualStyleBackColor = true;
@@ -344,10 +331,9 @@ namespace NetMonitorServer
             // 
             // buttonFilesUpload
             // 
-            this.buttonFilesUpload.Location = new System.Drawing.Point(346, 371);
-            this.buttonFilesUpload.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonFilesUpload.Location = new System.Drawing.Point(231, 241);
             this.buttonFilesUpload.Name = "buttonFilesUpload";
-            this.buttonFilesUpload.Size = new System.Drawing.Size(105, 108);
+            this.buttonFilesUpload.Size = new System.Drawing.Size(70, 70);
             this.buttonFilesUpload.TabIndex = 7;
             this.buttonFilesUpload.Text = "Add File";
             this.buttonFilesUpload.UseVisualStyleBackColor = true;
@@ -355,18 +341,16 @@ namespace NetMonitorServer
             // 
             // textBoxPath
             // 
-            this.textBoxPath.Location = new System.Drawing.Point(4, 32);
-            this.textBoxPath.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBoxPath.Location = new System.Drawing.Point(3, 21);
             this.textBoxPath.Name = "textBoxPath";
-            this.textBoxPath.Size = new System.Drawing.Size(934, 26);
+            this.textBoxPath.Size = new System.Drawing.Size(624, 20);
             this.textBoxPath.TabIndex = 1;
             // 
             // buttonFilesRun
             // 
-            this.buttonFilesRun.Location = new System.Drawing.Point(346, 137);
-            this.buttonFilesRun.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonFilesRun.Location = new System.Drawing.Point(231, 89);
             this.buttonFilesRun.Name = "buttonFilesRun";
-            this.buttonFilesRun.Size = new System.Drawing.Size(105, 108);
+            this.buttonFilesRun.Size = new System.Drawing.Size(70, 70);
             this.buttonFilesRun.TabIndex = 6;
             this.buttonFilesRun.Text = "Run";
             this.buttonFilesRun.UseVisualStyleBackColor = true;
@@ -375,21 +359,18 @@ namespace NetMonitorServer
             // listBoxElements
             // 
             this.listBoxElements.FormattingEnabled = true;
-            this.listBoxElements.ItemHeight = 20;
-            this.listBoxElements.Location = new System.Drawing.Point(9, 149);
-            this.listBoxElements.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.listBoxElements.Location = new System.Drawing.Point(6, 97);
             this.listBoxElements.Name = "listBoxElements";
-            this.listBoxElements.Size = new System.Drawing.Size(326, 444);
+            this.listBoxElements.Size = new System.Drawing.Size(219, 290);
             this.listBoxElements.TabIndex = 2;
             this.listBoxElements.SelectedIndexChanged += new System.EventHandler(this.ListBoxElements_SelectedIndexChanged);
             this.listBoxElements.DoubleClick += new System.EventHandler(this.ListBoxElements_DoubleClick);
             // 
             // buttonFilesGet
             // 
-            this.buttonFilesGet.Location = new System.Drawing.Point(346, 254);
-            this.buttonFilesGet.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonFilesGet.Location = new System.Drawing.Point(231, 165);
             this.buttonFilesGet.Name = "buttonFilesGet";
-            this.buttonFilesGet.Size = new System.Drawing.Size(105, 108);
+            this.buttonFilesGet.Size = new System.Drawing.Size(70, 70);
             this.buttonFilesGet.TabIndex = 5;
             this.buttonFilesGet.Text = "Get";
             this.buttonFilesGet.UseVisualStyleBackColor = true;
@@ -397,10 +378,9 @@ namespace NetMonitorServer
             // 
             // buttonFilesUpdate
             // 
-            this.buttonFilesUpdate.Location = new System.Drawing.Point(978, 42);
-            this.buttonFilesUpdate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonFilesUpdate.Location = new System.Drawing.Point(652, 27);
             this.buttonFilesUpdate.Name = "buttonFilesUpdate";
-            this.buttonFilesUpdate.Size = new System.Drawing.Size(90, 92);
+            this.buttonFilesUpdate.Size = new System.Drawing.Size(60, 60);
             this.buttonFilesUpdate.TabIndex = 10;
             this.buttonFilesUpdate.Text = "Update";
             this.buttonFilesUpdate.UseVisualStyleBackColor = true;
@@ -409,11 +389,10 @@ namespace NetMonitorServer
             // tabPageMonitoring
             // 
             this.tabPageMonitoring.Controls.Add(this.chartMonitor);
-            this.tabPageMonitoring.Location = new System.Drawing.Point(4, 29);
-            this.tabPageMonitoring.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tabPageMonitoring.Location = new System.Drawing.Point(4, 22);
             this.tabPageMonitoring.Name = "tabPageMonitoring";
-            this.tabPageMonitoring.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPageMonitoring.Size = new System.Drawing.Size(1086, 625);
+            this.tabPageMonitoring.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPageMonitoring.Size = new System.Drawing.Size(721, 402);
             this.tabPageMonitoring.TabIndex = 2;
             this.tabPageMonitoring.Text = "Нагрузка";
             this.tabPageMonitoring.UseVisualStyleBackColor = true;
@@ -421,11 +400,10 @@ namespace NetMonitorServer
             // tabPageInfo
             // 
             this.tabPageInfo.Controls.Add(this.labelHardwareInfo);
-            this.tabPageInfo.Location = new System.Drawing.Point(4, 29);
-            this.tabPageInfo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tabPageInfo.Location = new System.Drawing.Point(4, 22);
             this.tabPageInfo.Name = "tabPageInfo";
-            this.tabPageInfo.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPageInfo.Size = new System.Drawing.Size(1086, 625);
+            this.tabPageInfo.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPageInfo.Size = new System.Drawing.Size(721, 402);
             this.tabPageInfo.TabIndex = 1;
             this.tabPageInfo.Text = "Информация";
             this.tabPageInfo.UseVisualStyleBackColor = true;
@@ -434,31 +412,28 @@ namespace NetMonitorServer
             // 
             this.labelHardwareInfo.AutoSize = true;
             this.labelHardwareInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.labelHardwareInfo.Location = new System.Drawing.Point(10, 11);
-            this.labelHardwareInfo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelHardwareInfo.Location = new System.Drawing.Point(7, 7);
             this.labelHardwareInfo.Name = "labelHardwareInfo";
-            this.labelHardwareInfo.Size = new System.Drawing.Size(0, 29);
+            this.labelHardwareInfo.Size = new System.Drawing.Size(0, 20);
             this.labelHardwareInfo.TabIndex = 0;
             // 
             // tabPageMain
             // 
             this.tabPageMain.Controls.Add(this.buttonStartControl);
             this.tabPageMain.Controls.Add(this.pictureBoxScreenMain);
-            this.tabPageMain.Location = new System.Drawing.Point(4, 29);
-            this.tabPageMain.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tabPageMain.Location = new System.Drawing.Point(4, 22);
             this.tabPageMain.Name = "tabPageMain";
-            this.tabPageMain.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPageMain.Size = new System.Drawing.Size(1086, 625);
+            this.tabPageMain.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPageMain.Size = new System.Drawing.Size(721, 402);
             this.tabPageMain.TabIndex = 0;
             this.tabPageMain.Text = "Экран";
             this.tabPageMain.UseVisualStyleBackColor = true;
             // 
             // pictureBoxScreenMain
             // 
-            this.pictureBoxScreenMain.Location = new System.Drawing.Point(54, 25);
-            this.pictureBoxScreenMain.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pictureBoxScreenMain.Location = new System.Drawing.Point(36, 16);
             this.pictureBoxScreenMain.Name = "pictureBoxScreenMain";
-            this.pictureBoxScreenMain.Size = new System.Drawing.Size(981, 522);
+            this.pictureBoxScreenMain.Size = new System.Drawing.Size(654, 339);
             this.pictureBoxScreenMain.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxScreenMain.TabIndex = 10;
             this.pictureBoxScreenMain.TabStop = false;
@@ -470,38 +445,40 @@ namespace NetMonitorServer
             this.tabControlMain.Controls.Add(this.tabPageMonitoring);
             this.tabControlMain.Controls.Add(this.tabPage4);
             this.tabControlMain.Controls.Add(this.tabPageProcess);
-            this.tabControlMain.Controls.Add(this.tabPage1);
-            this.tabControlMain.Location = new System.Drawing.Point(606, 42);
-            this.tabControlMain.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tabControlMain.Controls.Add(this.tabPageNotify);
+            this.tabControlMain.Controls.Add(this.tabPageApps);
+            this.tabControlMain.Location = new System.Drawing.Point(404, 27);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(1094, 658);
+            this.tabControlMain.Size = new System.Drawing.Size(729, 428);
             this.tabControlMain.TabIndex = 11;
             this.tabControlMain.SelectedIndexChanged += new System.EventHandler(this.TabControlMain_SelectedIndexChanged);
             // 
-            // tabPage1
+            // tabPageNotify
             // 
-            this.tabPage1.Controls.Add(this.labelTextNotifyIconType);
-            this.tabPage1.Controls.Add(this.comboBoxNotifyIconType);
-            this.tabPage1.Controls.Add(this.labelTextNotifyText);
-            this.tabPage1.Controls.Add(this.textBoxNotifyText);
-            this.tabPage1.Controls.Add(this.textBoxNotifyTitle);
-            this.tabPage1.Controls.Add(this.labelTextNotifyTitle);
-            this.tabPage1.Controls.Add(this.button1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 29);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1086, 625);
-            this.tabPage1.TabIndex = 5;
-            this.tabPage1.Text = "Уведомление";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tabPageNotify.Controls.Add(this.labelTextNotifyIconType);
+            this.tabPageNotify.Controls.Add(this.comboBoxNotifyIconType);
+            this.tabPageNotify.Controls.Add(this.labelTextNotifyText);
+            this.tabPageNotify.Controls.Add(this.textBoxNotifyText);
+            this.tabPageNotify.Controls.Add(this.textBoxNotifyTitle);
+            this.tabPageNotify.Controls.Add(this.labelTextNotifyTitle);
+            this.tabPageNotify.Controls.Add(this.button1);
+            this.tabPageNotify.Location = new System.Drawing.Point(4, 22);
+            this.tabPageNotify.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPageNotify.Name = "tabPageNotify";
+            this.tabPageNotify.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPageNotify.Size = new System.Drawing.Size(721, 402);
+            this.tabPageNotify.TabIndex = 5;
+            this.tabPageNotify.Text = "Уведомление";
+            this.tabPageNotify.UseVisualStyleBackColor = true;
             // 
             // labelTextNotifyIconType
             // 
             this.labelTextNotifyIconType.AutoSize = true;
-            this.labelTextNotifyIconType.Location = new System.Drawing.Point(11, 378);
+            this.labelTextNotifyIconType.Location = new System.Drawing.Point(7, 246);
+            this.labelTextNotifyIconType.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelTextNotifyIconType.Name = "labelTextNotifyIconType";
-            this.labelTextNotifyIconType.Size = new System.Drawing.Size(92, 20);
+            this.labelTextNotifyIconType.Size = new System.Drawing.Size(65, 13);
             this.labelTextNotifyIconType.TabIndex = 6;
             this.labelTextNotifyIconType.Text = "Тип иконки";
             // 
@@ -512,49 +489,55 @@ namespace NetMonitorServer
             System.Windows.Forms.ToolTipIcon.Info,
             System.Windows.Forms.ToolTipIcon.Warning,
             System.Windows.Forms.ToolTipIcon.Error});
-            this.comboBoxNotifyIconType.Location = new System.Drawing.Point(11, 404);
+            this.comboBoxNotifyIconType.Location = new System.Drawing.Point(7, 263);
+            this.comboBoxNotifyIconType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBoxNotifyIconType.Name = "comboBoxNotifyIconType";
-            this.comboBoxNotifyIconType.Size = new System.Drawing.Size(422, 28);
+            this.comboBoxNotifyIconType.Size = new System.Drawing.Size(283, 21);
             this.comboBoxNotifyIconType.TabIndex = 5;
             // 
             // labelTextNotifyText
             // 
             this.labelTextNotifyText.AutoSize = true;
-            this.labelTextNotifyText.Location = new System.Drawing.Point(7, 75);
+            this.labelTextNotifyText.Location = new System.Drawing.Point(5, 49);
+            this.labelTextNotifyText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelTextNotifyText.Name = "labelTextNotifyText";
-            this.labelTextNotifyText.Size = new System.Drawing.Size(52, 20);
+            this.labelTextNotifyText.Size = new System.Drawing.Size(37, 13);
             this.labelTextNotifyText.TabIndex = 4;
             this.labelTextNotifyText.Text = "Текст";
             // 
             // textBoxNotifyText
             // 
-            this.textBoxNotifyText.Location = new System.Drawing.Point(11, 98);
+            this.textBoxNotifyText.Location = new System.Drawing.Point(7, 64);
+            this.textBoxNotifyText.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textBoxNotifyText.Multiline = true;
             this.textBoxNotifyText.Name = "textBoxNotifyText";
-            this.textBoxNotifyText.Size = new System.Drawing.Size(422, 258);
+            this.textBoxNotifyText.Size = new System.Drawing.Size(283, 169);
             this.textBoxNotifyText.TabIndex = 3;
             // 
             // textBoxNotifyTitle
             // 
-            this.textBoxNotifyTitle.Location = new System.Drawing.Point(11, 35);
+            this.textBoxNotifyTitle.Location = new System.Drawing.Point(7, 23);
+            this.textBoxNotifyTitle.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textBoxNotifyTitle.Name = "textBoxNotifyTitle";
-            this.textBoxNotifyTitle.Size = new System.Drawing.Size(422, 26);
+            this.textBoxNotifyTitle.Size = new System.Drawing.Size(283, 20);
             this.textBoxNotifyTitle.TabIndex = 2;
             // 
             // labelTextNotifyTitle
             // 
             this.labelTextNotifyTitle.AutoSize = true;
-            this.labelTextNotifyTitle.Location = new System.Drawing.Point(7, 12);
+            this.labelTextNotifyTitle.Location = new System.Drawing.Point(5, 8);
+            this.labelTextNotifyTitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelTextNotifyTitle.Name = "labelTextNotifyTitle";
-            this.labelTextNotifyTitle.Size = new System.Drawing.Size(90, 20);
+            this.labelTextNotifyTitle.Size = new System.Drawing.Size(61, 13);
             this.labelTextNotifyTitle.TabIndex = 1;
             this.labelTextNotifyTitle.Text = "Заголовок";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(156, 576);
+            this.button1.Location = new System.Drawing.Point(104, 374);
+            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(135, 43);
+            this.button1.Size = new System.Drawing.Size(90, 28);
             this.button1.TabIndex = 0;
             this.button1.Text = "Send";
             this.button1.UseVisualStyleBackColor = true;
@@ -563,9 +546,10 @@ namespace NetMonitorServer
             // labelTextDBStatus
             // 
             this.labelTextDBStatus.AutoSize = true;
-            this.labelTextDBStatus.Location = new System.Drawing.Point(14, 83);
+            this.labelTextDBStatus.Location = new System.Drawing.Point(9, 54);
+            this.labelTextDBStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelTextDBStatus.Name = "labelTextDBStatus";
-            this.labelTextDBStatus.Size = new System.Drawing.Size(159, 20);
+            this.labelTextDBStatus.Size = new System.Drawing.Size(108, 13);
             this.labelTextDBStatus.TabIndex = 13;
             this.labelTextDBStatus.Text = "Статус сервера БД:";
             // 
@@ -573,17 +557,48 @@ namespace NetMonitorServer
             // 
             this.labelServerDBStatus.AutoSize = true;
             this.labelServerDBStatus.ForeColor = System.Drawing.Color.Red;
-            this.labelServerDBStatus.Location = new System.Drawing.Point(180, 83);
+            this.labelServerDBStatus.Location = new System.Drawing.Point(120, 54);
+            this.labelServerDBStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelServerDBStatus.Name = "labelServerDBStatus";
-            this.labelServerDBStatus.Size = new System.Drawing.Size(67, 20);
+            this.labelServerDBStatus.Size = new System.Drawing.Size(45, 13);
             this.labelServerDBStatus.TabIndex = 14;
             this.labelServerDBStatus.Text = "OFLINE";
             // 
+            // tabPageApps
+            // 
+            this.tabPageApps.Controls.Add(this.buttonGetApps);
+            this.tabPageApps.Controls.Add(this.listViewApps);
+            this.tabPageApps.Location = new System.Drawing.Point(4, 22);
+            this.tabPageApps.Name = "tabPageApps";
+            this.tabPageApps.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageApps.Size = new System.Drawing.Size(721, 402);
+            this.tabPageApps.TabIndex = 6;
+            this.tabPageApps.Text = "Приложения";
+            this.tabPageApps.UseVisualStyleBackColor = true;
+            // 
+            // listViewApps
+            // 
+            this.listViewApps.Location = new System.Drawing.Point(6, 32);
+            this.listViewApps.Name = "listViewApps";
+            this.listViewApps.Size = new System.Drawing.Size(709, 364);
+            this.listViewApps.TabIndex = 0;
+            this.listViewApps.UseCompatibleStateImageBehavior = false;
+            // 
+            // buttonGetApps
+            // 
+            this.buttonGetApps.Location = new System.Drawing.Point(6, 3);
+            this.buttonGetApps.Name = "buttonGetApps";
+            this.buttonGetApps.Size = new System.Drawing.Size(75, 23);
+            this.buttonGetApps.TabIndex = 2;
+            this.buttonGetApps.Text = "Обновить";
+            this.buttonGetApps.UseVisualStyleBackColor = true;
+            this.buttonGetApps.Click += new System.EventHandler(this.ButtonGetApps_Click);
+            // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1706, 714);
+            this.ClientSize = new System.Drawing.Size(1137, 464);
             this.Controls.Add(this.labelServerDBStatus);
             this.Controls.Add(this.labelTextDBStatus);
             this.Controls.Add(this.labelSelectedItem);
@@ -594,7 +609,6 @@ namespace NetMonitorServer
             this.Controls.Add(this.menuStrip1);
             this.Icon = global::NetMonitorServer.Properties.Resources.Main;
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "FormMain";
             this.Text = "NetMonitor Server";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
@@ -612,8 +626,9 @@ namespace NetMonitorServer
             this.tabPageMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxScreenMain)).EndInit();
             this.tabControlMain.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.tabPageNotify.ResumeLayout(false);
+            this.tabPageNotify.PerformLayout();
+            this.tabPageApps.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -658,7 +673,7 @@ namespace NetMonitorServer
         public System.Windows.Forms.DataVisualization.Charting.Chart chartMonitor;
         private System.Windows.Forms.Label labelTextDBStatus;
         private System.Windows.Forms.Label labelServerDBStatus;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPageNotify;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBoxNotifyTitle;
         private System.Windows.Forms.Label labelTextNotifyTitle;
@@ -666,6 +681,9 @@ namespace NetMonitorServer
         private System.Windows.Forms.TextBox textBoxNotifyText;
         private System.Windows.Forms.Label labelTextNotifyIconType;
         private System.Windows.Forms.ComboBox comboBoxNotifyIconType;
+        private TabPage tabPageApps;
+        public ListView listViewApps;
+        private Button buttonGetApps;
     }
 }
 

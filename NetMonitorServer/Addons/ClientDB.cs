@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
+using NetMonitor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,9 @@ namespace NetMonitorServer.Addons
 
         [BsonIgnoreIfNull]
         public Dictionary<string, string> HardwareInfo = null;
+
+        [BsonIgnoreIfNull]
+        public List<ApplicationInfo> ApplicationInfo = null;
 
         public BsonDocument GetUpdate()
         {
@@ -55,6 +59,7 @@ namespace NetMonitorServer.Addons
                 MAC = client.MAC,
                 MachineName = client.MachineName,
                 HardwareInfo = client.HardwareInfo,
+                ApplicationInfo = client.ApplicationInfo,
             };
             return clientDB;
         }
