@@ -93,7 +93,7 @@ namespace NetMonitorServer
                 else
                 {
                     labelSelectedItem.Text = "Выбран: " + value.ToString();
-                    labelHardwareInfo.Text = value.HardwareInfo==null?"":{;
+                    labelHardwareInfo.Text = value.GetTextForLabelHardwareInfo();
                     tabControlMain.Enabled = true;
                 }
 
@@ -440,12 +440,7 @@ namespace NetMonitorServer
             if (tabControlMain.SelectedTab == tabPageInfo)
             {
                 if (SelectedClient != null)
-                    if (SelectedClient.HardwareInfo != null)
-                    {
-                        labelHardwareInfo.Text = "";
-                        foreach (var item in SelectedClient.HardwareInfo)
-                            labelHardwareInfo.Text += item.Key + ": " + item.Value + "\n";
-                    }
+                    labelHardwareInfo.Text = SelectedClient.GetTextForLabelHardwareInfo();
             }
         }
 

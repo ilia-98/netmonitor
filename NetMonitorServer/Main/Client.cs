@@ -47,6 +47,15 @@ namespace NetMonitorServer
             }
         }
 
+        public string GetTextForLabelHardwareInfo()
+        {
+            string result = "";
+            if(HardwareInfo != null)
+                foreach (var item in HardwareInfo)
+                    result += item.Key + ": " + item.Value + "\n";
+            return result;
+        }
+
         public Client(string IP, string MAC, string MachineName)
         {
             this.IP = IP;
