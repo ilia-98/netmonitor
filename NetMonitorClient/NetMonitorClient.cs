@@ -10,15 +10,6 @@ namespace NetMonitorClient
 {
     class NetMonitorClient
     {
-        [DllImport("gdi32.dll")]
-        static extern int GetDeviceCaps(IntPtr hdc, int nIndex);
-        public enum DeviceCap
-        {
-            VERTRES = 10,
-            DESKTOPVERTRES = 117,
-        }
-
-
         static WebSocket socket;
         static RemoteControl remoteControl;
         Thread monitorThread;
@@ -29,8 +20,6 @@ namespace NetMonitorClient
         public static NotifyIcon NotifyIcon { get; set; }
         public static int Port { get; set; } = 1348;
         public static bool Enabled { get; set; } = true;
-        public static bool NoticeEnabled { get; set; } = false;
-        public static string EmailTo { get; set; }
         public static int CriticalTemperature { get; set; } = 80;
 
         public NetMonitorClient(NotifyIcon notifyIcon)
