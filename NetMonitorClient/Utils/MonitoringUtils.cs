@@ -244,9 +244,9 @@ namespace NetMonitorClient
             }
         }
 
-        public static List<Dictionary<string, object>> GetAppInfo()
+        public static List<ApplicationInfo> GetAppInfo()
         {
-            List<Dictionary<string, object>> appList = new List<Dictionary<string, object>>();
+            List<ApplicationInfo> appList = new List<ApplicationInfo>();
             ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Product");
             foreach (ManagementObject app in searcher.Get())
             {
@@ -268,12 +268,14 @@ namespace NetMonitorClient
                 //else
                 //    appVersion = "";
 
-                appList.Add(new Dictionary<string, object>() {
-                    { "Name", app.GetPropertyValue("Name") },
-                    { "InstallDate", app.GetPropertyValue("InstallDate") },
-                    { "Vendor", app.GetPropertyValue("Vendor")} ,
-                    { "Version", app.GetPropertyValue("Version") }
-                });
+                var app_struct = new ApplicationInfo() {
+                    Name = app.GetPropertyValue("Name") == null ? "" :app.GetPropertyValue("Name").ToString(),
+                    InstallDate = app.GetPropertyValue("InstallDate") == null ? "" : app.GetPropertyValue("InstallDate").ToString(),
+                    Vendor = app.GetPropertyValue("Vendor") == null ? "" : app.GetPropertyValue("Vendor").ToString(),
+                    Version = app.GetPropertyValue("Version") == null ? "" : app.GetPropertyValue("Version").ToString(),
+                };
+
+                appList.Add(app_struct);
             }
             return appList;
         }

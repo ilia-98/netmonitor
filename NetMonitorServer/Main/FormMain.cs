@@ -93,6 +93,7 @@ namespace NetMonitorServer
                 else
                 {
                     labelSelectedItem.Text = "Выбран: " + value.ToString();
+                    labelHardwareInfo.Text = value.HardwareInfo==null?"":{;
                     tabControlMain.Enabled = true;
                 }
 
@@ -445,6 +446,17 @@ namespace NetMonitorServer
                         foreach (var item in SelectedClient.HardwareInfo)
                             labelHardwareInfo.Text += item.Key + ": " + item.Value + "\n";
                     }
+            }
+        }
+
+        private void ButtonGetApps_Click(object sender, EventArgs e)
+        {
+            if (SelectedClient != null)
+            {
+                if (SelectedClient.Available)
+                {
+                    SelectedClient.Send("ApplicationInfo");
+                }
             }
         }
     }

@@ -14,6 +14,8 @@ namespace NetMonitorServer
 
         public Dictionary<string, string> HardwareInfo = null;
 
+        public List<ApplicationInfo> ApplicationInfo = null;
+
         [BsonIgnore]
         public NetMonitorClient socket = null;
         public string IP { get; set; }
