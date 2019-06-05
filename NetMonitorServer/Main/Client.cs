@@ -21,7 +21,7 @@ namespace NetMonitorServer
         public string IP { get; set; }
         public string MAC { get; set; }
 
-        public string MachineName { get; set; }
+        private string machineName;
 
         [BsonIgnore]
         public int ScreenHeight = -1;
@@ -47,12 +47,32 @@ namespace NetMonitorServer
             }
         }
 
+        public string MachineName {
+            get
+            {
+                return machineName;
+            }
+            set
+            {
+                machineName = value;
+                base.Text = value;
+            }
+        }
+
+        public string GetTextForLabelHardwareInfo()
+        {
+            string result = "";
+            if(HardwareInfo != null)
+                foreach (var item in HardwareInfo)
+                    result += item.Key + ": " + item.Value + "\n";
+            return result;
+        }
+
         public Client(string IP, string MAC, string MachineName)
         {
             this.IP = IP;
             this.MAC = MAC;
             this.MachineName = MachineName;
-            base.Text = MachineName;
             Available = false;
         }
 

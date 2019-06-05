@@ -31,6 +31,7 @@ namespace NetMonitorServer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
@@ -70,6 +71,13 @@ namespace NetMonitorServer
             this.tabPageMain = new System.Windows.Forms.TabPage();
             this.pictureBoxScreenMain = new System.Windows.Forms.PictureBox();
             this.tabControlMain = new System.Windows.Forms.TabControl();
+            this.tabPageApps = new System.Windows.Forms.TabPage();
+            this.buttonGetApps = new System.Windows.Forms.Button();
+            this.listViewApps = new System.Windows.Forms.ListView();
+            this.columnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnInstallDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnVendor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnVersion = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPageNotify = new System.Windows.Forms.TabPage();
             this.labelTextNotifyIconType = new System.Windows.Forms.Label();
             this.comboBoxNotifyIconType = new System.Windows.Forms.ComboBox();
@@ -80,9 +88,6 @@ namespace NetMonitorServer
             this.button1 = new System.Windows.Forms.Button();
             this.labelTextDBStatus = new System.Windows.Forms.Label();
             this.labelServerDBStatus = new System.Windows.Forms.Label();
-            this.tabPageApps = new System.Windows.Forms.TabPage();
-            this.listViewApps = new System.Windows.Forms.ListView();
-            this.buttonGetApps = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.tabPageProcess.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartMonitor)).BeginInit();
@@ -93,64 +98,49 @@ namespace NetMonitorServer
             this.tabPageMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxScreenMain)).BeginInit();
             this.tabControlMain.SuspendLayout();
-            this.tabPageNotify.SuspendLayout();
             this.tabPageApps.SuspendLayout();
+            this.tabPageNotify.SuspendLayout();
             this.SuspendLayout();
             // 
             // listViewClients
             // 
-            this.listViewClients.Location = new System.Drawing.Point(12, 116);
+            resources.ApplyResources(this.listViewClients, "listViewClients");
             this.listViewClients.Name = "listViewClients";
-            this.listViewClients.Size = new System.Drawing.Size(386, 339);
-            this.listViewClients.TabIndex = 3;
             this.listViewClients.UseCompatibleStateImageBehavior = false;
-            this.listViewClients.View = System.Windows.Forms.View.SmallIcon;
+            this.listViewClients.View = System.Windows.Forms.View.List;
             this.listViewClients.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
             // menuStrip1
             // 
+            resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ServerToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1137, 24);
-            this.menuStrip1.TabIndex = 4;
-            this.menuStrip1.Text = "menuStripMain";
             // 
             // ServerToolStripMenuItem
             // 
+            resources.ApplyResources(this.ServerToolStripMenuItem, "ServerToolStripMenuItem");
             this.ServerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.RestartToolStripMenuItem});
             this.ServerToolStripMenuItem.Name = "ServerToolStripMenuItem";
-            this.ServerToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
-            this.ServerToolStripMenuItem.Text = "Сервер";
             // 
             // RestartToolStripMenuItem
             // 
+            resources.ApplyResources(this.RestartToolStripMenuItem, "RestartToolStripMenuItem");
             this.RestartToolStripMenuItem.Name = "RestartToolStripMenuItem";
-            this.RestartToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.RestartToolStripMenuItem.Text = "Перезапуск";
             this.RestartToolStripMenuItem.Click += new System.EventHandler(this.RestartToolStripMenuItem_Click);
             // 
             // labelTextStatus
             // 
-            this.labelTextStatus.AutoSize = true;
-            this.labelTextStatus.Location = new System.Drawing.Point(9, 35);
+            resources.ApplyResources(this.labelTextStatus, "labelTextStatus");
             this.labelTextStatus.Name = "labelTextStatus";
-            this.labelTextStatus.Size = new System.Drawing.Size(138, 13);
-            this.labelTextStatus.TabIndex = 5;
-            this.labelTextStatus.Text = "Статус главного сервера:";
             // 
             // labelServerStatus
             // 
-            this.labelServerStatus.AutoSize = true;
+            resources.ApplyResources(this.labelServerStatus, "labelServerStatus");
             this.labelServerStatus.ForeColor = System.Drawing.Color.Red;
-            this.labelServerStatus.Location = new System.Drawing.Point(151, 35);
             this.labelServerStatus.Name = "labelServerStatus";
-            this.labelServerStatus.Size = new System.Drawing.Size(45, 13);
-            this.labelServerStatus.TabIndex = 6;
-            this.labelServerStatus.Text = "OFLINE";
             // 
             // timer1
             // 
@@ -159,37 +149,27 @@ namespace NetMonitorServer
             // 
             // labelSelectedItem
             // 
-            this.labelSelectedItem.AutoSize = true;
-            this.labelSelectedItem.Location = new System.Drawing.Point(9, 94);
+            resources.ApplyResources(this.labelSelectedItem, "labelSelectedItem");
             this.labelSelectedItem.Name = "labelSelectedItem";
-            this.labelSelectedItem.Size = new System.Drawing.Size(49, 13);
-            this.labelSelectedItem.TabIndex = 12;
-            this.labelSelectedItem.Text = "Выбран:";
             // 
             // tabPageProcess
             // 
+            resources.ApplyResources(this.tabPageProcess, "tabPageProcess");
             this.tabPageProcess.Controls.Add(this.buttonGetProcess);
             this.tabPageProcess.Controls.Add(this.listViewProcess);
-            this.tabPageProcess.Location = new System.Drawing.Point(4, 22);
             this.tabPageProcess.Name = "tabPageProcess";
-            this.tabPageProcess.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPageProcess.Size = new System.Drawing.Size(721, 402);
-            this.tabPageProcess.TabIndex = 4;
-            this.tabPageProcess.Text = "Процессы";
             this.tabPageProcess.UseVisualStyleBackColor = true;
             // 
             // buttonGetProcess
             // 
-            this.buttonGetProcess.Location = new System.Drawing.Point(6, 6);
+            resources.ApplyResources(this.buttonGetProcess, "buttonGetProcess");
             this.buttonGetProcess.Name = "buttonGetProcess";
-            this.buttonGetProcess.Size = new System.Drawing.Size(75, 23);
-            this.buttonGetProcess.TabIndex = 1;
-            this.buttonGetProcess.Text = "Обновить";
             this.buttonGetProcess.UseVisualStyleBackColor = true;
             this.buttonGetProcess.Click += new System.EventHandler(this.ButtonGetProcess_Click);
             // 
             // listViewProcess
             // 
+            resources.ApplyResources(this.listViewProcess, "listViewProcess");
             this.listViewProcess.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeaderName,
             this.columnHeaderDescription,
@@ -197,47 +177,38 @@ namespace NetMonitorServer
             this.columnHeaderRAM});
             this.listViewProcess.FullRowSelect = true;
             this.listViewProcess.GridLines = true;
-            this.listViewProcess.Location = new System.Drawing.Point(6, 32);
             this.listViewProcess.Name = "listViewProcess";
-            this.listViewProcess.Size = new System.Drawing.Size(709, 364);
             this.listViewProcess.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.listViewProcess.TabIndex = 0;
             this.listViewProcess.UseCompatibleStateImageBehavior = false;
             this.listViewProcess.View = System.Windows.Forms.View.Details;
             this.listViewProcess.SelectedIndexChanged += new System.EventHandler(this.ListViewProcess_SelectedIndexChanged);
             // 
             // columnHeaderName
             // 
-            this.columnHeaderName.Text = "Название";
-            this.columnHeaderName.Width = 150;
+            resources.ApplyResources(this.columnHeaderName, "columnHeaderName");
             // 
             // columnHeaderDescription
             // 
-            this.columnHeaderDescription.Text = "Описание";
-            this.columnHeaderDescription.Width = 150;
+            resources.ApplyResources(this.columnHeaderDescription, "columnHeaderDescription");
             // 
             // columnHeaderCPU
             // 
-            this.columnHeaderCPU.Text = "CPU";
-            this.columnHeaderCPU.Width = 150;
+            resources.ApplyResources(this.columnHeaderCPU, "columnHeaderCPU");
             // 
             // columnHeaderRAM
             // 
-            this.columnHeaderRAM.Text = "RAM";
-            this.columnHeaderRAM.Width = 150;
+            resources.ApplyResources(this.columnHeaderRAM, "columnHeaderRAM");
             // 
             // buttonStartControl
             // 
-            this.buttonStartControl.Location = new System.Drawing.Point(329, 361);
+            resources.ApplyResources(this.buttonStartControl, "buttonStartControl");
             this.buttonStartControl.Name = "buttonStartControl";
-            this.buttonStartControl.Size = new System.Drawing.Size(97, 35);
-            this.buttonStartControl.TabIndex = 11;
-            this.buttonStartControl.Text = "Управление";
             this.buttonStartControl.UseVisualStyleBackColor = true;
             this.buttonStartControl.Click += new System.EventHandler(this.ButtonStartControl_Click);
             // 
             // chartMonitor
             // 
+            resources.ApplyResources(this.chartMonitor, "chartMonitor");
             chartArea3.AxisY.Maximum = 100D;
             chartArea3.AxisY.Minimum = 0D;
             chartArea3.Name = "TempMonitoring";
@@ -248,26 +219,19 @@ namespace NetMonitorServer
             this.chartMonitor.ChartAreas.Add(chartArea4);
             legend2.Name = "Legend";
             this.chartMonitor.Legends.Add(legend2);
-            this.chartMonitor.Location = new System.Drawing.Point(6, 6);
             this.chartMonitor.Name = "chartMonitor";
-            this.chartMonitor.Size = new System.Drawing.Size(709, 393);
-            this.chartMonitor.TabIndex = 8;
-            this.chartMonitor.Text = "chart1";
             // 
             // tabPage4
             // 
+            resources.ApplyResources(this.tabPage4, "tabPage4");
             this.tabPage4.Controls.Add(this.panelFiles);
             this.tabPage4.Controls.Add(this.buttonFilesUpdate);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage4.Size = new System.Drawing.Size(721, 402);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Файлы";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // panelFiles
             // 
+            resources.ApplyResources(this.panelFiles, "panelFiles");
             this.panelFiles.Controls.Add(this.labelTextArgs);
             this.panelFiles.Controls.Add(this.textBoxArgs);
             this.panelFiles.Controls.Add(this.labelTextPath);
@@ -278,184 +242,171 @@ namespace NetMonitorServer
             this.panelFiles.Controls.Add(this.buttonFilesRun);
             this.panelFiles.Controls.Add(this.listBoxElements);
             this.panelFiles.Controls.Add(this.buttonFilesGet);
-            this.panelFiles.Enabled = false;
-            this.panelFiles.Location = new System.Drawing.Point(6, 6);
             this.panelFiles.Name = "panelFiles";
-            this.panelFiles.Size = new System.Drawing.Size(640, 390);
-            this.panelFiles.TabIndex = 11;
             // 
             // labelTextArgs
             // 
-            this.labelTextArgs.AutoSize = true;
-            this.labelTextArgs.Location = new System.Drawing.Point(231, 47);
+            resources.ApplyResources(this.labelTextArgs, "labelTextArgs");
             this.labelTextArgs.Name = "labelTextArgs";
-            this.labelTextArgs.Size = new System.Drawing.Size(107, 13);
-            this.labelTextArgs.TabIndex = 10;
-            this.labelTextArgs.Text = "Аргументы запуска";
             // 
             // textBoxArgs
             // 
-            this.textBoxArgs.Location = new System.Drawing.Point(231, 63);
+            resources.ApplyResources(this.textBoxArgs, "textBoxArgs");
             this.textBoxArgs.Name = "textBoxArgs";
-            this.textBoxArgs.Size = new System.Drawing.Size(396, 20);
-            this.textBoxArgs.TabIndex = 9;
             // 
             // labelTextPath
             // 
-            this.labelTextPath.AutoSize = true;
-            this.labelTextPath.Location = new System.Drawing.Point(3, 1);
+            resources.ApplyResources(this.labelTextPath, "labelTextPath");
             this.labelTextPath.Name = "labelTextPath";
-            this.labelTextPath.Size = new System.Drawing.Size(29, 13);
-            this.labelTextPath.TabIndex = 3;
-            this.labelTextPath.Text = "Path";
             // 
             // buttonFilesDelete
             // 
-            this.buttonFilesDelete.Location = new System.Drawing.Point(231, 317);
+            resources.ApplyResources(this.buttonFilesDelete, "buttonFilesDelete");
             this.buttonFilesDelete.Name = "buttonFilesDelete";
-            this.buttonFilesDelete.Size = new System.Drawing.Size(70, 70);
-            this.buttonFilesDelete.TabIndex = 8;
-            this.buttonFilesDelete.Text = "Del";
             this.buttonFilesDelete.UseVisualStyleBackColor = true;
             this.buttonFilesDelete.Click += new System.EventHandler(this.ButtonFilesDelete_Click);
             // 
             // buttonFilesGetElements
             // 
-            this.buttonFilesGetElements.Location = new System.Drawing.Point(3, 47);
+            resources.ApplyResources(this.buttonFilesGetElements, "buttonFilesGetElements");
             this.buttonFilesGetElements.Name = "buttonFilesGetElements";
-            this.buttonFilesGetElements.Size = new System.Drawing.Size(219, 35);
-            this.buttonFilesGetElements.TabIndex = 0;
-            this.buttonFilesGetElements.Text = "Получить список файлов и папок";
             this.buttonFilesGetElements.UseVisualStyleBackColor = true;
             this.buttonFilesGetElements.Click += new System.EventHandler(this.ButtonFilesGetElements_Click);
             // 
             // buttonFilesUpload
             // 
-            this.buttonFilesUpload.Location = new System.Drawing.Point(231, 241);
+            resources.ApplyResources(this.buttonFilesUpload, "buttonFilesUpload");
             this.buttonFilesUpload.Name = "buttonFilesUpload";
-            this.buttonFilesUpload.Size = new System.Drawing.Size(70, 70);
-            this.buttonFilesUpload.TabIndex = 7;
-            this.buttonFilesUpload.Text = "Add File";
             this.buttonFilesUpload.UseVisualStyleBackColor = true;
             this.buttonFilesUpload.Click += new System.EventHandler(this.ButtonFilesUpload_Click);
             // 
             // textBoxPath
             // 
-            this.textBoxPath.Location = new System.Drawing.Point(3, 21);
+            resources.ApplyResources(this.textBoxPath, "textBoxPath");
             this.textBoxPath.Name = "textBoxPath";
-            this.textBoxPath.Size = new System.Drawing.Size(624, 20);
-            this.textBoxPath.TabIndex = 1;
             // 
             // buttonFilesRun
             // 
-            this.buttonFilesRun.Location = new System.Drawing.Point(231, 89);
+            resources.ApplyResources(this.buttonFilesRun, "buttonFilesRun");
             this.buttonFilesRun.Name = "buttonFilesRun";
-            this.buttonFilesRun.Size = new System.Drawing.Size(70, 70);
-            this.buttonFilesRun.TabIndex = 6;
-            this.buttonFilesRun.Text = "Run";
             this.buttonFilesRun.UseVisualStyleBackColor = true;
             this.buttonFilesRun.Click += new System.EventHandler(this.ButtonFilesRun_Click);
             // 
             // listBoxElements
             // 
+            resources.ApplyResources(this.listBoxElements, "listBoxElements");
             this.listBoxElements.FormattingEnabled = true;
-            this.listBoxElements.Location = new System.Drawing.Point(6, 97);
             this.listBoxElements.Name = "listBoxElements";
-            this.listBoxElements.Size = new System.Drawing.Size(219, 290);
-            this.listBoxElements.TabIndex = 2;
             this.listBoxElements.SelectedIndexChanged += new System.EventHandler(this.ListBoxElements_SelectedIndexChanged);
             this.listBoxElements.DoubleClick += new System.EventHandler(this.ListBoxElements_DoubleClick);
             // 
             // buttonFilesGet
             // 
-            this.buttonFilesGet.Location = new System.Drawing.Point(231, 165);
+            resources.ApplyResources(this.buttonFilesGet, "buttonFilesGet");
             this.buttonFilesGet.Name = "buttonFilesGet";
-            this.buttonFilesGet.Size = new System.Drawing.Size(70, 70);
-            this.buttonFilesGet.TabIndex = 5;
-            this.buttonFilesGet.Text = "Get";
             this.buttonFilesGet.UseVisualStyleBackColor = true;
             this.buttonFilesGet.Click += new System.EventHandler(this.ButtonFilesGet_Click);
             // 
             // buttonFilesUpdate
             // 
-            this.buttonFilesUpdate.Location = new System.Drawing.Point(652, 27);
+            resources.ApplyResources(this.buttonFilesUpdate, "buttonFilesUpdate");
             this.buttonFilesUpdate.Name = "buttonFilesUpdate";
-            this.buttonFilesUpdate.Size = new System.Drawing.Size(60, 60);
-            this.buttonFilesUpdate.TabIndex = 10;
-            this.buttonFilesUpdate.Text = "Update";
             this.buttonFilesUpdate.UseVisualStyleBackColor = true;
             this.buttonFilesUpdate.Click += new System.EventHandler(this.ButtonFilesUpdate_Click);
             // 
             // tabPageMonitoring
             // 
+            resources.ApplyResources(this.tabPageMonitoring, "tabPageMonitoring");
             this.tabPageMonitoring.Controls.Add(this.chartMonitor);
-            this.tabPageMonitoring.Location = new System.Drawing.Point(4, 22);
             this.tabPageMonitoring.Name = "tabPageMonitoring";
-            this.tabPageMonitoring.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPageMonitoring.Size = new System.Drawing.Size(721, 402);
-            this.tabPageMonitoring.TabIndex = 2;
-            this.tabPageMonitoring.Text = "Нагрузка";
             this.tabPageMonitoring.UseVisualStyleBackColor = true;
             // 
             // tabPageInfo
             // 
+            resources.ApplyResources(this.tabPageInfo, "tabPageInfo");
             this.tabPageInfo.Controls.Add(this.labelHardwareInfo);
-            this.tabPageInfo.Location = new System.Drawing.Point(4, 22);
             this.tabPageInfo.Name = "tabPageInfo";
-            this.tabPageInfo.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPageInfo.Size = new System.Drawing.Size(721, 402);
-            this.tabPageInfo.TabIndex = 1;
-            this.tabPageInfo.Text = "Информация";
             this.tabPageInfo.UseVisualStyleBackColor = true;
             // 
             // labelHardwareInfo
             // 
-            this.labelHardwareInfo.AutoSize = true;
-            this.labelHardwareInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.labelHardwareInfo.Location = new System.Drawing.Point(7, 7);
+            resources.ApplyResources(this.labelHardwareInfo, "labelHardwareInfo");
             this.labelHardwareInfo.Name = "labelHardwareInfo";
-            this.labelHardwareInfo.Size = new System.Drawing.Size(0, 20);
-            this.labelHardwareInfo.TabIndex = 0;
             // 
             // tabPageMain
             // 
+            resources.ApplyResources(this.tabPageMain, "tabPageMain");
             this.tabPageMain.Controls.Add(this.buttonStartControl);
             this.tabPageMain.Controls.Add(this.pictureBoxScreenMain);
-            this.tabPageMain.Location = new System.Drawing.Point(4, 22);
             this.tabPageMain.Name = "tabPageMain";
-            this.tabPageMain.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPageMain.Size = new System.Drawing.Size(721, 402);
-            this.tabPageMain.TabIndex = 0;
-            this.tabPageMain.Text = "Экран";
             this.tabPageMain.UseVisualStyleBackColor = true;
             // 
             // pictureBoxScreenMain
             // 
-            this.pictureBoxScreenMain.Location = new System.Drawing.Point(36, 16);
+            resources.ApplyResources(this.pictureBoxScreenMain, "pictureBoxScreenMain");
             this.pictureBoxScreenMain.Name = "pictureBoxScreenMain";
-            this.pictureBoxScreenMain.Size = new System.Drawing.Size(654, 339);
-            this.pictureBoxScreenMain.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBoxScreenMain.TabIndex = 10;
             this.pictureBoxScreenMain.TabStop = false;
             // 
             // tabControlMain
             // 
+            resources.ApplyResources(this.tabControlMain, "tabControlMain");
             this.tabControlMain.Controls.Add(this.tabPageMain);
             this.tabControlMain.Controls.Add(this.tabPageInfo);
             this.tabControlMain.Controls.Add(this.tabPageMonitoring);
+            this.tabControlMain.Controls.Add(this.tabPageApps);
             this.tabControlMain.Controls.Add(this.tabPage4);
             this.tabControlMain.Controls.Add(this.tabPageProcess);
             this.tabControlMain.Controls.Add(this.tabPageNotify);
-            this.tabControlMain.Controls.Add(this.tabPageApps);
-            this.tabControlMain.Location = new System.Drawing.Point(404, 27);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(729, 428);
-            this.tabControlMain.TabIndex = 11;
             this.tabControlMain.SelectedIndexChanged += new System.EventHandler(this.TabControlMain_SelectedIndexChanged);
+            // 
+            // tabPageApps
+            // 
+            resources.ApplyResources(this.tabPageApps, "tabPageApps");
+            this.tabPageApps.Controls.Add(this.buttonGetApps);
+            this.tabPageApps.Controls.Add(this.listViewApps);
+            this.tabPageApps.Name = "tabPageApps";
+            this.tabPageApps.UseVisualStyleBackColor = true;
+            // 
+            // buttonGetApps
+            // 
+            resources.ApplyResources(this.buttonGetApps, "buttonGetApps");
+            this.buttonGetApps.Name = "buttonGetApps";
+            this.buttonGetApps.UseVisualStyleBackColor = true;
+            this.buttonGetApps.Click += new System.EventHandler(this.ButtonGetApps_Click);
+            // 
+            // listViewApps
+            // 
+            resources.ApplyResources(this.listViewApps, "listViewApps");
+            this.listViewApps.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnName,
+            this.columnInstallDate,
+            this.columnVendor,
+            this.columnVersion});
+            this.listViewApps.Name = "listViewApps";
+            this.listViewApps.UseCompatibleStateImageBehavior = false;
+            this.listViewApps.View = System.Windows.Forms.View.Details;
+            // 
+            // columnName
+            // 
+            resources.ApplyResources(this.columnName, "columnName");
+            // 
+            // columnInstallDate
+            // 
+            resources.ApplyResources(this.columnInstallDate, "columnInstallDate");
+            // 
+            // columnVendor
+            // 
+            resources.ApplyResources(this.columnVendor, "columnVendor");
+            // 
+            // columnVersion
+            // 
+            resources.ApplyResources(this.columnVersion, "columnVersion");
             // 
             // tabPageNotify
             // 
+            resources.ApplyResources(this.tabPageNotify, "tabPageNotify");
             this.tabPageNotify.Controls.Add(this.labelTextNotifyIconType);
             this.tabPageNotify.Controls.Add(this.comboBoxNotifyIconType);
             this.tabPageNotify.Controls.Add(this.labelTextNotifyText);
@@ -463,142 +414,66 @@ namespace NetMonitorServer
             this.tabPageNotify.Controls.Add(this.textBoxNotifyTitle);
             this.tabPageNotify.Controls.Add(this.labelTextNotifyTitle);
             this.tabPageNotify.Controls.Add(this.button1);
-            this.tabPageNotify.Location = new System.Drawing.Point(4, 22);
-            this.tabPageNotify.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tabPageNotify.Name = "tabPageNotify";
-            this.tabPageNotify.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.tabPageNotify.Size = new System.Drawing.Size(721, 402);
-            this.tabPageNotify.TabIndex = 5;
-            this.tabPageNotify.Text = "Уведомление";
             this.tabPageNotify.UseVisualStyleBackColor = true;
             // 
             // labelTextNotifyIconType
             // 
-            this.labelTextNotifyIconType.AutoSize = true;
-            this.labelTextNotifyIconType.Location = new System.Drawing.Point(7, 246);
-            this.labelTextNotifyIconType.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            resources.ApplyResources(this.labelTextNotifyIconType, "labelTextNotifyIconType");
             this.labelTextNotifyIconType.Name = "labelTextNotifyIconType";
-            this.labelTextNotifyIconType.Size = new System.Drawing.Size(65, 13);
-            this.labelTextNotifyIconType.TabIndex = 6;
-            this.labelTextNotifyIconType.Text = "Тип иконки";
             // 
             // comboBoxNotifyIconType
             // 
+            resources.ApplyResources(this.comboBoxNotifyIconType, "comboBoxNotifyIconType");
             this.comboBoxNotifyIconType.FormattingEnabled = true;
             this.comboBoxNotifyIconType.Items.AddRange(new object[] {
-            System.Windows.Forms.ToolTipIcon.Info,
-            System.Windows.Forms.ToolTipIcon.Warning,
-            System.Windows.Forms.ToolTipIcon.Error});
-            this.comboBoxNotifyIconType.Location = new System.Drawing.Point(7, 263);
-            this.comboBoxNotifyIconType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            ((object)(resources.GetObject("comboBoxNotifyIconType.Items"))),
+            ((object)(resources.GetObject("comboBoxNotifyIconType.Items1"))),
+            ((object)(resources.GetObject("comboBoxNotifyIconType.Items2")))});
             this.comboBoxNotifyIconType.Name = "comboBoxNotifyIconType";
-            this.comboBoxNotifyIconType.Size = new System.Drawing.Size(283, 21);
-            this.comboBoxNotifyIconType.TabIndex = 5;
             // 
             // labelTextNotifyText
             // 
-            this.labelTextNotifyText.AutoSize = true;
-            this.labelTextNotifyText.Location = new System.Drawing.Point(5, 49);
-            this.labelTextNotifyText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            resources.ApplyResources(this.labelTextNotifyText, "labelTextNotifyText");
             this.labelTextNotifyText.Name = "labelTextNotifyText";
-            this.labelTextNotifyText.Size = new System.Drawing.Size(37, 13);
-            this.labelTextNotifyText.TabIndex = 4;
-            this.labelTextNotifyText.Text = "Текст";
             // 
             // textBoxNotifyText
             // 
-            this.textBoxNotifyText.Location = new System.Drawing.Point(7, 64);
-            this.textBoxNotifyText.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.textBoxNotifyText.Multiline = true;
+            resources.ApplyResources(this.textBoxNotifyText, "textBoxNotifyText");
             this.textBoxNotifyText.Name = "textBoxNotifyText";
-            this.textBoxNotifyText.Size = new System.Drawing.Size(283, 169);
-            this.textBoxNotifyText.TabIndex = 3;
             // 
             // textBoxNotifyTitle
             // 
-            this.textBoxNotifyTitle.Location = new System.Drawing.Point(7, 23);
-            this.textBoxNotifyTitle.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            resources.ApplyResources(this.textBoxNotifyTitle, "textBoxNotifyTitle");
             this.textBoxNotifyTitle.Name = "textBoxNotifyTitle";
-            this.textBoxNotifyTitle.Size = new System.Drawing.Size(283, 20);
-            this.textBoxNotifyTitle.TabIndex = 2;
             // 
             // labelTextNotifyTitle
             // 
-            this.labelTextNotifyTitle.AutoSize = true;
-            this.labelTextNotifyTitle.Location = new System.Drawing.Point(5, 8);
-            this.labelTextNotifyTitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            resources.ApplyResources(this.labelTextNotifyTitle, "labelTextNotifyTitle");
             this.labelTextNotifyTitle.Name = "labelTextNotifyTitle";
-            this.labelTextNotifyTitle.Size = new System.Drawing.Size(61, 13);
-            this.labelTextNotifyTitle.TabIndex = 1;
-            this.labelTextNotifyTitle.Text = "Заголовок";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(104, 374);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            resources.ApplyResources(this.button1, "button1");
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(90, 28);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Send";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // labelTextDBStatus
             // 
-            this.labelTextDBStatus.AutoSize = true;
-            this.labelTextDBStatus.Location = new System.Drawing.Point(9, 54);
-            this.labelTextDBStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            resources.ApplyResources(this.labelTextDBStatus, "labelTextDBStatus");
             this.labelTextDBStatus.Name = "labelTextDBStatus";
-            this.labelTextDBStatus.Size = new System.Drawing.Size(108, 13);
-            this.labelTextDBStatus.TabIndex = 13;
-            this.labelTextDBStatus.Text = "Статус сервера БД:";
             // 
             // labelServerDBStatus
             // 
-            this.labelServerDBStatus.AutoSize = true;
+            resources.ApplyResources(this.labelServerDBStatus, "labelServerDBStatus");
             this.labelServerDBStatus.ForeColor = System.Drawing.Color.Red;
-            this.labelServerDBStatus.Location = new System.Drawing.Point(120, 54);
-            this.labelServerDBStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelServerDBStatus.Name = "labelServerDBStatus";
-            this.labelServerDBStatus.Size = new System.Drawing.Size(45, 13);
-            this.labelServerDBStatus.TabIndex = 14;
-            this.labelServerDBStatus.Text = "OFLINE";
-            // 
-            // tabPageApps
-            // 
-            this.tabPageApps.Controls.Add(this.buttonGetApps);
-            this.tabPageApps.Controls.Add(this.listViewApps);
-            this.tabPageApps.Location = new System.Drawing.Point(4, 22);
-            this.tabPageApps.Name = "tabPageApps";
-            this.tabPageApps.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageApps.Size = new System.Drawing.Size(721, 402);
-            this.tabPageApps.TabIndex = 6;
-            this.tabPageApps.Text = "Приложения";
-            this.tabPageApps.UseVisualStyleBackColor = true;
-            // 
-            // listViewApps
-            // 
-            this.listViewApps.Location = new System.Drawing.Point(6, 32);
-            this.listViewApps.Name = "listViewApps";
-            this.listViewApps.Size = new System.Drawing.Size(709, 364);
-            this.listViewApps.TabIndex = 0;
-            this.listViewApps.UseCompatibleStateImageBehavior = false;
-            // 
-            // buttonGetApps
-            // 
-            this.buttonGetApps.Location = new System.Drawing.Point(6, 3);
-            this.buttonGetApps.Name = "buttonGetApps";
-            this.buttonGetApps.Size = new System.Drawing.Size(75, 23);
-            this.buttonGetApps.TabIndex = 2;
-            this.buttonGetApps.Text = "Обновить";
-            this.buttonGetApps.UseVisualStyleBackColor = true;
-            this.buttonGetApps.Click += new System.EventHandler(this.ButtonGetApps_Click);
             // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1137, 464);
             this.Controls.Add(this.labelServerDBStatus);
             this.Controls.Add(this.labelTextDBStatus);
             this.Controls.Add(this.labelSelectedItem);
@@ -607,10 +482,10 @@ namespace NetMonitorServer
             this.Controls.Add(this.labelTextStatus);
             this.Controls.Add(this.listViewClients);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = global::NetMonitorServer.Properties.Resources.Main;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormMain";
-            this.Text = "NetMonitor Server";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
@@ -626,9 +501,9 @@ namespace NetMonitorServer
             this.tabPageMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxScreenMain)).EndInit();
             this.tabControlMain.ResumeLayout(false);
+            this.tabPageApps.ResumeLayout(false);
             this.tabPageNotify.ResumeLayout(false);
             this.tabPageNotify.PerformLayout();
-            this.tabPageApps.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -684,6 +559,10 @@ namespace NetMonitorServer
         private TabPage tabPageApps;
         public ListView listViewApps;
         private Button buttonGetApps;
+        private ColumnHeader columnName;
+        private ColumnHeader columnInstallDate;
+        private ColumnHeader columnVendor;
+        private ColumnHeader columnVersion;
     }
 }
 

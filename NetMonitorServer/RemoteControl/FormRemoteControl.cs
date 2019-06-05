@@ -46,7 +46,7 @@ namespace NetMonitorServer
                     Y = (uint)_Y
                 }
             };
-            CLIENT.SendPacket(packet);
+            //CLIENT.SendPacket(packet);
         }
 
         private void PictureBoxScreen_MouseMove(object sender, MouseEventArgs e)
@@ -71,9 +71,64 @@ namespace NetMonitorServer
             CLIENT.Dispose();
         }
 
-        private void PictureBoxScreen_Click(object sender, EventArgs e)
+        private void PictureBoxScreen_MouseDown(object sender, MouseEventArgs e)
         {
+            double _X = Math.Ceiling(Hx * e.Location.X);
+            double _Y = Math.Ceiling(Hy * e.Location.Y);
 
+            var packet = new Packet()
+            {
+                Header = "MouseEvent/Down",
+                Data = new MouseEvent()
+                {
+                    X = (uint)_X,
+                    Y = (uint)_Y
+                }
+            };
+            CLIENT.SendPacket(packet);
+        }
+
+        private void PictureBoxScreen_MouseUp(object sender, MouseEventArgs e)
+        {
+            double _X = Math.Ceiling(Hx * e.Location.X);
+            double _Y = Math.Ceiling(Hy * e.Location.Y);
+
+            var packet = new Packet()
+            {
+                Header = "MouseEvent/Up",
+                Data = new MouseEvent()
+                {
+                    X = (uint)_X,
+                    Y = (uint)_Y
+                }
+            };
+            CLIENT.SendPacket(packet);
+        }
+
+        private void FormRemoteControl_KeyDown(object sender, KeyEventArgs e)
+        {
+            Keys key = e.KeyCode;
+
+            var packet = new Packet()
+            {
+                Header = "KeyEvent/Down",
+                Data = key
+            };
+
+            CLIENT.SendPacket(packet);
+        }
+
+        private void FormRemoteControl_KeyUp(object sender, KeyEventArgs e)
+        {
+            Keys key = e.KeyCode;
+
+            var packet = new Packet()
+            {
+                Header = "KeyEvent/Up",
+                Data = key
+            };
+
+            CLIENT.SendPacket(packet);
         }
     }
 }

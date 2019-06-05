@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.271
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.452
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMonitor", "NetMonitor\NetMonitor.csproj", "{8762DECD-9C38-4DF0-BA2D-88F4DD3B0394}"
 EndProject
@@ -12,21 +12,35 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{8762DECD-9C38-4DF0-BA2D-88F4DD3B0394}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8762DECD-9C38-4DF0-BA2D-88F4DD3B0394}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8762DECD-9C38-4DF0-BA2D-88F4DD3B0394}.Debug|x64.ActiveCfg = Debug|x64
+		{8762DECD-9C38-4DF0-BA2D-88F4DD3B0394}.Debug|x64.Build.0 = Debug|x64
 		{8762DECD-9C38-4DF0-BA2D-88F4DD3B0394}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8762DECD-9C38-4DF0-BA2D-88F4DD3B0394}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8762DECD-9C38-4DF0-BA2D-88F4DD3B0394}.Release|x64.ActiveCfg = Release|x64
+		{8762DECD-9C38-4DF0-BA2D-88F4DD3B0394}.Release|x64.Build.0 = Release|x64
 		{59765DEC-98DA-45D6-A188-BFA9D3E2009B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{59765DEC-98DA-45D6-A188-BFA9D3E2009B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59765DEC-98DA-45D6-A188-BFA9D3E2009B}.Debug|x64.ActiveCfg = Debug|x64
+		{59765DEC-98DA-45D6-A188-BFA9D3E2009B}.Debug|x64.Build.0 = Debug|x64
 		{59765DEC-98DA-45D6-A188-BFA9D3E2009B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59765DEC-98DA-45D6-A188-BFA9D3E2009B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59765DEC-98DA-45D6-A188-BFA9D3E2009B}.Release|x64.ActiveCfg = Release|x64
+		{59765DEC-98DA-45D6-A188-BFA9D3E2009B}.Release|x64.Build.0 = Release|x64
 		{08FF9BFD-1654-4FB0-9E85-FDB02A76032E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{08FF9BFD-1654-4FB0-9E85-FDB02A76032E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08FF9BFD-1654-4FB0-9E85-FDB02A76032E}.Debug|x64.ActiveCfg = Debug|x64
+		{08FF9BFD-1654-4FB0-9E85-FDB02A76032E}.Debug|x64.Build.0 = Debug|x64
 		{08FF9BFD-1654-4FB0-9E85-FDB02A76032E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08FF9BFD-1654-4FB0-9E85-FDB02A76032E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08FF9BFD-1654-4FB0-9E85-FDB02A76032E}.Release|x64.ActiveCfg = Release|x64
+		{08FF9BFD-1654-4FB0-9E85-FDB02A76032E}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

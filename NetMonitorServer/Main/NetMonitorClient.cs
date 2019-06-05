@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Net.Mail;
+using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using WebSocketSharp;
@@ -58,6 +59,7 @@ namespace NetMonitorServer
                     form.listViewClients.Items.Add(client);
                 }
 
+                Thread.Sleep(1000);
                 if (form.StatusDBServer)
                 {
                     ClientDB clientDB = client;
@@ -171,10 +173,23 @@ namespace NetMonitorServer
             List<ApplicationInfo> apps = (List<ApplicationInfo>)packet.Data;
             client.ApplicationInfo = apps;
 
+            List<ListViewItem> listToAdd = new List<ListViewItem>();
+
+            foreach (var item in apps)
+            {
+                ListViewItem itemToAdd = new ListViewItem((item.Name != null) ? item.Name.ToString() : "");
+
+                itemToAdd.SubItems.Add(new ListViewItem.ListViewSubItem(itemToAdd, (item.InstallDate != null) ? item.InstallDate.ToString() : ""));
+                itemToAdd.SubItems.Add(new ListViewItem.ListViewSubItem(itemToAdd, (item.Vendor != null) ? item.Vendor.ToString() : ""));
+                itemToAdd.SubItems.Add(new ListViewItem.ListViewSubItem(itemToAdd, (item.Version != null) ? item.Version.ToString() : ""));
+
+                listToAdd.Add(itemToAdd);
+            }
+
             form.listViewApps.BeginInvoke((MethodInvoker)(delegate
             {
-                foreach(var app in apps)
-                    form.listViewApps.Items.Add(app.ToString());
+                form.listViewApps.Items.Clear();
+                form.listViewApps.Items.AddRange(listToAdd.ToArray());
             }));
 
             if (form.StatusDBServer)
@@ -182,6 +197,7 @@ namespace NetMonitorServer
                 ClientDB clientDB = client;
                 form.clientDBCollection.UpdateOne(clientDB.GetFilter(), clientDB.GetUpdate(), new UpdateOptions() { IsUpsert = true });
             }
+
         }
 
         void Handler_Hardware_Info(Packet packet)
@@ -202,17 +218,18 @@ namespace NetMonitorServer
 
         void Handler_Process_Info(Packet packet)
         {
-            List<Dictionary<string, object>> keyValuePairs = (List<Dictionary<string, object>>)packet.Data;
+            List<ProcessInfo> process = (List<ProcessInfo>)packet.Data;
+            //client.ApplicationInfo = apps;
 
             List<ListViewItem> listToAdd = new List<ListViewItem>();
 
-            foreach (var item in keyValuePairs)
+            foreach (var item in process)
             {
-                ListViewItem itemToAdd = new ListViewItem((item["Name"] != null) ? item["Name"].ToString() : "");
+                ListViewItem itemToAdd = new ListViewItem((item.Name != null) ? item.Name.ToString() : "");
 
-                itemToAdd.SubItems.Add(new ListViewItem.ListViewSubItem(itemToAdd, (item["Description"] != null) ? item["Description"].ToString() : ""));
-                itemToAdd.SubItems.Add(new ListViewItem.ListViewSubItem(itemToAdd, (item["CPUUsage"] != null) ? item["CPUUsage"].ToString() : ""));
-                itemToAdd.SubItems.Add(new ListViewItem.ListViewSubItem(itemToAdd, (item["RAMUsage"] != null) ? item["RAMUsage"].ToString() : ""));
+                itemToAdd.SubItems.Add(new ListViewItem.ListViewSubItem(itemToAdd, (item.Description != null) ? item.Description.ToString() : ""));
+                itemToAdd.SubItems.Add(new ListViewItem.ListViewSubItem(itemToAdd, (item.CPUUsage != null) ? item.CPUUsage.ToString() : ""));
+                itemToAdd.SubItems.Add(new ListViewItem.ListViewSubItem(itemToAdd, (item.RAMUsage != null) ? item.RAMUsage.ToString() : ""));
 
                 listToAdd.Add(itemToAdd);
             }
