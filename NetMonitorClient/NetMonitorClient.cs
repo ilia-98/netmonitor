@@ -51,6 +51,9 @@ namespace NetMonitorClient
             monitorThread.Start();
             processThread = new Thread(() => MonitoringUtils.GetProcesses());
             processThread.Start();
+
+            Thread applicationThread = new Thread(() => MonitoringUtils.GetAppInfo());
+            applicationThread.Start();
         }
 
         public void Stop()
@@ -110,7 +113,7 @@ namespace NetMonitorClient
                         socket.SendAsync(new Packet() { Header = "ProcessInfo", Data = MonitoringUtils.processesList }, (bool noterror) => { });
                         break;
                     case "ApplicationInfo":
-                        socket.SendAsync(new Packet() { Header = "ApplicationInfo", Data = MonitoringUtils.GetAppInfo() }, (bool noterror) => { });
+                        socket.SendAsync(new Packet() { Header = "ApplicationInfo", Data = MonitoringUtils.applictionList }, (bool noterror) => { });
                         break;
                     case "OpenPorts":
                         socket.SendAsync(new Packet() { Header = "OpenPorts", Data = MonitoringUtils.GetOpenPorts() }, (bool noterror) => { });
