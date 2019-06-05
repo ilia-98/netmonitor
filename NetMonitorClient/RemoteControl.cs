@@ -158,8 +158,8 @@ namespace NetMonitorClient
                 {
                     Header = "RemoteControl/Resolution",
                     Data = new Dictionary<string, int>() {
-                    { "Width", GetScreenResolution().Width },
-                    { "Height", GetScreenResolution().Height },
+                    { "Width", Screen.PrimaryScreen.Bounds.Width },
+                    { "Height", Screen.PrimaryScreen.Bounds.Height },
                 }
                 }));
                 screenResolution = GetScreenResolution();

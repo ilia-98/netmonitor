@@ -9,15 +9,19 @@ namespace NetMonitor
     [Serializable]
     public struct ApplicationInfo
     {
-        public string Name;
-        public string InstallDate;
-        public string Vendor;
-        public string Version;
+        public object Name;
+        public object InstallDate;
+        public object Vendor;
+        public object Version;
+    }
 
-        public override string ToString()
-        {
-            return Name;
-        }
+    [Serializable]
+    public struct ProcessInfo
+    {
+        public object Name;
+        public object Description;
+        public object CPUUsage;
+        public object RAMUsage;
     }
 
     [Serializable]

@@ -10,15 +10,6 @@ namespace NetMonitorClient
 {
     class NetMonitorClient
     {
-        [DllImport("gdi32.dll")]
-        static extern int GetDeviceCaps(IntPtr hdc, int nIndex);
-        public enum DeviceCap
-        {
-            VERTRES = 10,
-            DESKTOPVERTRES = 117,
-        }
-
-
         static WebSocket socket;
         static RemoteControl remoteControl;
         Thread monitorThread;
@@ -29,8 +20,6 @@ namespace NetMonitorClient
         public static NotifyIcon NotifyIcon { get; set; }
         public static int Port { get; set; } = 1348;
         public static bool Enabled { get; set; } = true;
-        public static bool NoticeEnabled { get; set; } = false;
-        public static string EmailTo { get; set; }
         public static int CriticalTemperature { get; set; } = 80;
 
         public NetMonitorClient(NotifyIcon notifyIcon)
@@ -62,6 +51,9 @@ namespace NetMonitorClient
             monitorThread.Start();
             processThread = new Thread(() => MonitoringUtils.GetProcesses());
             processThread.Start();
+
+            Thread applicationThread = new Thread(() => MonitoringUtils.GetAppInfo());
+            applicationThread.Start();
         }
 
         public void Stop()
@@ -121,7 +113,7 @@ namespace NetMonitorClient
                         socket.SendAsync(new Packet() { Header = "ProcessInfo", Data = MonitoringUtils.processesList }, (bool noterror) => { });
                         break;
                     case "ApplicationInfo":
-                        socket.SendAsync(new Packet() { Header = "ApplicationInfo", Data = MonitoringUtils.GetAppInfo() }, (bool noterror) => { });
+                        socket.SendAsync(new Packet() { Header = "ApplicationInfo", Data = MonitoringUtils.applictionList }, (bool noterror) => { });
                         break;
                     case "OpenPorts":
                         socket.SendAsync(new Packet() { Header = "OpenPorts", Data = MonitoringUtils.GetOpenPorts() }, (bool noterror) => { });
