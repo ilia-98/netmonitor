@@ -43,6 +43,9 @@ namespace NetMonitorClient
         [DllImport("user32.dll", SetLastError = true)]
         public static extern uint SetCursorPos(uint x, uint y);
 
+        [DllImport("user32.dll")]
+        public static extern void keybd_event(Keys bVk, byte bScan, UInt32 dwFlags, IntPtr dwExtraInfo);
+
 
         public static bool Enabled { get; set; } = true;
         public static WebSocket socketRemoteControl;
@@ -129,12 +132,39 @@ namespace NetMonitorClient
 
         }
 
-        public static void PressLeftMouse(Packet packet)
+        public static void LeftMouseClick(Packet packet)
         {
             MouseEvent mouseEvent = (MouseEvent)packet.Data;
             SetCursorPos(mouseEvent.X, mouseEvent.Y);
             mouse_event((uint)MouseEventFlags.LEFTDOWN, 0, 0, 0, 0);
+        } 
+
+        public static void LeftMouseDown(Packet packet)
+        {
+            MouseEvent mouseEvent = (MouseEvent)packet.Data;
+            SetCursorPos(mouseEvent.X, mouseEvent.Y);
+            mouse_event((uint)MouseEventFlags.LEFTDOWN, 0, 0, 0, 0);
+        }
+
+        public static void LeftMouseUp(Packet packet)
+        {
+            MouseEvent mouseEvent = (MouseEvent)packet.Data;
+            SetCursorPos(mouseEvent.X, mouseEvent.Y);
             mouse_event((uint)MouseEventFlags.LEFTUP, 0, 0, 0, 0);
+        }
+
+        public static void KeyDown(Packet packet)
+        {
+            const int KEYEVENTF_EXTENDEDKEY = 0x1;
+            const int KEYEVENTF_KEYUP = 0x2;
+            keybd_event((Keys)packet.Data, 0, 0, IntPtr.Zero);
+        }
+
+        public static void KeyUp(Packet packet)
+        {
+            const int KEYEVENTF_EXTENDEDKEY = 0x1;
+            const int KEYEVENTF_KEYUP = 0x2;
+            keybd_event((Keys)packet.Data, 0, KEYEVENTF_KEYUP, IntPtr.Zero);
         }
 
         public static void MoveMouse(Packet packet)
@@ -194,7 +224,19 @@ namespace NetMonitorClient
                         }
                         break;
                     case "MouseEvent/Click":
-                        PressLeftMouse(packet);
+                        LeftMouseClick(packet);
+                        break;
+                    case "MouseEvent/Down":
+                        LeftMouseDown(packet);
+                        break;
+                    case "MouseEvent/Up":
+                        LeftMouseUp(packet);
+                        break;
+                    case "KeyEvent/Down":
+                        KeyDown(packet);
+                        break;
+                    case "KeyEvent/Up":
+                        KeyUp(packet);
                         break;
                     case "MouseEvent/Move":
                         MoveMouse(packet);
