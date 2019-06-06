@@ -23,6 +23,8 @@ namespace NetMonitorServer.Addons
         [BsonIgnoreIfNull]
         public string MachineName { get; set; } = null;
 
+        public bool HaveInstalledClient { get; set; } = true;
+
         [BsonIgnoreIfNull]
         public Dictionary<string, string> HardwareInfo = null;
 
@@ -46,6 +48,7 @@ namespace NetMonitorServer.Addons
         {
             Client client = new Client(IP, MAC, MachineName)
             {
+                HaveInstalledClient = HaveInstalledClient,
                 HardwareInfo = HardwareInfo,
             };
             return client;

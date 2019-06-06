@@ -32,13 +32,17 @@ namespace NetMonitorServer
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.listViewClients = new System.Windows.Forms.ListView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.ServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RestartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.клиентыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.обновитьСписокИзЛокальнойСетиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.клиентыToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.обновитьСписокИзЛокальнойСетиToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.labelTextStatus = new System.Windows.Forms.Label();
             this.labelServerStatus = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -67,8 +71,14 @@ namespace NetMonitorServer
             this.buttonFilesUpdate = new System.Windows.Forms.Button();
             this.tabPageMonitoring = new System.Windows.Forms.TabPage();
             this.tabPageInfo = new System.Windows.Forms.TabPage();
-            this.labelHardwareInfo = new System.Windows.Forms.Label();
+            this.listViewHardwareInfo = new System.Windows.Forms.ListView();
+            this.columnHardwareName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHardwareValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPageMain = new System.Windows.Forms.TabPage();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.pictureBoxScreenMain = new System.Windows.Forms.PictureBox();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPageApps = new System.Windows.Forms.TabPage();
@@ -112,24 +122,52 @@ namespace NetMonitorServer
             // 
             // menuStrip1
             // 
-            resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ServerToolStripMenuItem});
+            this.ServerToolStripMenuItem,
+            this.клиентыToolStripMenuItem,
+            this.клиентыToolStripMenuItem1});
+            resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Name = "menuStrip1";
             // 
             // ServerToolStripMenuItem
             // 
-            resources.ApplyResources(this.ServerToolStripMenuItem, "ServerToolStripMenuItem");
             this.ServerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.RestartToolStripMenuItem});
             this.ServerToolStripMenuItem.Name = "ServerToolStripMenuItem";
+            resources.ApplyResources(this.ServerToolStripMenuItem, "ServerToolStripMenuItem");
             // 
             // RestartToolStripMenuItem
             // 
-            resources.ApplyResources(this.RestartToolStripMenuItem, "RestartToolStripMenuItem");
             this.RestartToolStripMenuItem.Name = "RestartToolStripMenuItem";
+            resources.ApplyResources(this.RestartToolStripMenuItem, "RestartToolStripMenuItem");
             this.RestartToolStripMenuItem.Click += new System.EventHandler(this.RestartToolStripMenuItem_Click);
+            // 
+            // клиентыToolStripMenuItem
+            // 
+            this.клиентыToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.обновитьСписокИзЛокальнойСетиToolStripMenuItem});
+            this.клиентыToolStripMenuItem.Name = "клиентыToolStripMenuItem";
+            resources.ApplyResources(this.клиентыToolStripMenuItem, "клиентыToolStripMenuItem");
+            // 
+            // обновитьСписокИзЛокальнойСетиToolStripMenuItem
+            // 
+            this.обновитьСписокИзЛокальнойСетиToolStripMenuItem.Name = "обновитьСписокИзЛокальнойСетиToolStripMenuItem";
+            resources.ApplyResources(this.обновитьСписокИзЛокальнойСетиToolStripMenuItem, "обновитьСписокИзЛокальнойСетиToolStripMenuItem");
+            this.обновитьСписокИзЛокальнойСетиToolStripMenuItem.Click += new System.EventHandler(this.ОбновитьСписокИзЛокальнойСетиToolStripMenuItem_Click);
+            // 
+            // клиентыToolStripMenuItem1
+            // 
+            this.клиентыToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.обновитьСписокИзЛокальнойСетиToolStripMenuItem1});
+            this.клиентыToolStripMenuItem1.Name = "клиентыToolStripMenuItem1";
+            resources.ApplyResources(this.клиентыToolStripMenuItem1, "клиентыToolStripMenuItem1");
+            // 
+            // обновитьСписокИзЛокальнойСетиToolStripMenuItem1
+            // 
+            this.обновитьСписокИзЛокальнойСетиToolStripMenuItem1.Name = "обновитьСписокИзЛокальнойСетиToolStripMenuItem1";
+            resources.ApplyResources(this.обновитьСписокИзЛокальнойСетиToolStripMenuItem1, "обновитьСписокИзЛокальнойСетиToolStripMenuItem1");
+            this.обновитьСписокИзЛокальнойСетиToolStripMenuItem1.Click += new System.EventHandler(this.ОбновитьСписокИзЛокальнойСетиToolStripMenuItem_Click);
             // 
             // labelTextStatus
             // 
@@ -154,9 +192,9 @@ namespace NetMonitorServer
             // 
             // tabPageProcess
             // 
-            resources.ApplyResources(this.tabPageProcess, "tabPageProcess");
             this.tabPageProcess.Controls.Add(this.buttonGetProcess);
             this.tabPageProcess.Controls.Add(this.listViewProcess);
+            resources.ApplyResources(this.tabPageProcess, "tabPageProcess");
             this.tabPageProcess.Name = "tabPageProcess";
             this.tabPageProcess.UseVisualStyleBackColor = true;
             // 
@@ -169,7 +207,6 @@ namespace NetMonitorServer
             // 
             // listViewProcess
             // 
-            resources.ApplyResources(this.listViewProcess, "listViewProcess");
             this.listViewProcess.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeaderName,
             this.columnHeaderDescription,
@@ -177,6 +214,7 @@ namespace NetMonitorServer
             this.columnHeaderRAM});
             this.listViewProcess.FullRowSelect = true;
             this.listViewProcess.GridLines = true;
+            resources.ApplyResources(this.listViewProcess, "listViewProcess");
             this.listViewProcess.Name = "listViewProcess";
             this.listViewProcess.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listViewProcess.UseCompatibleStateImageBehavior = false;
@@ -208,30 +246,29 @@ namespace NetMonitorServer
             // 
             // chartMonitor
             // 
+            chartArea7.AxisY.Maximum = 100D;
+            chartArea7.AxisY.Minimum = 0D;
+            chartArea7.Name = "TempMonitoring";
+            chartArea8.AxisY.Maximum = 100D;
+            chartArea8.AxisY.Minimum = 0D;
+            chartArea8.Name = "LoadMonitoring";
+            this.chartMonitor.ChartAreas.Add(chartArea7);
+            this.chartMonitor.ChartAreas.Add(chartArea8);
+            legend4.Name = "Legend";
+            this.chartMonitor.Legends.Add(legend4);
             resources.ApplyResources(this.chartMonitor, "chartMonitor");
-            chartArea3.AxisY.Maximum = 100D;
-            chartArea3.AxisY.Minimum = 0D;
-            chartArea3.Name = "TempMonitoring";
-            chartArea4.AxisY.Maximum = 100D;
-            chartArea4.AxisY.Minimum = 0D;
-            chartArea4.Name = "LoadMonitoring";
-            this.chartMonitor.ChartAreas.Add(chartArea3);
-            this.chartMonitor.ChartAreas.Add(chartArea4);
-            legend2.Name = "Legend";
-            this.chartMonitor.Legends.Add(legend2);
             this.chartMonitor.Name = "chartMonitor";
             // 
             // tabPage4
             // 
-            resources.ApplyResources(this.tabPage4, "tabPage4");
             this.tabPage4.Controls.Add(this.panelFiles);
             this.tabPage4.Controls.Add(this.buttonFilesUpdate);
+            resources.ApplyResources(this.tabPage4, "tabPage4");
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // panelFiles
             // 
-            resources.ApplyResources(this.panelFiles, "panelFiles");
             this.panelFiles.Controls.Add(this.labelTextArgs);
             this.panelFiles.Controls.Add(this.textBoxArgs);
             this.panelFiles.Controls.Add(this.labelTextPath);
@@ -242,6 +279,7 @@ namespace NetMonitorServer
             this.panelFiles.Controls.Add(this.buttonFilesRun);
             this.panelFiles.Controls.Add(this.listBoxElements);
             this.panelFiles.Controls.Add(this.buttonFilesGet);
+            resources.ApplyResources(this.panelFiles, "panelFiles");
             this.panelFiles.Name = "panelFiles";
             // 
             // labelTextArgs
@@ -294,8 +332,8 @@ namespace NetMonitorServer
             // 
             // listBoxElements
             // 
-            resources.ApplyResources(this.listBoxElements, "listBoxElements");
             this.listBoxElements.FormattingEnabled = true;
+            resources.ApplyResources(this.listBoxElements, "listBoxElements");
             this.listBoxElements.Name = "listBoxElements";
             this.listBoxElements.SelectedIndexChanged += new System.EventHandler(this.ListBoxElements_SelectedIndexChanged);
             this.listBoxElements.DoubleClick += new System.EventHandler(this.ListBoxElements_DoubleClick);
@@ -316,30 +354,71 @@ namespace NetMonitorServer
             // 
             // tabPageMonitoring
             // 
-            resources.ApplyResources(this.tabPageMonitoring, "tabPageMonitoring");
             this.tabPageMonitoring.Controls.Add(this.chartMonitor);
+            resources.ApplyResources(this.tabPageMonitoring, "tabPageMonitoring");
             this.tabPageMonitoring.Name = "tabPageMonitoring";
             this.tabPageMonitoring.UseVisualStyleBackColor = true;
             // 
             // tabPageInfo
             // 
+            this.tabPageInfo.Controls.Add(this.listViewHardwareInfo);
             resources.ApplyResources(this.tabPageInfo, "tabPageInfo");
-            this.tabPageInfo.Controls.Add(this.labelHardwareInfo);
             this.tabPageInfo.Name = "tabPageInfo";
             this.tabPageInfo.UseVisualStyleBackColor = true;
             // 
-            // labelHardwareInfo
+            // listViewHardwareInfo
             // 
-            resources.ApplyResources(this.labelHardwareInfo, "labelHardwareInfo");
-            this.labelHardwareInfo.Name = "labelHardwareInfo";
+            this.listViewHardwareInfo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHardwareName,
+            this.columnHardwareValue});
+            resources.ApplyResources(this.listViewHardwareInfo, "listViewHardwareInfo");
+            this.listViewHardwareInfo.Name = "listViewHardwareInfo";
+            this.listViewHardwareInfo.UseCompatibleStateImageBehavior = false;
+            this.listViewHardwareInfo.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHardwareName
+            // 
+            resources.ApplyResources(this.columnHardwareName, "columnHardwareName");
+            // 
+            // columnHardwareValue
+            // 
+            resources.ApplyResources(this.columnHardwareValue, "columnHardwareValue");
             // 
             // tabPageMain
             // 
-            resources.ApplyResources(this.tabPageMain, "tabPageMain");
+            this.tabPageMain.Controls.Add(this.button5);
+            this.tabPageMain.Controls.Add(this.button4);
+            this.tabPageMain.Controls.Add(this.button3);
+            this.tabPageMain.Controls.Add(this.button2);
             this.tabPageMain.Controls.Add(this.buttonStartControl);
             this.tabPageMain.Controls.Add(this.pictureBoxScreenMain);
+            resources.ApplyResources(this.tabPageMain, "tabPageMain");
             this.tabPageMain.Name = "tabPageMain";
             this.tabPageMain.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            resources.ApplyResources(this.button5, "button5");
+            this.button5.Name = "button5";
+            this.button5.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            resources.ApplyResources(this.button4, "button4");
+            this.button4.Name = "button4";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            resources.ApplyResources(this.button3, "button3");
+            this.button3.Name = "button3";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            resources.ApplyResources(this.button2, "button2");
+            this.button2.Name = "button2";
+            this.button2.UseVisualStyleBackColor = true;
             // 
             // pictureBoxScreenMain
             // 
@@ -349,7 +428,6 @@ namespace NetMonitorServer
             // 
             // tabControlMain
             // 
-            resources.ApplyResources(this.tabControlMain, "tabControlMain");
             this.tabControlMain.Controls.Add(this.tabPageMain);
             this.tabControlMain.Controls.Add(this.tabPageInfo);
             this.tabControlMain.Controls.Add(this.tabPageMonitoring);
@@ -357,15 +435,16 @@ namespace NetMonitorServer
             this.tabControlMain.Controls.Add(this.tabPage4);
             this.tabControlMain.Controls.Add(this.tabPageProcess);
             this.tabControlMain.Controls.Add(this.tabPageNotify);
+            resources.ApplyResources(this.tabControlMain, "tabControlMain");
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
             this.tabControlMain.SelectedIndexChanged += new System.EventHandler(this.TabControlMain_SelectedIndexChanged);
             // 
             // tabPageApps
             // 
-            resources.ApplyResources(this.tabPageApps, "tabPageApps");
             this.tabPageApps.Controls.Add(this.buttonGetApps);
             this.tabPageApps.Controls.Add(this.listViewApps);
+            resources.ApplyResources(this.tabPageApps, "tabPageApps");
             this.tabPageApps.Name = "tabPageApps";
             this.tabPageApps.UseVisualStyleBackColor = true;
             // 
@@ -378,12 +457,12 @@ namespace NetMonitorServer
             // 
             // listViewApps
             // 
-            resources.ApplyResources(this.listViewApps, "listViewApps");
             this.listViewApps.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnName,
             this.columnInstallDate,
             this.columnVendor,
             this.columnVersion});
+            resources.ApplyResources(this.listViewApps, "listViewApps");
             this.listViewApps.Name = "listViewApps";
             this.listViewApps.UseCompatibleStateImageBehavior = false;
             this.listViewApps.View = System.Windows.Forms.View.Details;
@@ -406,7 +485,6 @@ namespace NetMonitorServer
             // 
             // tabPageNotify
             // 
-            resources.ApplyResources(this.tabPageNotify, "tabPageNotify");
             this.tabPageNotify.Controls.Add(this.labelTextNotifyIconType);
             this.tabPageNotify.Controls.Add(this.comboBoxNotifyIconType);
             this.tabPageNotify.Controls.Add(this.labelTextNotifyText);
@@ -414,6 +492,7 @@ namespace NetMonitorServer
             this.tabPageNotify.Controls.Add(this.textBoxNotifyTitle);
             this.tabPageNotify.Controls.Add(this.labelTextNotifyTitle);
             this.tabPageNotify.Controls.Add(this.button1);
+            resources.ApplyResources(this.tabPageNotify, "tabPageNotify");
             this.tabPageNotify.Name = "tabPageNotify";
             this.tabPageNotify.UseVisualStyleBackColor = true;
             // 
@@ -424,12 +503,12 @@ namespace NetMonitorServer
             // 
             // comboBoxNotifyIconType
             // 
-            resources.ApplyResources(this.comboBoxNotifyIconType, "comboBoxNotifyIconType");
             this.comboBoxNotifyIconType.FormattingEnabled = true;
             this.comboBoxNotifyIconType.Items.AddRange(new object[] {
             ((object)(resources.GetObject("comboBoxNotifyIconType.Items"))),
             ((object)(resources.GetObject("comboBoxNotifyIconType.Items1"))),
             ((object)(resources.GetObject("comboBoxNotifyIconType.Items2")))});
+            resources.ApplyResources(this.comboBoxNotifyIconType, "comboBoxNotifyIconType");
             this.comboBoxNotifyIconType.Name = "comboBoxNotifyIconType";
             // 
             // labelTextNotifyText
@@ -497,7 +576,6 @@ namespace NetMonitorServer
             this.panelFiles.PerformLayout();
             this.tabPageMonitoring.ResumeLayout(false);
             this.tabPageInfo.ResumeLayout(false);
-            this.tabPageInfo.PerformLayout();
             this.tabPageMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxScreenMain)).EndInit();
             this.tabControlMain.ResumeLayout(false);
@@ -534,7 +612,6 @@ namespace NetMonitorServer
         private System.Windows.Forms.Button buttonFilesUpdate;
         private System.Windows.Forms.TabPage tabPageMonitoring;
         private System.Windows.Forms.TabPage tabPageInfo;
-        public System.Windows.Forms.Label labelHardwareInfo;
         private System.Windows.Forms.TabPage tabPageMain;
         private System.Windows.Forms.Button buttonStartControl;
         public System.Windows.Forms.PictureBox pictureBoxScreenMain;
@@ -550,12 +627,12 @@ namespace NetMonitorServer
         private System.Windows.Forms.Label labelServerDBStatus;
         private System.Windows.Forms.TabPage tabPageNotify;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBoxNotifyTitle;
-        private System.Windows.Forms.Label labelTextNotifyTitle;
-        private System.Windows.Forms.Label labelTextNotifyText;
-        private System.Windows.Forms.TextBox textBoxNotifyText;
-        private System.Windows.Forms.Label labelTextNotifyIconType;
-        private System.Windows.Forms.ComboBox comboBoxNotifyIconType;
+        private TextBox textBoxNotifyTitle;
+        private Label labelTextNotifyTitle;
+        private Label labelTextNotifyText;
+        private TextBox textBoxNotifyText;
+        private Label labelTextNotifyIconType;
+        private ComboBox comboBoxNotifyIconType;
         private TabPage tabPageApps;
         public ListView listViewApps;
         private Button buttonGetApps;
@@ -563,6 +640,17 @@ namespace NetMonitorServer
         private ColumnHeader columnInstallDate;
         private ColumnHeader columnVendor;
         private ColumnHeader columnVersion;
+        private ToolStripMenuItem клиентыToolStripMenuItem;
+        private ToolStripMenuItem обновитьСписокИзЛокальнойСетиToolStripMenuItem;
+        private ToolStripMenuItem клиентыToolStripMenuItem1;
+        private ToolStripMenuItem обновитьСписокИзЛокальнойСетиToolStripMenuItem1;
+        private Button button4;
+        private Button button3;
+        private Button button2;
+        private Button button5;
+        public ListView listViewHardwareInfo;
+        private ColumnHeader columnHardwareName;
+        private ColumnHeader columnHardwareValue;
     }
 }
 

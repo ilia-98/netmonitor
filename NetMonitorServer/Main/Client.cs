@@ -16,6 +16,8 @@ namespace NetMonitorServer
 
         public List<ApplicationInfo> ApplicationInfo = null;
 
+        bool _haveInstalledClient = true;
+
         [BsonIgnore]
         public NetMonitorClient socket = null;
         public string IP { get; set; }
@@ -59,13 +61,36 @@ namespace NetMonitorServer
             }
         }
 
-        public string GetTextForLabelHardwareInfo()
+        public bool HaveInstalledClient
         {
-            string result = "";
-            if(HardwareInfo != null)
+            get
+            {
+                return _haveInstalledClient;
+            }
+            set
+            {
+                _haveInstalledClient = value;
+            }
+        }
+
+        public ListViewItem[] GetTextForLabelHardwareInfo()
+        {
+            List<ListViewItem> items = new List<ListViewItem>();
+
+            if (HardwareInfo != null)
+            {
+                //foreach (var item in HardwareInfo) result += item.Key + ": " + item.Value + "\n";
+
                 foreach (var item in HardwareInfo)
-                    result += item.Key + ": " + item.Value + "\n";
-            return result;
+                {
+                    ListViewItem itemToAdd = new ListViewItem((item.Key != null) ? item.Key.ToString() : "");
+                    itemToAdd.SubItems.Add(new ListViewSubItem(itemToAdd, (item.Value != null) ? item.Value.ToString() : ""));
+                    items.Add(itemToAdd);
+                }
+            }
+
+
+            return items.ToArray();
         }
 
         public Client(string IP, string MAC, string MachineName)
