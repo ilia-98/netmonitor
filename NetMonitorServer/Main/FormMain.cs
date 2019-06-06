@@ -525,5 +525,10 @@ namespace NetMonitorServer
             Thread getpcsThread = new Thread(new ThreadStart(GetPCsInLan));
             getpcsThread.Start();
         }
+
+        private void TextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -1008,27 +1008,6 @@
   <data name="&gt;&gt;tabPageMonitoring.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="columnHardwareName.Text" xml:space="preserve">
-    <value>Название</value>
-  </data>
-  <data name="columnHardwareName.Width" type="System.Int32, mscorlib">
-    <value>518</value>
-  </data>
-  <data name="columnHardwareValue.Text" xml:space="preserve">
-    <value>Значение</value>
-  </data>
-  <data name="columnHardwareValue.Width" type="System.Int32, mscorlib">
-    <value>695</value>
-  </data>
-  <data name="listViewHardwareInfo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 12</value>
-  </data>
-  <data name="listViewHardwareInfo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1336, 605</value>
-  </data>
-  <data name="listViewHardwareInfo.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
   <data name="&gt;&gt;listViewHardwareInfo.Name" xml:space="preserve">
     <value>listViewHardwareInfo</value>
   </data>
@@ -1070,6 +1049,39 @@
   </data>
   <data name="&gt;&gt;tabPageInfo.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="listViewHardwareInfo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 12</value>
+  </data>
+  <data name="listViewHardwareInfo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1336, 605</value>
+  </data>
+  <data name="listViewHardwareInfo.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;listViewHardwareInfo.Name" xml:space="preserve">
+    <value>listViewHardwareInfo</value>
+  </data>
+  <data name="&gt;&gt;listViewHardwareInfo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;listViewHardwareInfo.Parent" xml:space="preserve">
+    <value>tabPageInfo</value>
+  </data>
+  <data name="&gt;&gt;listViewHardwareInfo.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="columnHardwareName.Text" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="columnHardwareName.Width" type="System.Int32, mscorlib">
+    <value>518</value>
+  </data>
+  <data name="columnHardwareValue.Text" xml:space="preserve">
+    <value>Значение</value>
+  </data>
+  <data name="columnHardwareValue.Width" type="System.Int32, mscorlib">
+    <value>695</value>
   </data>
   <data name="&gt;&gt;button5.Name" xml:space="preserve">
     <value>button5</value>
@@ -1457,6 +1469,78 @@
   </data>
   <data name="&gt;&gt;tabPageNotify.ZOrder" xml:space="preserve">
     <value>6</value>
+  </data>
+  <data name="buttonApplyCommand.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1199, 587</value>
+  </data>
+  <data name="buttonApplyCommand.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 30</value>
+  </data>
+  <data name="buttonApplyCommand.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="buttonApplyCommand.Text" xml:space="preserve">
+    <value>Ввод</value>
+  </data>
+  <data name="&gt;&gt;buttonApplyCommand.Name" xml:space="preserve">
+    <value>buttonApplyCommand</value>
+  </data>
+  <data name="&gt;&gt;buttonApplyCommand.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;buttonApplyCommand.Parent" xml:space="preserve">
+    <value>tabPageConsole</value>
+  </data>
+  <data name="&gt;&gt;buttonApplyCommand.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="textBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 589</value>
+  </data>
+  <data name="textBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1142, 26</value>
+  </data>
+  <data name="textBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;textBox1.Name" xml:space="preserve">
+    <value>textBox1</value>
+  </data>
+  <data name="&gt;&gt;textBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox1.Parent" xml:space="preserve">
+    <value>tabPageConsole</value>
+  </data>
+  <data name="&gt;&gt;textBox1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tabPageConsole.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 29</value>
+  </data>
+  <data name="tabPageConsole.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tabPageConsole.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1350, 625</value>
+  </data>
+  <data name="tabPageConsole.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="tabPageConsole.Text" xml:space="preserve">
+    <value>Консоль</value>
+  </data>
+  <data name="&gt;&gt;tabPageConsole.Name" xml:space="preserve">
+    <value>tabPageConsole</value>
+  </data>
+  <data name="&gt;&gt;tabPageConsole.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabPageConsole.Parent" xml:space="preserve">
+    <value>tabControlMain</value>
+  </data>
+  <data name="&gt;&gt;tabPageConsole.ZOrder" xml:space="preserve">
+    <value>7</value>
   </data>
   <data name="tabControlMain.Location" type="System.Drawing.Point, System.Drawing">
     <value>342, 42</value>
