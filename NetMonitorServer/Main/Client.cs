@@ -73,13 +73,24 @@ namespace NetMonitorServer
             }
         }
 
-        public string GetTextForLabelHardwareInfo()
+        public ListViewItem[] GetTextForLabelHardwareInfo()
         {
-            string result = "";
-            if(HardwareInfo != null)
+            List<ListViewItem> items = new List<ListViewItem>();
+
+            if (HardwareInfo != null)
+            {
+                //foreach (var item in HardwareInfo) result += item.Key + ": " + item.Value + "\n";
+
                 foreach (var item in HardwareInfo)
-                    result += item.Key + ": " + item.Value + "\n";
-            return result;
+                {
+                    ListViewItem itemToAdd = new ListViewItem((item.Key != null) ? item.Key.ToString() : "");
+                    itemToAdd.SubItems.Add(new ListViewSubItem(itemToAdd, (item.Value != null) ? item.Value.ToString() : ""));
+                    items.Add(itemToAdd);
+                }
+            }
+
+
+            return items.ToArray();
         }
 
         public Client(string IP, string MAC, string MachineName)
