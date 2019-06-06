@@ -237,8 +237,7 @@ namespace NetMonitorServer
             InitializeDB();
             ServerStart();
             SelectedClient = null;
-            Thread getpcsThread = new Thread(new ThreadStart(GetPCsInLan));
-            getpcsThread.Start();
+            //Thread getpcsThread = new Thread(new ThreadStart(GetPCsInLan)); getpcsThread.Start();
             //MessageBox.Show(AppSettings.Get("WebServer"));
         }
 
