@@ -16,6 +16,8 @@ namespace NetMonitorServer
 
         public List<ApplicationInfo> ApplicationInfo = null;
 
+        bool _haveInstalledClient = true;
+
         [BsonIgnore]
         public NetMonitorClient socket = null;
         public string IP { get; set; }
@@ -56,6 +58,18 @@ namespace NetMonitorServer
             {
                 machineName = value;
                 base.Text = value;
+            }
+        }
+
+        public bool HaveInstalledClient
+        {
+            get
+            {
+                return _haveInstalledClient;
+            }
+            set
+            {
+                _haveInstalledClient = value;
             }
         }
 

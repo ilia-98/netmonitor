@@ -159,10 +159,8 @@ namespace NetMonitorServer
                             ip = ipadd[0].MapToIPv4().ToString();
                         }
 
-                        Client client = new Client() {
-                            MachineName = new_client.Name,
-                            IP = ip,
-                            MAC = Util.GetMacAddress(ip),
+                        Client client = new Client(ip, Util.GetMacAddress(ip), new_client.Name) {
+                            HaveInstalledClient = false,
                             ImageIndex = 2
                         };
 
@@ -521,6 +519,12 @@ namespace NetMonitorServer
                     SelectedClient.Send("ApplicationInfo");
                 }
             }
+        }
+
+        private void ОбновитьСписокИзЛокальнойСетиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Thread getpcsThread = new Thread(new ThreadStart(GetPCsInLan));
+            getpcsThread.Start();
         }
     }
 }

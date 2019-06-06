@@ -32,9 +32,9 @@ namespace NetMonitorServer
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.listViewClients = new System.Windows.Forms.ListView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.ServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -88,6 +88,8 @@ namespace NetMonitorServer
             this.button1 = new System.Windows.Forms.Button();
             this.labelTextDBStatus = new System.Windows.Forms.Label();
             this.labelServerDBStatus = new System.Windows.Forms.Label();
+            this.клиентыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.обновитьСписокИзЛокальнойСетиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabPageProcess.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartMonitor)).BeginInit();
@@ -115,7 +117,8 @@ namespace NetMonitorServer
             resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ServerToolStripMenuItem});
+            this.ServerToolStripMenuItem,
+            this.клиентыToolStripMenuItem});
             this.menuStrip1.Name = "menuStrip1";
             // 
             // ServerToolStripMenuItem
@@ -209,16 +212,16 @@ namespace NetMonitorServer
             // chartMonitor
             // 
             resources.ApplyResources(this.chartMonitor, "chartMonitor");
-            chartArea3.AxisY.Maximum = 100D;
-            chartArea3.AxisY.Minimum = 0D;
-            chartArea3.Name = "TempMonitoring";
-            chartArea4.AxisY.Maximum = 100D;
-            chartArea4.AxisY.Minimum = 0D;
-            chartArea4.Name = "LoadMonitoring";
-            this.chartMonitor.ChartAreas.Add(chartArea3);
-            this.chartMonitor.ChartAreas.Add(chartArea4);
-            legend2.Name = "Legend";
-            this.chartMonitor.Legends.Add(legend2);
+            chartArea1.AxisY.Maximum = 100D;
+            chartArea1.AxisY.Minimum = 0D;
+            chartArea1.Name = "TempMonitoring";
+            chartArea2.AxisY.Maximum = 100D;
+            chartArea2.AxisY.Minimum = 0D;
+            chartArea2.Name = "LoadMonitoring";
+            this.chartMonitor.ChartAreas.Add(chartArea1);
+            this.chartMonitor.ChartAreas.Add(chartArea2);
+            legend1.Name = "Legend";
+            this.chartMonitor.Legends.Add(legend1);
             this.chartMonitor.Name = "chartMonitor";
             // 
             // tabPage4
@@ -470,6 +473,19 @@ namespace NetMonitorServer
             this.labelServerDBStatus.ForeColor = System.Drawing.Color.Red;
             this.labelServerDBStatus.Name = "labelServerDBStatus";
             // 
+            // клиентыToolStripMenuItem
+            // 
+            resources.ApplyResources(this.клиентыToolStripMenuItem, "клиентыToolStripMenuItem");
+            this.клиентыToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.обновитьСписокИзЛокальнойСетиToolStripMenuItem});
+            this.клиентыToolStripMenuItem.Name = "клиентыToolStripMenuItem";
+            // 
+            // обновитьСписокИзЛокальнойСетиToolStripMenuItem
+            // 
+            resources.ApplyResources(this.обновитьСписокИзЛокальнойСетиToolStripMenuItem, "обновитьСписокИзЛокальнойСетиToolStripMenuItem");
+            this.обновитьСписокИзЛокальнойСетиToolStripMenuItem.Name = "обновитьСписокИзЛокальнойСетиToolStripMenuItem";
+            this.обновитьСписокИзЛокальнойСетиToolStripMenuItem.Click += new System.EventHandler(this.ОбновитьСписокИзЛокальнойСетиToolStripMenuItem_Click);
+            // 
             // FormMain
             // 
             resources.ApplyResources(this, "$this");
@@ -563,6 +579,8 @@ namespace NetMonitorServer
         private ColumnHeader columnInstallDate;
         private ColumnHeader columnVendor;
         private ColumnHeader columnVersion;
+        private ToolStripMenuItem клиентыToolStripMenuItem;
+        private ToolStripMenuItem обновитьСписокИзЛокальнойСетиToolStripMenuItem;
     }
 }
 
