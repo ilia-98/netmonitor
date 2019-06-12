@@ -32,9 +32,9 @@ namespace NetMonitorServer
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.listViewClients = new System.Windows.Forms.ListView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.ServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -96,11 +96,11 @@ namespace NetMonitorServer
             this.textBoxNotifyTitle = new System.Windows.Forms.TextBox();
             this.labelTextNotifyTitle = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
+            this.tabPageConsole = new System.Windows.Forms.TabPage();
+            this.buttonApplyCommand = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.labelTextDBStatus = new System.Windows.Forms.Label();
             this.labelServerDBStatus = new System.Windows.Forms.Label();
-            this.tabPageConsole = new System.Windows.Forms.TabPage();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.buttonApplyCommand = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.tabPageProcess.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartMonitor)).BeginInit();
@@ -250,16 +250,16 @@ namespace NetMonitorServer
             // 
             // chartMonitor
             // 
-            chartArea5.AxisY.Maximum = 100D;
-            chartArea5.AxisY.Minimum = 0D;
-            chartArea5.Name = "TempMonitoring";
-            chartArea6.AxisY.Maximum = 100D;
-            chartArea6.AxisY.Minimum = 0D;
-            chartArea6.Name = "LoadMonitoring";
-            this.chartMonitor.ChartAreas.Add(chartArea5);
-            this.chartMonitor.ChartAreas.Add(chartArea6);
-            legend3.Name = "Legend";
-            this.chartMonitor.Legends.Add(legend3);
+            chartArea1.AxisY.Maximum = 100D;
+            chartArea1.AxisY.Minimum = 0D;
+            chartArea1.Name = "TempMonitoring";
+            chartArea2.AxisY.Maximum = 100D;
+            chartArea2.AxisY.Minimum = 0D;
+            chartArea2.Name = "LoadMonitoring";
+            this.chartMonitor.ChartAreas.Add(chartArea1);
+            this.chartMonitor.ChartAreas.Add(chartArea2);
+            legend1.Name = "Legend";
+            this.chartMonitor.Legends.Add(legend1);
             resources.ApplyResources(this.chartMonitor, "chartMonitor");
             this.chartMonitor.Name = "chartMonitor";
             // 
@@ -543,6 +543,26 @@ namespace NetMonitorServer
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
+            // tabPageConsole
+            // 
+            this.tabPageConsole.Controls.Add(this.buttonApplyCommand);
+            this.tabPageConsole.Controls.Add(this.textBox1);
+            resources.ApplyResources(this.tabPageConsole, "tabPageConsole");
+            this.tabPageConsole.Name = "tabPageConsole";
+            this.tabPageConsole.UseVisualStyleBackColor = true;
+            // 
+            // buttonApplyCommand
+            // 
+            resources.ApplyResources(this.buttonApplyCommand, "buttonApplyCommand");
+            this.buttonApplyCommand.Name = "buttonApplyCommand";
+            this.buttonApplyCommand.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            resources.ApplyResources(this.textBox1, "textBox1");
+            this.textBox1.Name = "textBox1";
+            this.textBox1.TextChanged += new System.EventHandler(this.TextBox1_TextChanged);
+            // 
             // labelTextDBStatus
             // 
             resources.ApplyResources(this.labelTextDBStatus, "labelTextDBStatus");
@@ -553,26 +573,6 @@ namespace NetMonitorServer
             resources.ApplyResources(this.labelServerDBStatus, "labelServerDBStatus");
             this.labelServerDBStatus.ForeColor = System.Drawing.Color.Red;
             this.labelServerDBStatus.Name = "labelServerDBStatus";
-            // 
-            // tabPageConsole
-            // 
-            this.tabPageConsole.Controls.Add(this.buttonApplyCommand);
-            this.tabPageConsole.Controls.Add(this.textBox1);
-            resources.ApplyResources(this.tabPageConsole, "tabPageConsole");
-            this.tabPageConsole.Name = "tabPageConsole";
-            this.tabPageConsole.UseVisualStyleBackColor = true;
-            // 
-            // textBox1
-            // 
-            resources.ApplyResources(this.textBox1, "textBox1");
-            this.textBox1.Name = "textBox1";
-            this.textBox1.TextChanged += new System.EventHandler(this.TextBox1_TextChanged);
-            // 
-            // buttonApplyCommand
-            // 
-            resources.ApplyResources(this.buttonApplyCommand, "buttonApplyCommand");
-            this.buttonApplyCommand.Name = "buttonApplyCommand";
-            this.buttonApplyCommand.UseVisualStyleBackColor = true;
             // 
             // FormMain
             // 

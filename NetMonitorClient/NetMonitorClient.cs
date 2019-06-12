@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Windows.Forms;
 using WebSocketSharp;
@@ -45,6 +46,12 @@ namespace NetMonitorClient
             socket.OnClose += Socket_OnClose;
             socket.OnMessage += Socket_OnMessage;
             socket.OnOpen += Socket_OnOpen;
+
+            //Сертификат
+            X509Certificate2Collection certificate2Collection = new X509Certificate2Collection();
+            certificate2Collection.Add(new X509Certificate2("server.pfx", ""));
+            socket.SslConfiguration.ClientCertificates = certificate2Collection;
+
             socket.Connect();
 
             monitorThread = new Thread(() => MonitoringUtils.Monitoring(socket, CriticalTemperature));
