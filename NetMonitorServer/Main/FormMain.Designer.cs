@@ -32,9 +32,9 @@ namespace NetMonitorServer
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.listViewClients = new System.Windows.Forms.ListView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.ServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -96,6 +96,9 @@ namespace NetMonitorServer
             this.textBoxNotifyTitle = new System.Windows.Forms.TextBox();
             this.labelTextNotifyTitle = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
+            this.tabPageConsole = new System.Windows.Forms.TabPage();
+            this.buttonApplyCommand = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.labelTextDBStatus = new System.Windows.Forms.Label();
             this.labelServerDBStatus = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
@@ -110,6 +113,7 @@ namespace NetMonitorServer
             this.tabControlMain.SuspendLayout();
             this.tabPageApps.SuspendLayout();
             this.tabPageNotify.SuspendLayout();
+            this.tabPageConsole.SuspendLayout();
             this.SuspendLayout();
             // 
             // listViewClients
@@ -246,16 +250,16 @@ namespace NetMonitorServer
             // 
             // chartMonitor
             // 
-            chartArea7.AxisY.Maximum = 100D;
-            chartArea7.AxisY.Minimum = 0D;
-            chartArea7.Name = "TempMonitoring";
-            chartArea8.AxisY.Maximum = 100D;
-            chartArea8.AxisY.Minimum = 0D;
-            chartArea8.Name = "LoadMonitoring";
-            this.chartMonitor.ChartAreas.Add(chartArea7);
-            this.chartMonitor.ChartAreas.Add(chartArea8);
-            legend4.Name = "Legend";
-            this.chartMonitor.Legends.Add(legend4);
+            chartArea1.AxisY.Maximum = 100D;
+            chartArea1.AxisY.Minimum = 0D;
+            chartArea1.Name = "TempMonitoring";
+            chartArea2.AxisY.Maximum = 100D;
+            chartArea2.AxisY.Minimum = 0D;
+            chartArea2.Name = "LoadMonitoring";
+            this.chartMonitor.ChartAreas.Add(chartArea1);
+            this.chartMonitor.ChartAreas.Add(chartArea2);
+            legend1.Name = "Legend";
+            this.chartMonitor.Legends.Add(legend1);
             resources.ApplyResources(this.chartMonitor, "chartMonitor");
             this.chartMonitor.Name = "chartMonitor";
             // 
@@ -435,6 +439,7 @@ namespace NetMonitorServer
             this.tabControlMain.Controls.Add(this.tabPage4);
             this.tabControlMain.Controls.Add(this.tabPageProcess);
             this.tabControlMain.Controls.Add(this.tabPageNotify);
+            this.tabControlMain.Controls.Add(this.tabPageConsole);
             resources.ApplyResources(this.tabControlMain, "tabControlMain");
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
@@ -538,6 +543,26 @@ namespace NetMonitorServer
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
+            // tabPageConsole
+            // 
+            this.tabPageConsole.Controls.Add(this.buttonApplyCommand);
+            this.tabPageConsole.Controls.Add(this.textBox1);
+            resources.ApplyResources(this.tabPageConsole, "tabPageConsole");
+            this.tabPageConsole.Name = "tabPageConsole";
+            this.tabPageConsole.UseVisualStyleBackColor = true;
+            // 
+            // buttonApplyCommand
+            // 
+            resources.ApplyResources(this.buttonApplyCommand, "buttonApplyCommand");
+            this.buttonApplyCommand.Name = "buttonApplyCommand";
+            this.buttonApplyCommand.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            resources.ApplyResources(this.textBox1, "textBox1");
+            this.textBox1.Name = "textBox1";
+            this.textBox1.TextChanged += new System.EventHandler(this.TextBox1_TextChanged);
+            // 
             // labelTextDBStatus
             // 
             resources.ApplyResources(this.labelTextDBStatus, "labelTextDBStatus");
@@ -582,6 +607,8 @@ namespace NetMonitorServer
             this.tabPageApps.ResumeLayout(false);
             this.tabPageNotify.ResumeLayout(false);
             this.tabPageNotify.PerformLayout();
+            this.tabPageConsole.ResumeLayout(false);
+            this.tabPageConsole.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -651,6 +678,9 @@ namespace NetMonitorServer
         public ListView listViewHardwareInfo;
         private ColumnHeader columnHardwareName;
         private ColumnHeader columnHardwareValue;
+        private TabPage tabPageConsole;
+        private Button buttonApplyCommand;
+        private TextBox textBox1;
     }
 }
 

@@ -16,6 +16,7 @@ using NetMonitorServer.Addons;
 using NetMonitorServer.RemoteControl;
 using System.DirectoryServices;
 using System.Threading;
+using System.Security.Cryptography.X509Certificates;
 
 namespace NetMonitorServer
 {
@@ -188,8 +189,6 @@ namespace NetMonitorServer
             smtpClient.EnableSsl = true;
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
 
-            socketServer.AddWebSocketService("/NetMonitorSocketService/Main", () => new NetMonitorClient(this, smtpClient, EmailTo));
-            socketServer.AddWebSocketService("/NetMonitorSocketService/RemoteControl", () => new RemoteControl.RemoteControlClient(this));
             socketServer.Start();
 
             StatusMainServer = true;
@@ -206,6 +205,8 @@ namespace NetMonitorServer
         public FormMain()
         {
             InitializeComponent();
+            InitializeServer();
+            InitializeDB();
 
             comboBoxNotifyIconType.SelectedIndex = 0;
 
@@ -215,6 +216,14 @@ namespace NetMonitorServer
             imageList.Images.Add(Properties.Resources.Circle_Blue);
             listViewClients.SmallImageList = imageList;
         }
+        public void InitializeServer()
+        {
+            socketServer.AddWebSocketService("/NetMonitorSocketService/Main", () => new NetMonitorClient(this, smtpClient, EmailTo));
+            socketServer.AddWebSocketService("/NetMonitorSocketService/RemoteControl", () => new RemoteControl.RemoteControlClient(this));
+            socketServer.SslConfiguration.ServerCertificate = new X509Certificate2("server.pfx", "");
+            socketServer.SslConfiguration.ClientCertificateRequired = true;
+        }
+
 
         public void InitializeDB()
         {
@@ -234,7 +243,6 @@ namespace NetMonitorServer
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            InitializeDB();
             ServerStart();
             SelectedClient = null;
             //Thread getpcsThread = new Thread(new ThreadStart(GetPCsInLan)); getpcsThread.Start();
@@ -524,6 +532,11 @@ namespace NetMonitorServer
         {
             Thread getpcsThread = new Thread(new ThreadStart(GetPCsInLan));
             getpcsThread.Start();
+        }
+
+        private void TextBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
